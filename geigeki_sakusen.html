@@ -1,0 +1,369 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>対百鬼夜行迎撃作戦 活動紀錄（2026年，暫定沿用2025年資料）</title>
+<style>
+:root{--header:#6b3f8f;--accent:#7dd6c9;--accent-text:#0f3d36;--track:#e6ecf1;--warn:#e0703c;--card:#ffffff;--bg:#f5f7fa;--text:#2b2b2b;--sub:#6b7785;}
+*{box-sizing:border-box;}
+body{font-family:"Noto Sans TC","Hiragino Sans","Yu Gothic",sans-serif;background:var(--bg);color:var(--text);margin:0;padding:20px;}
+.wrap{max-width:900px;margin:0 auto;}
+header{display:flex;align-items:center;justify-content:space-between;background:var(--header);color:#fff;padding:14px 20px;border-radius:10px 10px 0 0;flex-wrap:wrap;gap:8px;}
+header h1{font-size:1.25rem;margin:0;display:flex;align-items:center;gap:8px;}
+.icon-btn{background:rgba(255,255,255,.15);border:none;color:#fff;border-radius:50%;width:30px;height:30px;cursor:pointer;font-size:.9rem;flex-shrink:0;}
+.icon-btn:hover{background:rgba(255,255,255,.3);}
+.panel{background:var(--card);padding:16px 20px;border:1px solid #e1e6ea;border-top:none;}
+.countdown-bar{background:#eef4fa;padding:10px 20px;font-size:.92rem;border-left:4px solid var(--header);}
+.status-bar{background:#fff7e6;padding:10px 20px;font-size:.88rem;border-left:4px solid #e0a83c;}
+.tbd-bar{background:#fdeceb;padding:10px 20px;font-size:.85rem;border-left:4px solid #c0392b;}
+.inline-help{background:#f0cd85;border:none;color:#6b4a12;border-radius:50%;width:20px;height:20px;font-size:.72rem;cursor:pointer;flex-shrink:0;line-height:1;}
+.inline-help:hover{background:#e6bb64;}
+.nav-links{background:#fff;padding:8px 20px;font-size:.8rem;border-bottom:1px solid #e1e6ea;}
+.nav-links a{color:var(--header);text-decoration:none;margin-right:14px;}
+.nav-links a:hover{text-decoration:underline;}
+.counters{display:flex;gap:16px;flex-wrap:wrap;}
+.counter-card{flex:1;min-width:260px;background:#f4f0f9;border-radius:10px;padding:14px 16px;display:flex;flex-direction:column;}
+.counter-card h3{margin:0 0 6px;font-size:.85rem;color:var(--sub);}
+.counter-card .sub{font-size:.72rem;color:var(--sub);margin-bottom:6px;}
+.counter-value{font-size:1.6rem;font-weight:700;color:var(--header);}
+.counter-value.primary{font-size:2.7rem;}
+.counter-controls{display:flex;gap:6px;flex-wrap:wrap;margin-top:auto;padding-top:8px;}
+.counter-controls button{border:1px solid #cbd6e0;background:#fff;border-radius:6px;padding:4px 8px;cursor:pointer;font-size:.8rem;}
+.counter-controls button:hover{background:#e6edf3;}
+.counter-manual{margin-top:8px;display:flex;gap:6px;}
+.counter-manual input{width:110px;padding:4px 6px;border:1px solid #cbd6e0;border-radius:6px;}
+.counter-manual button{border:none;background:var(--header);color:#fff;border-radius:6px;padding:4px 10px;cursor:pointer;}
+.resource-item{flex:1;min-width:280px;background:#f7f8fa;border-radius:10px;padding:14px 16px;font-size:.85rem;display:flex;flex-direction:column;}
+.resource-item .res-label{color:var(--sub);font-size:.8rem;}
+.resource-item .res-label:first-of-type{margin-top:4px;}
+.resource-item strong{display:block;font-size:1.15rem;color:var(--header);}
+.resource-item .ctl{margin-top:10px;display:flex;gap:6px;flex-wrap:wrap;}
+.resource-item .ctl-quick{margin-top:auto;padding-top:10px;}
+.resource-item .ctl input{width:90px;padding:3px 6px;border:1px solid #cbd6e0;border-radius:6px;}
+.resource-item .ctl button{border:none;background:var(--header);color:#fff;border-radius:6px;padding:3px 8px;cursor:pointer;font-size:.78rem;}
+.target-reward{margin-top:16px;font-size:1.1rem;}
+.target-reward .name{color:#c0392b;font-weight:700;}
+.progress-track{position:relative;background:var(--track);border-radius:6px;height:26px;margin-top:6px;overflow:hidden;}
+.progress-fill{background:var(--accent);height:100%;transition:width .3s;}
+.progress-label{position:absolute;inset:0;display:flex;align-items:center;padding-left:10px;font-size:.8rem;color:var(--accent-text);font-weight:600;}
+.daily-target{background:#f3eef8;border-left:4px solid var(--accent);padding:10px 14px;border-radius:6px;margin-top:10px;font-size:1.05rem;color:#0f3d36;display:flex;align-items:center;justify-content:space-between;gap:8px;}
+.daily-target .inline-help{background:#cdf0e8;color:#0f3d36;}
+.daily-target .inline-help:hover{background:#a9e3d5;}
+.notes{font-size:.78rem;color:var(--sub);margin-top:14px;line-height:1.7;}
+.reward-list{margin-top:10px;max-height:420px;overflow-y:auto;padding-right:4px;}
+.reward-row{display:flex;align-items:center;gap:10px;padding:4px 2px;border-bottom:1px solid #eef1f4;font-size:.82rem;cursor:pointer;}
+.reward-row:hover{background:#f5f9fb;}
+.reward-row .t{width:74px;color:var(--sub);flex-shrink:0;}
+.reward-row .bar{flex:1;height:22px;border-radius:5px;background:var(--track);position:relative;overflow:hidden;}
+.reward-row .bar-fill{height:100%;background:var(--accent);}
+.reward-row .bar span{position:absolute;inset:0;display:flex;align-items:center;padding-left:8px;font-size:.78rem;color:var(--accent-text);}
+.reward-row.selected .bar{outline:2px solid var(--header);}
+.reward-row.done .bar-fill{background:#4a5568;}
+.reward-row.done .bar span{color:#fff;font-weight:600;}
+.section-title{margin-top:26px;font-size:.98rem;font-weight:700;border-bottom:2px solid var(--header);padding-bottom:4px;}
+footer{font-size:.72rem;color:var(--sub);margin-top:20px;text-align:center;line-height:1.8;}
+.settings-panel{display:none;background:#fbfcfd;border:1px dashed #c7d0d8;border-radius:8px;padding:14px;margin-top:10px;font-size:.82rem;}
+.settings-panel.show{display:block;}
+.settings-panel label{display:block;margin-top:8px;}
+.settings-panel input{padding:4px 6px;border:1px solid #cbd6e0;border-radius:6px;}
+.settings-panel button{margin-top:10px;border:none;background:var(--header);color:#fff;padding:6px 12px;border-radius:6px;cursor:pointer;margin-right:8px;}
+.danger-btn{background:#c0392b!important;}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <h1>対百鬼夜行迎撃作戦 活動紀錄 <button class="icon-btn" id="helpBtn" title="說明">?</button></h1>
+    <button class="icon-btn" id="settingsBtn" title="設定">⚙</button>
+  </header>
+  <div class="panel">
+    <div class="tbd-bar">
+      官方尚未公布 2026 年版「対百鬼夜行迎撃作戦」的確切日期與門檻數字，以下全部沿用 <strong>2025年8月版</strong> 資料作為暫定參考。等官方公告後，可以再回來請我依新數字更新這頁（門檻、日期、新角色獎勵都可能變動）。
+    </div>
+    <div id="helpPanel" class="settings-panel">
+      <strong>使用說明</strong>
+      <p>本頁面僅供個人記錄用，非官方工具，資料以你自行輸入為準。數值會儲存在「這台瀏覽器」的 localStorage，換裝置或清除瀏覽資料會遺失，請自行留意備份（例如定期截圖）。</p>
+      <p>迎撃Pt門檻與獎勵，目前取自 2025年8月12日～8月26日 的官方活動內容，屬於暫定參考數字。</p>
+    </div>
+    <div id="settingsPanel" class="settings-panel">
+      <strong>設定</strong>
+      <label>活動結束時間（2026年官方公告後請更新，預設暫用 2025-08-26 12:59，JST日本標準時間）
+        <input type="datetime-local" id="endInput">
+      </label>
+      <div>
+        <button id="applyEnd">套用結束時間</button>
+        <button id="resetProgress" class="danger-btn">重設本頁全部進度</button>
+      </div>
+    </div>
+
+    <div class="countdown-bar" id="countdownBar">載入中…</div>
+    <div class="status-bar" id="statusBar">編成中若有 <strong>鬼丸国綱・髭切・小烏丸</strong>，戰鬥（含支援攻擊）會心一擊發生率提升——這是固定的編成加成，不受星期幾影響。</div>
+
+    <div class="section-title">主要進度：迎撃Pt</div>
+    <div class="counters">
+      <div class="counter-card">
+        <h3>迎撃Pt（累計）</h3>
+        <div class="sub">驅動下方里程碑報酬進度</div>
+        <div class="counter-value primary" id="ptValue">0</div>
+        <div class="counter-controls">
+          <button data-target="pt" data-delta="-1000">-1000</button>
+          <button data-target="pt" data-delta="-100">-100</button>
+          <button data-target="pt" data-delta="-10">-10</button>
+          <button data-target="pt" data-delta="10">+10</button>
+          <button data-target="pt" data-delta="100">+100</button>
+          <button data-target="pt" data-delta="1000">+1000</button>
+          <button data-target="pt" data-delta="10000">+10000</button>
+        </div>
+        <div class="counter-manual">
+          <input type="number" id="ptManual" placeholder="輸入數值">
+          <button data-add="pt">累加</button>
+          <button data-set-direct="pt">直接設定</button>
+        </div>
+      </div>
+
+      <div class="resource-item">
+        <div class="res-label">手形購入（累計）</div>
+        <strong id="ticketValue">0 枚</strong>
+        <div class="res-label" style="margin-top:10px;">小判消耗（累計，＝手形×300）</div>
+        <strong id="kobanValue">0 両</strong>
+        <div class="ctl ctl-quick">
+          <button data-ticket-quick="-99">-99</button>
+          <button data-ticket-quick="-10">-10</button>
+          <button data-ticket-quick="-5">-5</button>
+          <button data-ticket-quick="-3">-3</button>
+          <button data-ticket-quick="-1">-1</button>
+          <button data-ticket-quick="1">+1</button>
+          <button data-ticket-quick="3">+3</button>
+          <button data-ticket-quick="5">+5</button>
+          <button data-ticket-quick="10">+10</button>
+          <button data-ticket-quick="99">+99</button>
+        </div>
+        <div class="ctl">
+          <input type="number" id="ticketManual" placeholder="手形枚數">
+          <button data-add="ticket">累加</button>
+          <button data-set-direct="ticket">直接設定</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="target-reward" id="targetReward"></div>
+    <div class="daily-target">
+      <span id="dailyTarget"></span>
+      <button class="inline-help" id="notesHelpBtn" title="查看使用小提示">?</button>
+    </div>
+    <div class="progress-track"><div class="progress-fill" id="ptProgressFill" style="width:0%"></div><div class="progress-label" id="ptProgressLabel"></div></div>
+    <div id="notesPanel" class="settings-panel">
+      <p>◇ 點擊下方任一報酬列，可以把它設成「目前目標」，上面會即時算出「平均每天要肝多少 Pt」。</p>
+      <p>◇ 迎撃Pt 需要你自己依實際遊玩結果輸入，撃破数門檻請直接看遊戲內的活動任務畫面。</p>
+      <p>◇ 手形代為每枚 300 両，「手形購入」的快速按鈕會自動換算進小判消耗。</p>
+      <p>◇ 「戦鬼」討伐、殘黨戰掉落等特殊機制無法自動判定，請自行對照官方公告手動記錄。</p>
+    </div>
+
+    <div class="section-title">迎撃Pt 報酬里程碑（2025年版，暫定）</div>
+    <div class="reward-list" id="ptRewardList"></div>
+
+    <footer>
+      非官方個人記錄工具，資料來源整理自公開攻略頁面，正式數值請以遊戲內公告為準，使用請自行確認。<br>
+      対百鬼夜行迎撃作戦（暫定沿用 2025年版）：2025年8月12日（週二）17:00 ～ 2025年8月26日（週二）12:59（JST，日本標準時間，比台灣快1小時，實際開始時間以「維護結束時」為準）
+    </footer>
+  </div>
+</div>
+
+<script>
+(function(){
+  const STORAGE_KEY = "geigekiSakusenProgress_v1";
+  const DEFAULT_END = "2025-08-26T12:59:00+09:00";
+  const START = "2025-08-12T17:00:00+09:00";
+  const TICKET_COST = 300;
+
+  const PT_REWARDS = [
+    [100,"三倍法螺貝(迎撃) ×1"],[300,"陣太鼓(迎撃) ×1"],[500,"重歩兵・特上 ×1"],[750,"手伝い札 ×1"],
+    [1000,"軽騎兵･特上 ×1"],[2000,"鹿毛 ×1"],[3000,"遠征呼び戻し鳩 ×1"],[4000,"木炭 ×1000"],
+    [5000,"三倍法螺貝(迎撃) ×1"],[6000,"冷却材 ×1000"],[7000,"砥石 ×1000"],[8000,"玉鋼 ×1000"],
+    [9000,"気力+30バー ×1"],[10000,"蘇言機 ×1"],[12000,"御札・梅 ×1"],[14000,"重騎兵・特上 ×1"],
+    [15000,"仙人団子 ×1"],[16000,"精鋭兵･特上 ×1"],[18000,"御札・竹 ×1"],[20000,"依頼札 ×1"],
+    [22500,"槍兵･特上 ×1"],[25000,"青毛 ×1"],[27500,"盾兵･特上 ×1"],[30000,"気力+30バー ×1"],
+    [32500,"旅装束 ×1"],[35000,"投石兵・特上 ×1"],[37500,"弓兵・特上 ×1"],[40000,"遠征呼び戻し鳩 ×1"],
+    [42500,"旅道具 ×1"],[45000,"銃兵･特上 ×1"],[47500,"木炭 ×1500"],[50000,"三倍法螺貝(迎撃) ×1"],
+    [52500,"気力+30バー ×1"],[55000,"冷却材 ×1500"],[57500,"手紙一式 ×1"],[60000,"蘇言機 ×1"],
+    [65000,"御札・松 ×1"],[70000,"一口団子 ×3"],[75000,"砥石 ×1500"],[80000,"修行呼び戻し鳩 ×1"],
+    [85000,"玉鋼 ×1500"],[90000,"旅装束 ×1"],[95000,"旅道具 ×1"],[100000,"童子切安綱 剥落 ×1（新キャラ／依進行追加）"],
+    [105000,"手紙一式 ×1"],[110000,"木炭 ×3000"],[115000,"冷却材 ×3000"],[120000,"手伝い札 ×5"],
+    [125000,"砥石 ×3000"],[130000,"玉鋼 ×3000"],[135000,"依頼札 ×5"],[140000,"旅装束 ×1"],
+    [150000,"幕の内弁当 ×1"],[160000,"旅道具 ×1"],[170000,"三倍法螺貝(迎撃) ×1"],[180000,"手紙一式 ×1"],
+    [200000,"童子切安綱 剥落 ×1"],[250000,"三倍法螺貝(迎撃) ×1"],[300000,"童子切安綱 剥落 ×1"],
+    [350000,"三倍法螺貝(迎撃) ×1"],[400000,"童子切安綱 剥落 ×1"]
+  ];
+
+  let state = load();
+  function load(){
+    const base = {pt:0, tickets:0, kobanExtra:0, end:DEFAULT_END, ptTargetOverride:null};
+    try{
+      const raw = JSON.parse(localStorage.getItem(STORAGE_KEY) || "{}");
+      const merged = Object.assign({}, base, raw);
+      if(raw && raw.koban!==undefined && raw.tickets===undefined){
+        merged.kobanExtra = raw.koban;
+        merged.tickets = 0;
+      }
+      return merged;
+    }catch(e){ return base; }
+  }
+  function save(){ localStorage.setItem(STORAGE_KEY, JSON.stringify(state)); }
+  function kobanTotal(){ return state.tickets*TICKET_COST + (state.kobanExtra||0); }
+
+  function nextReward(list, value, override){
+    if(override!==null && override!==undefined){
+      const found = list.find(r=>r[0]===override);
+      if(found) return found;
+    }
+    for(const r of list){ if(value < r[0]) return r; }
+    return list[list.length-1];
+  }
+
+  function renderRewardList(containerId, list, value, overrideKey){
+    const el = document.getElementById(containerId);
+    el.innerHTML = "";
+    const sorted = [...list].sort((a,b)=>{
+      const doneA = value >= a[0], doneB = value >= b[0];
+      if(doneA === doneB) return 0;
+      return doneA ? 1 : -1;
+    });
+    sorted.forEach(([t, label])=>{
+      const row = document.createElement("div");
+      const done = value >= t;
+      row.className = "reward-row" + (state[overrideKey]===t ? " selected" : "") + (done ? " done" : "");
+      row.innerHTML = `<div class="t">${t.toLocaleString()}</div>
+        <div class="bar"><div class="bar-fill" style="width:${done?100:Math.min(100, Math.max(0,(value/t*100)))}%"></div>
+        <span>${done ? "済　"+label : label + "（還差 "+(t-value).toLocaleString()+"）"}</span></div>`;
+      row.addEventListener("click", ()=>{
+        state[overrideKey] = (state[overrideKey]===t) ? null : t;
+        save(); renderAll();
+      });
+      el.appendChild(row);
+    });
+  }
+
+  function renderProgress(){
+    const [t, label] = nextReward(PT_REWARDS, state.pt, state.ptTargetOverride);
+    const pct = Math.min(100, Math.max(0, state.pt/t*100));
+    const remain = Math.max(0, t-state.pt);
+    document.getElementById("ptProgressFill").style.width = pct.toFixed(1)+"%";
+    document.getElementById("ptProgressLabel").textContent = pct.toFixed(1)+"%（還差 "+remain.toLocaleString()+"）";
+    document.getElementById("targetReward").innerHTML = `目前目標：<span class="name">${label}</span>（門檻 ${t.toLocaleString()} Pt，還差 ${remain.toLocaleString()}）`;
+
+    const dailyEl = document.getElementById("dailyTarget");
+    const now = new Date();
+    const end = new Date(state.end || DEFAULT_END);
+    const msLeft = end - now;
+    if(remain <= 0){
+      dailyEl.textContent = "已達成目前目標 Pt，可以點下方報酬列換一個目標繼續看進度。";
+    }else if(msLeft <= 0){
+      dailyEl.textContent = "（暫定日期）已過設定的結束時間，請於官方公布 2026 年日期後至設定更新。";
+    }else{
+      const daysLeft = Math.max(1, Math.ceil(msLeft/86400000));
+      const dailyPt = Math.ceil(remain/daysLeft);
+      dailyEl.innerHTML = `距離（暫定）結束還有約 <strong>${daysLeft} 天</strong>，平均每天需要 <strong>${dailyPt.toLocaleString()} Pt</strong> 才能在期限內達成上述目標。`;
+    }
+  }
+
+  function renderCounters(){
+    document.getElementById("ptValue").textContent = state.pt.toLocaleString();
+    document.getElementById("ticketValue").textContent = state.tickets.toLocaleString()+" 枚";
+    document.getElementById("kobanValue").textContent = kobanTotal().toLocaleString()+" 両";
+  }
+
+  function renderCountdown(){
+    const now = new Date();
+    const start = new Date(START);
+    const end = new Date(state.end || DEFAULT_END);
+    const el = document.getElementById("countdownBar");
+    if(now < start){
+      const diff = start-now;
+      el.textContent = "（暫定日期）距離開始還有 "+fmtDiff(diff);
+    }else if(now <= end){
+      const diff = end-now;
+      el.textContent = "（暫定日期）距離結束還有 "+fmtDiff(diff)+"（結束時間：" + end.toLocaleString("zh-TW",{timeZone:"Asia/Tokyo"}) + " JST，日本標準時間）";
+    }else{
+      el.textContent = "（暫定日期已過）目前顯示的是 2025 年舊資料的結束時間，請於官方公布 2026 年日期後至設定更新：" + end.toLocaleString("zh-TW",{timeZone:"Asia/Tokyo"}) + " JST，日本標準時間";
+    }
+  }
+  function fmtDiff(ms){
+    const totalMin = Math.floor(ms/60000);
+    const d = Math.floor(totalMin/1440);
+    const h = Math.floor((totalMin%1440)/60);
+    const m = totalMin%60;
+    return `${d}天 ${h}時 ${m}分`;
+  }
+
+  function renderAll(){
+    renderCounters();
+    renderProgress();
+    renderRewardList("ptRewardList", PT_REWARDS, state.pt, "ptTargetOverride");
+  }
+
+  document.querySelectorAll("[data-target]").forEach(btn=>{
+    btn.addEventListener("click", ()=>{
+      const key = btn.dataset.target;
+      const delta = parseInt(btn.dataset.delta,10);
+      state[key] = Math.max(0, state[key] + delta);
+      save(); renderAll();
+    });
+  });
+  document.querySelectorAll("[data-ticket-quick]").forEach(btn=>{
+    btn.addEventListener("click", ()=>{
+      state.tickets = Math.max(0, state.tickets + parseInt(btn.dataset.ticketQuick,10));
+      save(); renderCounters();
+    });
+  });
+  document.querySelectorAll("[data-add]").forEach(btn=>{
+    btn.addEventListener("click", ()=>{
+      const key = btn.dataset.add;
+      const input = document.getElementById(key+"Manual");
+      const v = parseInt(input.value,10);
+      if(!isNaN(v)){ state[key] = Math.max(0, (state[key]||0)+v); save(); renderAll(); }
+      input.value="";
+    });
+  });
+  document.querySelectorAll("[data-set-direct]").forEach(btn=>{
+    btn.addEventListener("click", ()=>{
+      const key = btn.dataset.setDirect;
+      const input = document.getElementById(key+"Manual");
+      const v = parseInt(input.value,10);
+      if(!isNaN(v)){ state[key] = Math.max(v,0); save(); renderAll(); }
+      input.value="";
+    });
+  });
+
+  document.getElementById("ptManual").addEventListener("keydown", e=>{ if(e.key==="Enter") document.querySelector('[data-add="pt"]').click(); });
+  document.getElementById("ticketManual").addEventListener("keydown", e=>{ if(e.key==="Enter") document.querySelector('[data-add="ticket"]').click(); });
+
+  document.getElementById("helpBtn").addEventListener("click", ()=>{
+    document.getElementById("helpPanel").classList.toggle("show");
+  });
+  document.getElementById("notesHelpBtn").addEventListener("click", ()=>{
+    document.getElementById("notesPanel").classList.toggle("show");
+  });
+  document.getElementById("settingsBtn").addEventListener("click", ()=>{
+    document.getElementById("settingsPanel").classList.toggle("show");
+  });
+  document.getElementById("applyEnd").addEventListener("click", ()=>{
+    const v = document.getElementById("endInput").value;
+    if(v){ state.end = new Date(v).toISOString(); save(); renderCountdown(); renderProgress(); }
+  });
+  document.getElementById("endInput").addEventListener("keydown", e=>{ if(e.key==="Enter") document.getElementById("applyEnd").click(); });
+  document.getElementById("resetProgress").addEventListener("click", ()=>{
+    if(confirm("確定要清空本頁的迎撃Pt／手形／小判紀錄嗎？此動作無法復原。")){
+      state = {pt:0, tickets:0, kobanExtra:0, end:DEFAULT_END, ptTargetOverride:null};
+      save(); renderAll(); renderCountdown();
+    }
+  });
+
+  renderAll();
+  renderCountdown();
+  setInterval(renderCountdown, 30000);
+  setInterval(renderProgress, 60000);
+})();
+</script>
+</body>
+</html>
