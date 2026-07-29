@@ -1,5 +1,5 @@
 # toukenranbu-event-progress-tracker
-DMM刀剣乱舞 遊戲活動追蹤工具
+DMM刀剣乱舞 遊戲活動追蹤工具 V 1.0
 
 
 ## 關於本專案
