@@ -12,3 +12,4 @@ DMM刀剣乱舞 遊戲活動追蹤工具 V 1.0
 ## 開發方式
 本工具透過與 AI（Claude）協作開發
 從發想到可用版本在短時間內完成，過程中根據實際使用需求進行了多輪 UI/UX 調整與修正。
+UI 呈現方式的靈感參考自 [deltarium 玉集め進捗表](https://deltarium.org/tokenranbu/tamaatsume/index.html)，實際程式碼與功能為獨立開發。
