@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>対百鬼夜行迎撃作戦 活動紀錄（2026年，暫定沿用2025年資料）</title>
 <style>
-:root{--header:#6b3f8f;--accent:#7dd6c9;--accent-text:#0f3d36;--track:#e6ecf1;--warn:#e0703c;--card:#ffffff;--bg:#f5f7fa;--text:#2b2b2b;--sub:#6b7785;}
+:root{--header:#6b3f8f;--accent:#c3aee0;--accent-text:#4a2d63;--track:#e6ecf1;--warn:#e0703c;--card:#ffffff;--bg:#f5f7fa;--text:#2b2b2b;--sub:#6b7785;}
 *{box-sizing:border-box;}
 body{font-family:"Noto Sans TC","Hiragino Sans","Yu Gothic",sans-serif;background:var(--bg);color:var(--text);margin:0;padding:20px;}
 .wrap{max-width:900px;margin:0 auto;}
@@ -25,6 +25,7 @@ header h1{font-size:1.25rem;margin:0;display:flex;align-items:center;gap:8px;}
 .counters{display:flex;gap:16px;flex-wrap:wrap;}
 .counter-card{flex:1;min-width:260px;background:#f4f0f9;border-radius:10px;padding:14px 16px;display:flex;flex-direction:column;}
 .counter-card h3{margin:0 0 6px;font-size:.85rem;color:var(--sub);}
+.today-badge{display:inline-block;font-size:.68rem;font-weight:600;background:#f0e7f7;color:#4a2d63;border-radius:10px;padding:2px 8px;margin-left:6px;vertical-align:middle;}
 .counter-card .sub{font-size:.72rem;color:var(--sub);margin-bottom:6px;}
 .counter-value{font-size:1.6rem;font-weight:700;color:var(--header);}
 .counter-value.primary{font-size:2.7rem;}
@@ -46,10 +47,10 @@ header h1{font-size:1.25rem;margin:0;display:flex;align-items:center;gap:8px;}
 .target-reward .name{color:#c0392b;font-weight:700;}
 .progress-track{position:relative;background:var(--track);border-radius:6px;height:26px;margin-top:6px;overflow:hidden;}
 .progress-fill{background:var(--accent);height:100%;transition:width .3s;}
-.progress-label{position:absolute;inset:0;display:flex;align-items:center;padding-left:10px;font-size:.8rem;color:var(--accent-text);font-weight:600;}
-.daily-target{background:#f3eef8;border-left:4px solid var(--accent);padding:10px 14px;border-radius:6px;margin-top:10px;font-size:1.05rem;color:#0f3d36;display:flex;align-items:center;justify-content:space-between;gap:8px;}
-.daily-target .inline-help{background:#cdf0e8;color:#0f3d36;}
-.daily-target .inline-help:hover{background:#a9e3d5;}
+.progress-label{position:absolute;inset:0;display:flex;align-items:center;padding-left:10px;font-size:.8rem;color:var(--text);font-weight:700;}
+.daily-target{background:#f3eef8;border-left:4px solid var(--accent);padding:10px 14px;border-radius:6px;margin-top:10px;font-size:1.05rem;color:#4a2d63;display:flex;align-items:center;justify-content:space-between;gap:8px;}
+.daily-target .inline-help{background:#e3d3f0;color:#4a2d63;}
+.daily-target .inline-help:hover{background:#cdb3e2;}
 .notes{font-size:.78rem;color:var(--sub);margin-top:14px;line-height:1.7;}
 .reward-list{margin-top:10px;max-height:420px;overflow-y:auto;padding-right:4px;}
 .reward-row{display:flex;align-items:center;gap:10px;padding:4px 2px;border-bottom:1px solid #eef1f4;font-size:.82rem;cursor:pointer;}
@@ -57,7 +58,7 @@ header h1{font-size:1.25rem;margin:0;display:flex;align-items:center;gap:8px;}
 .reward-row .t{width:74px;color:var(--sub);flex-shrink:0;}
 .reward-row .bar{flex:1;height:22px;border-radius:5px;background:var(--track);position:relative;overflow:hidden;}
 .reward-row .bar-fill{height:100%;background:var(--accent);}
-.reward-row .bar span{position:absolute;inset:0;display:flex;align-items:center;padding-left:8px;font-size:.78rem;color:var(--accent-text);}
+.reward-row .bar span{position:absolute;inset:0;display:flex;align-items:center;padding-left:8px;font-size:.78rem;color:var(--text);font-weight:600;}
 .reward-row.selected .bar{outline:2px solid var(--header);}
 .reward-row.done .bar-fill{background:#4a5568;}
 .reward-row.done .bar span{color:#fff;font-weight:600;}
@@ -70,6 +71,7 @@ footer{font-size:.72rem;color:var(--sub);margin-top:20px;text-align:center;line-
 .settings-panel button{margin-top:10px;border:none;background:var(--header);color:#fff;padding:6px 12px;border-radius:6px;cursor:pointer;margin-right:8px;}
 .danger-btn{background:#c0392b!important;}
 </style>
+<script data-goatcounter="https://ayase.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
 </head>
 <body>
 <div class="wrap">
@@ -103,7 +105,7 @@ footer{font-size:.72rem;color:var(--sub);margin-top:20px;text-align:center;line-
     <div class="section-title">主要進度：迎撃Pt</div>
     <div class="counters">
       <div class="counter-card">
-        <h3>迎撃Pt（累計）</h3>
+        <h3>迎撃Pt（累計） <span class="today-badge" id="ptTodayBadge">今日 +0</span></h3>
         <div class="sub">驅動下方里程碑報酬進度</div>
         <div class="counter-value primary" id="ptValue">0</div>
         <div class="counter-controls">
@@ -198,7 +200,7 @@ footer{font-size:.72rem;color:var(--sub);margin-top:20px;text-align:center;line-
 
   let state = load();
   function load(){
-    const base = {pt:0, tickets:0, kobanExtra:0, end:DEFAULT_END, ptTargetOverride:null};
+    const base = {pt:0, tickets:0, kobanExtra:0, end:DEFAULT_END, ptTargetOverride:null, dayTrack:null};
     try{
       const raw = JSON.parse(localStorage.getItem(STORAGE_KEY) || "{}");
       const merged = Object.assign({}, base, raw);
@@ -211,6 +213,13 @@ footer{font-size:.72rem;color:var(--sub);margin-top:20px;text-align:center;line-
   }
   function save(){ localStorage.setItem(STORAGE_KEY, JSON.stringify(state)); }
   function kobanTotal(){ return state.tickets*TICKET_COST + (state.kobanExtra||0); }
+  function jstDateStr(d){ return d.toLocaleDateString("en-CA",{timeZone:"Asia/Tokyo"}); }
+
+  function rowHueColor(pct){
+    const p = Math.min(1, Math.max(0, pct));
+    const hue = 190 + p*80;
+    return `hsl(${hue}, 60%, 48%)`;
+  }
 
   function nextReward(list, value, override){
     if(override!==null && override!==undefined){
@@ -233,9 +242,17 @@ footer{font-size:.72rem;color:var(--sub);margin-top:20px;text-align:center;line-
       const row = document.createElement("div");
       const done = value >= t;
       row.className = "reward-row" + (state[overrideKey]===t ? " selected" : "") + (done ? " done" : "");
+      const widthPct = done?100:Math.min(100, Math.max(0,(value/t*100)));
+      let fillStyle = `width:${widthPct}%`;
+      let spanStyle = "";
+      if(!done){
+        const c = rowHueColor(value/t);
+        fillStyle += `;background:${c}`;
+        spanStyle = ` style="color:#ffffff"`;
+      }
       row.innerHTML = `<div class="t">${t.toLocaleString()}</div>
-        <div class="bar"><div class="bar-fill" style="width:${done?100:Math.min(100, Math.max(0,(value/t*100)))}%"></div>
-        <span>${done ? "済　"+label : label + "（還差 "+(t-value).toLocaleString()+"）"}</span></div>`;
+        <div class="bar"><div class="bar-fill" style="${fillStyle}"></div>
+        <span${spanStyle}>${done ? "済　"+label : label + "（還差 "+(t-value).toLocaleString()+"）"}</span></div>`;
       row.addEventListener("click", ()=>{
         state[overrideKey] = (state[overrideKey]===t) ? null : t;
         save(); renderAll();
@@ -248,29 +265,44 @@ footer{font-size:.72rem;color:var(--sub);margin-top:20px;text-align:center;line-
     const [t, label] = nextReward(PT_REWARDS, state.pt, state.ptTargetOverride);
     const pct = Math.min(100, Math.max(0, state.pt/t*100));
     const remain = Math.max(0, t-state.pt);
+    const barColor = rowHueColor(state.pt/t);
     document.getElementById("ptProgressFill").style.width = pct.toFixed(1)+"%";
+    document.getElementById("ptProgressFill").style.background = barColor;
+    document.getElementById("ptProgressLabel").style.color = "#ffffff";
     document.getElementById("ptProgressLabel").textContent = pct.toFixed(1)+"%（還差 "+remain.toLocaleString()+"）";
-    document.getElementById("targetReward").innerHTML = `目前目標：<span class="name">${label}</span>（門檻 ${t.toLocaleString()} Pt，還差 ${remain.toLocaleString()}）`;
 
     const dailyEl = document.getElementById("dailyTarget");
     const now = new Date();
     const end = new Date(state.end || DEFAULT_END);
     const msLeft = end - now;
+    let targetHtml = `目前目標：<span class="name">${label}</span>（門檻 ${t.toLocaleString()} Pt，還差 ${remain.toLocaleString()}`;
     if(remain <= 0){
+      targetHtml += `）`;
       dailyEl.textContent = "已達成目前目標 Pt，可以點下方報酬列換一個目標繼續看進度。";
     }else if(msLeft <= 0){
+      targetHtml += `）`;
       dailyEl.textContent = "（暫定日期）已過設定的結束時間，請於官方公布 2026 年日期後至設定更新。";
     }else{
       const daysLeft = Math.max(1, Math.ceil(msLeft/86400000));
       const dailyPt = Math.ceil(remain/daysLeft);
+      targetHtml += `，建議每日至少 ${dailyPt.toLocaleString()} Pt）`;
       dailyEl.innerHTML = `距離（暫定）結束還有約 <strong>${daysLeft} 天</strong>，平均每天需要 <strong>${dailyPt.toLocaleString()} Pt</strong> 才能在期限內達成上述目標。`;
     }
+    document.getElementById("targetReward").innerHTML = targetHtml;
   }
 
   function renderCounters(){
     document.getElementById("ptValue").textContent = state.pt.toLocaleString();
     document.getElementById("ticketValue").textContent = state.tickets.toLocaleString()+" 枚";
     document.getElementById("kobanValue").textContent = kobanTotal().toLocaleString()+" 両";
+
+    const today = jstDateStr(new Date());
+    if(!state.dayTrack || state.dayTrack.date !== today){
+      state.dayTrack = {date: today, start: state.pt};
+      save();
+    }
+    const todayGain = Math.max(0, state.pt - state.dayTrack.start);
+    document.getElementById("ptTodayBadge").textContent = "今日 +"+todayGain.toLocaleString();
   }
 
   function renderCountdown(){
@@ -316,21 +348,24 @@ footer{font-size:.72rem;color:var(--sub);margin-top:20px;text-align:center;line-
       save(); renderCounters();
     });
   });
+  const STATE_KEY_MAP = { ticket: "tickets" };
   document.querySelectorAll("[data-add]").forEach(btn=>{
     btn.addEventListener("click", ()=>{
       const key = btn.dataset.add;
+      const stateKey = STATE_KEY_MAP[key] || key;
       const input = document.getElementById(key+"Manual");
       const v = parseInt(input.value,10);
-      if(!isNaN(v)){ state[key] = Math.max(0, (state[key]||0)+v); save(); renderAll(); }
+      if(!isNaN(v)){ state[stateKey] = Math.max(0, (state[stateKey]||0)+v); save(); renderAll(); }
       input.value="";
     });
   });
   document.querySelectorAll("[data-set-direct]").forEach(btn=>{
     btn.addEventListener("click", ()=>{
       const key = btn.dataset.setDirect;
+      const stateKey = STATE_KEY_MAP[key] || key;
       const input = document.getElementById(key+"Manual");
       const v = parseInt(input.value,10);
-      if(!isNaN(v)){ state[key] = Math.max(v,0); save(); renderAll(); }
+      if(!isNaN(v)){ state[stateKey] = Math.max(v,0); save(); renderAll(); }
       input.value="";
     });
   });
@@ -354,7 +389,7 @@ footer{font-size:.72rem;color:var(--sub);margin-top:20px;text-align:center;line-
   document.getElementById("endInput").addEventListener("keydown", e=>{ if(e.key==="Enter") document.getElementById("applyEnd").click(); });
   document.getElementById("resetProgress").addEventListener("click", ()=>{
     if(confirm("確定要清空本頁的迎撃Pt／手形／小判紀錄嗎？此動作無法復原。")){
-      state = {pt:0, tickets:0, kobanExtra:0, end:DEFAULT_END, ptTargetOverride:null};
+      state = {pt:0, tickets:0, kobanExtra:0, end:DEFAULT_END, ptTargetOverride:null, dayTrack:null};
       save(); renderAll(); renderCountdown();
     }
   });
