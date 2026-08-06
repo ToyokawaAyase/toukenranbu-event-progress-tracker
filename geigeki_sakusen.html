@@ -285,7 +285,7 @@ footer{font-size:.72rem;color:var(--sub);margin-top:20px;text-align:center;line-
     }else{
       const daysLeft = Math.max(1, Math.ceil(msLeft/86400000));
       const dailyPt = Math.ceil(remain/daysLeft);
-      targetHtml += `，建議每日至少 ${dailyPt.toLocaleString()} Pt）`;
+      targetHtml += `）`;
       dailyEl.innerHTML = `距離（暫定）結束還有約 <strong>${daysLeft} 天</strong>，平均每天需要 <strong>${dailyPt.toLocaleString()} Pt</strong> 才能在期限內達成上述目標。`;
     }
     document.getElementById("targetReward").innerHTML = targetHtml;
