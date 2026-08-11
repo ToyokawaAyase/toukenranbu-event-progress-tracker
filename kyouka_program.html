@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>対百鬼夜行強化プログラム 活動紀錄（2026年7月）</title>
+<title>対百鬼夜行強化計畫 活動紀錄（2026年7月）</title>
 <style>
 :root{--header:#2b5580;--accent:#8fc4e6;--accent-text:#1a4a66;--track:#e6ecf1;--warn:#e0703c;--card:#ffffff;--bg:#f5f7fa;--text:#2b2b2b;--sub:#6b7785;}
 *{box-sizing:border-box;}
@@ -77,9 +77,16 @@ footer{font-size:.72rem;color:var(--sub);margin-top:20px;text-align:center;line-
 <body>
 <div class="wrap">
   <header>
-    <h1>対百鬼夜行強化プログラム 活動紀錄 <button class="icon-btn" id="helpBtn" title="說明">?</button></h1>
+    <h1>対百鬼夜行強化計畫 活動紀錄 <button class="icon-btn" id="helpBtn" title="說明">?</button></h1>
     <button class="icon-btn" id="settingsBtn" title="設定">⚙</button>
   </header>
+  <div class="nav-links">
+    <a href="index.html">首頁</a>
+    <a href="kyouka_program.html" style="font-weight:700;text-decoration:underline;">強化計畫</a>
+    <a href="geigeki_sakusen.html">迎擊作戰</a>
+    <a href="kantou_campaign.html">鍛刀強化活動</a>
+    <a href="shugyou_priority.html">修行優先順序</a>
+  </div>
   <div class="panel">
     <div id="helpPanel" class="settings-panel">
       <strong>使用說明</strong>
@@ -179,7 +186,7 @@ footer{font-size:.72rem;color:var(--sub);margin-top:20px;text-align:center;line-
 
     <footer>
       非官方個人記錄工具，資料來源整理自公開攻略頁面，正式數值請以遊戲內公告為準，使用請自行確認。<br>
-      対百鬼夜行強化プログラム：2026年7月28日（週二）17:00 ～ 2026年8月12日（週三）10:59（JST，日本標準時間，比台灣快1小時）
+      対百鬼夜行強化計畫：2026年7月28日（週二）17:00 ～ 2026年8月12日（週三）10:59（JST，日本標準時間，比台灣快1小時）
     </footer>
   </div>
 </div>
@@ -275,7 +282,7 @@ footer{font-size:.72rem;color:var(--sub);margin-top:20px;text-align:center;line-
       }
       row.innerHTML = `<div class="t">${t.toLocaleString()}</div>
         <div class="bar"><div class="bar-fill" style="${fillStyle}"></div>
-        <span${spanStyle}>${done ? "済　"+label : label + "（還差 "+(t-value).toLocaleString()+"）"}</span></div>`;
+        <span${spanStyle}>${done ? "已達成　"+label : label + "（還差 "+(t-value).toLocaleString()+"）"}</span></div>`;
       row.addEventListener("click", ()=>{
         state[overrideKey] = (state[overrideKey]===t) ? null : t;
         save(); renderAll();

@@ -1,0 +1,474 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>鍛刀強化活動 活動紀錄（鬼丸国綱・髭切・小烏丸）</title>
+<style>
+:root{--header:#2b7a5f;--accent:#a6d9c4;--accent-text:#1d5140;--track:#e6ecf1;--warn:#e0703c;--card:#ffffff;--bg:#f5f7fa;--text:#2b2b2b;--sub:#6b7785;}
+*{box-sizing:border-box;}
+body{font-family:"Noto Sans TC","Hiragino Sans","Yu Gothic",sans-serif;background:var(--bg);color:var(--text);margin:0;padding:20px;}
+.wrap{max-width:900px;margin:0 auto;}
+header{display:flex;align-items:center;justify-content:space-between;background:var(--header);color:#fff;padding:14px 20px;border-radius:10px 10px 0 0;flex-wrap:wrap;gap:8px;}
+header h1{font-size:1.25rem;margin:0;display:flex;align-items:center;gap:8px;}
+.icon-btn{background:rgba(255,255,255,.15);border:none;color:#fff;border-radius:50%;width:30px;height:30px;cursor:pointer;font-size:.9rem;flex-shrink:0;}
+.icon-btn:hover{background:rgba(255,255,255,.3);}
+.panel{background:var(--card);padding:16px 20px;border:1px solid #e1e6ea;border-top:none;}
+.countdown-bar{background:#eef7f2;padding:10px 20px;font-size:.92rem;border-left:4px solid var(--header);}
+.status-bar{background:#fff7e6;padding:10px 20px;font-size:.88rem;border-left:4px solid #e0a83c;}
+.tbd-bar{background:#fdeceb;padding:10px 20px;font-size:.85rem;border-left:4px solid #c0392b;}
+.inline-help{background:#f0cd85;border:none;color:#6b4a12;border-radius:50%;width:20px;height:20px;font-size:.72rem;cursor:pointer;flex-shrink:0;line-height:1;}
+.inline-help:hover{background:#e6bb64;}
+.nav-links{background:#fff;padding:8px 20px;font-size:.8rem;border-bottom:1px solid #e1e6ea;}
+.nav-links a{color:var(--header);text-decoration:none;margin-right:14px;}
+.nav-links a.current{font-weight:700;text-decoration:underline;}
+.nav-links a:hover{text-decoration:underline;}
+.counters{display:flex;gap:16px;flex-wrap:wrap;}
+.counter-card{flex:1;min-width:260px;background:#eef7f2;border-radius:10px;padding:14px 16px;display:flex;flex-direction:column;}
+.counter-card h3{margin:0 0 6px;font-size:.85rem;color:var(--sub);}
+.today-badge{display:inline-block;font-size:.68rem;font-weight:600;background:#e0f2e9;color:#1d5140;border-radius:10px;padding:2px 8px;margin-left:6px;vertical-align:middle;}
+.counter-card .sub{font-size:.72rem;color:var(--sub);margin-bottom:6px;}
+.counter-value{font-size:1.6rem;font-weight:700;color:var(--header);}
+.counter-value.primary{font-size:2.7rem;}
+.counter-controls{display:flex;gap:6px;flex-wrap:wrap;margin-top:auto;padding-top:8px;}
+.counter-controls button{border:1px solid #cbd6e0;background:#fff;border-radius:6px;padding:4px 8px;cursor:pointer;font-size:.8rem;}
+.counter-controls button:hover{background:#e6edf3;}
+.counter-manual{margin-top:8px;display:flex;gap:6px;}
+.counter-manual input{width:110px;padding:4px 6px;border:1px solid #cbd6e0;border-radius:6px;}
+.counter-manual button{border:none;background:var(--header);color:#fff;border-radius:6px;padding:4px 10px;cursor:pointer;}
+.resource-item{flex:1;min-width:280px;background:#f7f8fa;border-radius:10px;padding:14px 16px;font-size:.85rem;display:flex;flex-direction:column;}
+.resource-item .res-label{color:var(--sub);font-size:.8rem;}
+.resource-item strong{display:block;font-size:1.15rem;color:var(--header);}
+.mat-grid{display:grid;grid-template-columns:1fr 1fr;gap:6px 14px;margin-top:6px;}
+.mat-grid div{font-size:.85rem;}
+.mat-grid strong{font-size:.95rem;color:var(--header);}
+.target-reward{margin-top:16px;font-size:1.1rem;}
+.target-reward .name{color:#c0392b;font-weight:700;}
+.progress-track{position:relative;background:var(--track);border-radius:6px;height:26px;margin-top:6px;overflow:hidden;}
+.progress-fill{background:var(--accent);height:100%;transition:width .3s;}
+.progress-label{position:absolute;inset:0;display:flex;align-items:center;padding-left:10px;font-size:.8rem;color:var(--text);font-weight:700;}
+.daily-target{background:#eaf5ef;border-left:4px solid var(--accent);padding:10px 14px;border-radius:6px;margin-top:10px;font-size:1.05rem;color:#1d5140;display:flex;align-items:center;justify-content:space-between;gap:8px;}
+.daily-target .inline-help{background:#cdeadc;color:#1d5140;}
+.daily-target .inline-help:hover{background:#b3ddc9;}
+.notes{font-size:.78rem;color:var(--sub);margin-top:14px;line-height:1.7;}
+.char-list{display:flex;gap:12px;flex-wrap:wrap;margin-top:10px;}
+.char-item{flex:1;min-width:150px;background:#f7f8fa;border-radius:10px;padding:12px 14px;display:flex;align-items:center;justify-content:space-between;gap:8px;cursor:pointer;user-select:none;border:2px solid transparent;}
+.char-item.got{border-color:var(--header);background:#eef7f2;}
+.char-item .name{font-size:.95rem;font-weight:600;}
+.char-item .mark{font-size:.8rem;color:var(--sub);}
+.char-item.got .mark{color:var(--header);font-weight:700;}
+.section-title{margin-top:26px;font-size:.98rem;font-weight:700;border-bottom:2px solid var(--header);padding-bottom:4px;}
+footer{font-size:.72rem;color:var(--sub);margin-top:20px;text-align:center;line-height:1.8;}
+.settings-panel{display:none;background:#fbfcfd;border:1px dashed #c7d0d8;border-radius:8px;padding:14px;margin-top:10px;font-size:.82rem;}
+.settings-panel.show{display:block;}
+.settings-panel label{display:block;margin-top:8px;}
+.settings-panel input{padding:4px 6px;border:1px solid #cbd6e0;border-radius:6px;}
+.settings-panel button{margin-top:10px;border:none;background:var(--header);color:#fff;padding:6px 12px;border-radius:6px;cursor:pointer;margin-right:8px;}
+.danger-btn{background:#c0392b!important;}
+</style>
+<script data-goatcounter="https://ayase.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <h1>鍛刀強化活動 活動紀錄 <button class="icon-btn" id="helpBtn" title="說明">?</button></h1>
+    <button class="icon-btn" id="settingsBtn" title="設定">⚙</button>
+  </header>
+  <div class="nav-links">
+    <a href="index.html">首頁</a>
+    <a href="kyouka_program.html">強化計畫</a>
+    <a href="geigeki_sakusen.html">迎擊作戰</a>
+    <a href="kantou_campaign.html" class="current">鍛刀強化活動</a>
+    <a href="shugyou_priority.html">修行優先順序</a>
+  </div>
+  <div class="panel">
+    <div class="tbd-bar">
+      <strong>這是機率加成型活動，不是固定時間保底型</strong>：期間內用 all700 配方鍛刀，鬼丸国綱・髭切・小烏丸 比平常容易出，但沒有「鍛刀時間對應特定角色」這種官方公告的固定規則，本頁不做這種預測，只協助記錄累計進度。
+    </div>
+    <div id="helpPanel" class="settings-panel">
+      <strong>使用說明</strong>
+      <p>本頁面僅供個人記錄用，非官方工具，資料以你自行輸入為準，儲存在「這台瀏覽器」的 localStorage，換裝置或清除瀏覽資料會遺失。</p>
+      <p>顕現ポイント（暫以「顯現點數」標示）累積 2500 會直接保底出鬼丸国綱，此數字為你提供的資訊，未來如有更新請自行調整。</p>
+      <p>材料消耗是依 all700 配方（木炭700／冷却材700／玉鋼700／砥石700）自動用「鍛刀嘗試次數」換算，若你混用其他配方鍛刀，請不要把那幾次算進「鍛刀嘗試次數」，以免材料換算失準。</p>
+    </div>
+    <div id="settingsPanel" class="settings-panel">
+      <strong>設定</strong>
+      <label>活動結束時間（預設 2026-08-25 12:59，JST日本標準時間，開始時間暫抓維護結束後～請自行核對官方公告時刻）
+        <input type="datetime-local" id="endInput">
+      </label>
+      <label>顕現ポイント保底門檻（預設 2500）
+        <input type="number" id="thresholdInput">
+      </label>
+      <div>
+        <button id="applyEnd">套用設定</button>
+        <button id="resetProgress" class="danger-btn">重設本頁全部進度</button>
+      </div>
+    </div>
+
+    <div class="countdown-bar" id="countdownBar">載入中…</div>
+    <div class="status-bar">期間：2026年7月28日（週二）維護結束後 ～ 2026年8月25日（週二）12:59（JST，日本標準時間，比台灣快1小時，實際開始時間以「維護結束時」為準）。配方：all700（木炭700／冷却材700／玉鋼700／砥石700）。</div>
+
+    <div class="section-title">主要進度：顯現點數（保底 2500）</div>
+    <div class="counters">
+      <div class="counter-card">
+        <h3>顯現點數（累計） <span class="today-badge" id="ptTodayBadge">今日 +0</span></h3>
+        <div class="sub">累積達門檻直接保底出鬼丸国綱</div>
+        <div class="counter-value primary" id="ptValue">0</div>
+        <div class="counter-controls">
+          <button data-target="pt" data-delta="-5">-5</button>
+          <button data-target="pt" data-delta="5" title="無札">+5（無札）</button>
+          <button data-target="pt" data-delta="10" title="梅札">+10（梅）</button>
+          <button data-target="pt" data-delta="15" title="竹札">+15（竹）</button>
+          <button data-target="pt" data-delta="20" title="松札">+20（松）</button>
+          <button data-target="pt" data-delta="60" title="富士札">+60（富士）</button>
+        </div>
+        <div class="counter-manual">
+          <input type="number" id="ptManual" placeholder="輸入數值">
+          <button data-add="pt">累加</button>
+          <button data-set-direct="pt">直接設定</button>
+        </div>
+      </div>
+
+      <div class="resource-item">
+        <div class="res-label">鍛刀嘗試次數（all700，累計）</div>
+        <strong id="triesValue">0 次</strong>
+        <div class="counter-controls" style="margin-top:8px;">
+          <button data-target="tries" data-delta="-1">-1</button>
+          <button data-target="tries" data-delta="1">+1</button>
+          <button data-target="tries" data-delta="5">+5</button>
+          <button data-target="tries" data-delta="10">+10</button>
+        </div>
+        <div class="mat-grid">
+          <div>木炭 <strong id="matTan">0</strong></div>
+          <div>冷却材 <strong id="matRei">0</strong></div>
+          <div>玉鋼 <strong id="matTama">0</strong></div>
+          <div>砥石 <strong id="matTo">0</strong></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="target-reward" id="targetReward"></div>
+    <div class="daily-target">
+      <span id="dailyTarget"></span>
+      <button class="inline-help" id="notesHelpBtn" title="查看使用小提示">?</button>
+    </div>
+    <div class="progress-track"><div class="progress-fill" id="ptProgressFill" style="width:0%"></div><div class="progress-label" id="ptProgressLabel"></div></div>
+    <div id="notesPanel" class="settings-panel">
+      <p>◇ 這場是機率加成型活動，鍛刀次數與顯現點數需要你自己依實際遊玩結果輸入，本頁不會、也無法幫你預測下一次鍛刀出什麼。</p>
+      <p>◇ 材料消耗是用「鍛刀嘗試次數 × 700」自動換算四種資材，只適用於 all700 配方。</p>
+      <p>◇ 點下方角色卡片可以切換「已入手」狀態，方便你自己追蹤這場還缺誰。</p>
+      <p>◇ 顕現ポイント取得量依御札等級：無札5／梅10／竹15／松20／富士60，十連鍛刀請依實際使用張數自行累加。</p>
+      <p>◇ 活動結束後30天內（至2026/9/24 12:59），剩餘顕現ポイント每200點自動換算「根兵糖・並」×1，不足200點不補、逾期不換。</p>
+    </div>
+
+    <div class="section-title">鍛刀時間反查（all700，資料來源：2026/3/25更新後參考配方＋本次活動公告）</div>
+    <div class="notes" style="margin-top:6px;">
+      選擇你現在鍛刀畫面顯示的剩餘時間，看看有哪些角色可能是這次的結果。木炭700／砥石700 已經超出打刀、太刀以外類別的官方參考範圍，大太刀／槍／薙刀是這次活動額外開放的例外名單，其餘打刀／太刀角色是落在官方一般參考範圍內、理論上都有機率出現（不限定活動公告的15隻）。同一時間常對到好幾隻角色，時間只能幫你縮小範圍，不是唯一解；官方自己也註明範圍外的數字仍可能出現該刀種，所以這張表僅供參考。
+    </div>
+    <div style="margin-top:10px;">
+      <select id="timeSelect" style="padding:6px 10px;border:1px solid #cbd6e0;border-radius:6px;font-size:.9rem;"></select>
+    </div>
+    <div class="char-list" id="timeResult" style="margin-top:10px;"></div>
+
+    <div class="section-title">還沒入手的角色 → 對應時間（快速判斷值不值得用道具）</div>
+    <div id="missingByTime"></div>
+
+    <details style="margin-top:20px;">
+      <summary style="cursor:pointer;font-weight:700;color:var(--header);padding:6px 0;">角色入手狀態（全部，點展開/收合、勾選已入手）</summary>
+      <div id="fullCharList" style="margin-top:8px;"></div>
+    </details>
+
+    <footer>
+      非官方個人記錄工具，資料來源整理自公開資訊，正式數值請以遊戲內公告為準，使用請自行確認。<br>
+      鍛刀強化活動（鬼丸国綱・髭切・小烏丸）：2026年7月28日（週二）維護結束後 ～ 2026年8月25日（週二）12:59（JST，日本標準時間）
+    </footer>
+  </div>
+</div>
+
+<script>
+(function(){
+  const STORAGE_KEY = "kantouCampaignProgress_v1";
+  const DEFAULT_END = "2026-08-25T12:59:00+09:00";
+  const START = "2026-07-28T17:00:00+09:00";
+  const MAT_UNIT = 700;
+  const RECIPE_TABLE = [
+    {cat:"打刀", rows:[
+      ["01:25:00",["豊前江","桑名江","松井江","五月雨江","村雲江"]],
+      ["01:30:00",["鳴狐","亀甲貞宗","宗三左文字","加州清光","大和守安定","歌仙兼定","陸奥守吉行","山姥切国広","蜂須賀虎徹","南泉一文字"]],
+      ["02:20:00",["山姥切長義","南海太郎朝尊","水心子正秀","源清麿","地蔵行平"]],
+      ["02:30:00",["へし切長谷部"]],
+      ["03:00:00",["千子村正","和泉守兼定","長曾祢虎徹","大俱利伽羅","同田貫正国"]]
+    ]},
+    {cat:"太刀", rows:[
+      ["03:00:00",["ソハヤノツルキ","明石国行","燭台切光忠","山伏国広","獅子王","千代金丸"]],
+      ["03:10:00",["古今伝授の太刀"]],
+      ["03:20:00",["一期一振","鶯丸","大般若長光","小竜景光","江雪左文字","髭切","膝丸","鶴丸国永","小豆長光","日光一文字","姫鶴一文字"]],
+      ["03:50:00",["一文字則宗"]],
+      ["04:00:00",["三日月宗近","小狐丸","大典太光世","数珠丸恒次","鬼丸国綱","大包平","小烏丸","山鳥毛"]]
+    ]},
+    {cat:"大太刀（活動例外開放）", rows:[
+      ["02:30:00",["石切丸","太郎太刀","次郎太刀","祢々切丸"]],
+      ["03:00:00",["蛍丸"]]
+    ]},
+    {cat:"槍（活動例外開放）", rows:[
+      ["03:00:00",["蜻蛉切","日本号","御手杵","大千鳥十文字槍"]]
+    ]},
+    {cat:"薙刀（活動例外開放）", rows:[
+      ["05:00:00",["岩融","巴形薙刀","静形薙刀"]]
+    ]}
+  ];
+
+  function allTimesSorted(){
+    const set = new Set();
+    RECIPE_TABLE.forEach(c=>c.rows.forEach(([t])=>set.add(t)));
+    return [...set].sort();
+  }
+
+  function charToggle(name, refreshFn){
+    const got = !!state.got[name];
+    return `<span class="name">${name}</span><span class="mark">${got?"已入手":"未入手"}</span>`;
+  }
+  function makeCharCard(name){
+    const got = !!state.got[name];
+    const card = document.createElement("div");
+    card.className = "char-item" + (got ? " got" : "");
+    card.innerHTML = charToggle(name);
+    card.addEventListener("click", ()=>{
+      state.got[name] = !state.got[name];
+      save(); renderTimeResult(); renderFullCharList(); renderMissingByTime();
+    });
+    return card;
+  }
+
+  function renderTimeSelect(){
+    const sel = document.getElementById("timeSelect");
+    if(sel.options.length) return;
+    allTimesSorted().forEach(t=>{
+      const opt = document.createElement("option");
+      opt.value = t; opt.textContent = t.slice(0,5);
+      sel.appendChild(opt);
+    });
+    sel.addEventListener("change", renderTimeResult);
+  }
+
+  function renderTimeResult(){
+    const t = document.getElementById("timeSelect").value;
+    const el = document.getElementById("timeResult");
+    el.innerHTML = "";
+    RECIPE_TABLE.forEach(({cat, rows})=>{
+      const row = rows.find(r=>r[0]===t);
+      if(!row) return;
+      const label = document.createElement("div");
+      label.style.cssText = "flex-basis:100%;font-size:.78rem;color:var(--sub);margin-top:8px;";
+      label.textContent = cat + "：";
+      el.appendChild(label);
+      row[1].forEach(name=> el.appendChild(makeCharCard(name)));
+    });
+    if(!el.children.length){
+      el.innerHTML = "<div class='notes'>這個時間目前沒有對照到的角色資料。</div>";
+    }
+  }
+
+  function renderFullCharList(){
+    const el = document.getElementById("fullCharList");
+    el.innerHTML = "";
+    RECIPE_TABLE.forEach(({cat, rows})=>{
+      const title = document.createElement("div");
+      title.style.cssText = "font-size:.85rem;font-weight:700;color:var(--header);margin-top:14px;";
+      title.textContent = cat;
+      el.appendChild(title);
+      const list = document.createElement("div");
+      list.className = "char-list";
+      const names = [...new Set(rows.flatMap(r=>r[1]))];
+      names.forEach(name=> list.appendChild(makeCharCard(name)));
+      el.appendChild(list);
+    });
+  }
+
+  let state = load();
+  function load(){
+    const base = {pt:0, tries:0, end:DEFAULT_END, threshold:2500, got:{}, dayTrack:null};
+    try{
+      const raw = JSON.parse(localStorage.getItem(STORAGE_KEY) || "{}");
+      return Object.assign({}, base, raw, {got: Object.assign({}, base.got, raw.got||{})});
+    }catch(e){ return base; }
+  }
+  function save(){ localStorage.setItem(STORAGE_KEY, JSON.stringify(state)); }
+  function jstDateStr(d){ return d.toLocaleDateString("en-CA",{timeZone:"Asia/Tokyo"}); }
+
+  function rowHueColor(pct){
+    const p = Math.min(1, Math.max(0, pct));
+    const hue = 140 + p*40;
+    return `hsl(${hue}, 55%, 42%)`;
+  }
+
+  function renderProgress(){
+    const t = state.threshold || 2500;
+    const pct = Math.min(100, Math.max(0, state.pt/t*100));
+    const remain = Math.max(0, t-state.pt);
+    const barColor = rowHueColor(state.pt/t);
+    document.getElementById("ptProgressFill").style.width = pct.toFixed(1)+"%";
+    document.getElementById("ptProgressFill").style.background = barColor;
+    document.getElementById("ptProgressLabel").style.color = "#ffffff";
+    document.getElementById("ptProgressLabel").textContent = pct.toFixed(1)+"%（還差 "+remain.toLocaleString()+"）";
+
+    const dailyEl = document.getElementById("dailyTarget");
+    const now = new Date();
+    const end = new Date(state.end || DEFAULT_END);
+    const msLeft = end - now;
+    let targetHtml = `目前目標：<span class="name">鬼丸国綱保底</span>（門檻 ${t.toLocaleString()} 點，還差 ${remain.toLocaleString()}`;
+    if(remain <= 0){
+      targetHtml += `）`;
+      dailyEl.textContent = "已達成保底門檻，理論上這場已經能換到鬼丸国綱了（實際請以遊戲內兌換結果為準）。";
+    }else if(msLeft <= 0){
+      targetHtml += `）`;
+      dailyEl.textContent = "已過設定的結束時間，請確認官方實際結束時刻並至設定更新。";
+    }else{
+      const daysLeft = Math.max(1, Math.ceil(msLeft/86400000));
+      const dailyPt = Math.ceil(remain/daysLeft);
+      targetHtml += `）`;
+      dailyEl.innerHTML = `距離結束還有約 <strong>${daysLeft} 天</strong>，平均每天需要 <strong>${dailyPt.toLocaleString()} 點</strong> 才能在期限內達成保底。`;
+    }
+    document.getElementById("targetReward").innerHTML = targetHtml;
+  }
+
+  function renderCounters(){
+    document.getElementById("ptValue").textContent = state.pt.toLocaleString();
+    document.getElementById("triesValue").textContent = state.tries.toLocaleString()+" 次";
+    document.getElementById("matTan").textContent = (state.tries*MAT_UNIT).toLocaleString();
+    document.getElementById("matRei").textContent = (state.tries*MAT_UNIT).toLocaleString();
+    document.getElementById("matTama").textContent = (state.tries*MAT_UNIT).toLocaleString();
+    document.getElementById("matTo").textContent = (state.tries*MAT_UNIT).toLocaleString();
+
+    const today = jstDateStr(new Date());
+    if(!state.dayTrack || state.dayTrack.date !== today){
+      state.dayTrack = {date: today, start: state.pt};
+      save();
+    }
+    const todayGain = Math.max(0, state.pt - state.dayTrack.start);
+    document.getElementById("ptTodayBadge").textContent = "今日 +"+todayGain.toLocaleString();
+  }
+
+
+
+  function renderCountdown(){
+    const now = new Date();
+    const start = new Date(START);
+    const end = new Date(state.end || DEFAULT_END);
+    const el = document.getElementById("countdownBar");
+    if(now < start){
+      el.textContent = "距離開始還有 "+fmtDiff(start-now);
+    }else if(now <= end){
+      el.textContent = "距離結束還有 "+fmtDiff(end-now)+"（結束時間：" + end.toLocaleString("zh-TW",{timeZone:"Asia/Tokyo"}) + " JST，日本標準時間）";
+    }else{
+      el.textContent = "活動已結束（設定結束時間：" + end.toLocaleString("zh-TW",{timeZone:"Asia/Tokyo"}) + " JST）";
+    }
+  }
+  function fmtDiff(ms){
+    const totalMin = Math.floor(ms/60000);
+    const d = Math.floor(totalMin/1440);
+    const h = Math.floor((totalMin%1440)/60);
+    const m = totalMin%60;
+    return `${d}天 ${h}時 ${m}分`;
+  }
+
+  function renderMissingByTime(){
+    const el = document.getElementById("missingByTime");
+    el.innerHTML = "";
+    // 建立 時間 -> [{cat,name}] 索引，只收未入手角色
+    const byTime = {};
+    RECIPE_TABLE.forEach(({cat, rows})=>{
+      rows.forEach(([t, names])=>{
+        names.forEach(name=>{
+          if(state.got[name]) return; // 已入手就跳過
+          if(!byTime[t]) byTime[t] = [];
+          byTime[t].push(cat+"："+name);
+        });
+      });
+    });
+    const times = Object.keys(byTime).sort((a,b)=>{
+      const diff = byTime[a].length - byTime[b].length;
+      return diff !== 0 ? diff : a.localeCompare(b);
+    });
+    if(!times.length){
+      el.innerHTML = "<div class='notes'>目前標記的角色都已入手，或還沒開始勾選下方清單。</div>";
+      return;
+    }
+    times.forEach(t=>{
+      const row = document.createElement("div");
+      row.style.cssText = "background:#fdf3ea;border-left:4px solid var(--warn);border-radius:6px;padding:8px 12px;margin-bottom:8px;font-size:.88rem;";
+      const count = byTime[t].length;
+      row.innerHTML = `<strong>${t.slice(0,5)}</strong>　<span style="color:var(--sub);font-size:.78rem;">（${count}隻可能）</span>　${byTime[t].join("、")}`;
+      el.appendChild(row);
+    });
+  }
+
+  function renderAll(){
+    renderCounters();
+    renderProgress();
+    renderTimeSelect();
+    renderTimeResult();
+    renderFullCharList();
+    renderMissingByTime();
+  }
+
+  document.querySelectorAll("[data-target]").forEach(btn=>{
+    btn.addEventListener("click", ()=>{
+      const key = btn.dataset.target;
+      const delta = parseInt(btn.dataset.delta,10);
+      state[key] = Math.max(0, state[key] + delta);
+      save(); renderAll();
+    });
+  });
+  document.querySelectorAll("[data-add]").forEach(btn=>{
+    btn.addEventListener("click", ()=>{
+      const key = btn.dataset.add;
+      const input = document.getElementById(key+"Manual");
+      const v = parseInt(input.value,10);
+      if(!isNaN(v)){ state[key] = Math.max(0, (state[key]||0)+v); save(); renderAll(); }
+      input.value="";
+    });
+  });
+  document.querySelectorAll("[data-set-direct]").forEach(btn=>{
+    btn.addEventListener("click", ()=>{
+      const key = btn.dataset.setDirect;
+      const input = document.getElementById(key+"Manual");
+      const v = parseInt(input.value,10);
+      if(!isNaN(v)){ state[key] = Math.max(v,0); save(); renderAll(); }
+      input.value="";
+    });
+  });
+  document.getElementById("ptManual").addEventListener("keydown", e=>{ if(e.key==="Enter") document.querySelector('[data-add="pt"]').click(); });
+
+  document.getElementById("helpBtn").addEventListener("click", ()=>{
+    document.getElementById("helpPanel").classList.toggle("show");
+  });
+  document.getElementById("notesHelpBtn").addEventListener("click", ()=>{
+    document.getElementById("notesPanel").classList.toggle("show");
+  });
+  document.getElementById("settingsBtn").addEventListener("click", ()=>{
+    document.getElementById("settingsPanel").classList.toggle("show");
+  });
+  document.getElementById("applyEnd").addEventListener("click", ()=>{
+    const v = document.getElementById("endInput").value;
+    const th = parseInt(document.getElementById("thresholdInput").value,10);
+    if(v){ state.end = new Date(v).toISOString(); }
+    if(!isNaN(th) && th>0){ state.threshold = th; }
+    save(); renderCountdown(); renderProgress();
+  });
+  document.getElementById("thresholdInput").value = state.threshold;
+  document.getElementById("resetProgress").addEventListener("click", ()=>{
+    if(confirm("確定要清空本頁的顯現點數／鍛刀次數／角色入手紀錄嗎？此動作無法復原。")){
+      state = {pt:0, tries:0, end:DEFAULT_END, threshold:2500, got:{}, dayTrack:null};
+      save(); renderAll(); renderCountdown();
+    }
+  });
+
+  renderAll();
+  renderCountdown();
+  setInterval(renderCountdown, 30000);
+  setInterval(renderProgress, 60000);
+})();
+</script>
+</body>
+</html>

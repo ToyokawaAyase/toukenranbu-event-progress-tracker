@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>対百鬼夜行迎撃作戦 活動紀錄（2026年，暫定沿用2025年資料）</title>
+<title>対百鬼夜行迎擊作戰 活動紀錄（2026年，部分官方已公布＋暫沿用2025年資料）</title>
 <style>
 :root{--header:#6b3f8f;--accent:#c3aee0;--accent-text:#4a2d63;--track:#e6ecf1;--warn:#e0703c;--card:#ffffff;--bg:#f5f7fa;--text:#2b2b2b;--sub:#6b7785;}
 *{box-sizing:border-box;}
@@ -76,17 +76,27 @@ footer{font-size:.72rem;color:var(--sub);margin-top:20px;text-align:center;line-
 <body>
 <div class="wrap">
   <header>
-    <h1>対百鬼夜行迎撃作戦 活動紀錄 <button class="icon-btn" id="helpBtn" title="說明">?</button></h1>
+    <h1>対百鬼夜行迎擊作戰 活動紀錄 <button class="icon-btn" id="helpBtn" title="說明">?</button></h1>
     <button class="icon-btn" id="settingsBtn" title="設定">⚙</button>
   </header>
+  <div class="nav-links">
+    <a href="index.html">首頁</a>
+    <a href="kyouka_program.html">強化計畫</a>
+    <a href="geigeki_sakusen.html" style="font-weight:700;text-decoration:underline;">迎擊作戰</a>
+    <a href="kantou_campaign.html">鍛刀強化活動</a>
+    <a href="shugyou_priority.html">修行優先順序</a>
+  </div>
   <div class="panel">
     <div class="tbd-bar">
-      官方尚未公布 2026 年版「対百鬼夜行迎撃作戦」的確切日期與門檻數字，以下全部沿用 <strong>2025年8月版</strong> 資料作為暫定參考。等官方公告後，可以再回來請我依新數字更新這頁（門檻、日期、新角色獎勵都可能變動）。
+      官方已於 <strong>2026/8/10 公布部分「対百鬼夜行迎擊作戰」預告資訊</strong>（下方標示 ★2026官方已公布 的里程碑、及敵方最大迎撃Pt）；<strong>完整活動期間與其餘素材類獎勵仍暫沿用 2025年8月版</strong> 資料。官方預計 8/12（三）維護後公布完整細節，屆時可再請我更新這頁。
+    </div>
+    <div class="status-bar" style="border-left-color:#6b3f8f;background:#f3eef8;">
+      <strong>敵方最大迎撃Pt（2026官方預告）</strong>：通常敵 300Pt／「苦無」を含む部隊 350Pt／強力な敵 330Pt／？（催物の進行に応じて出現）350Pt
     </div>
     <div id="helpPanel" class="settings-panel">
       <strong>使用說明</strong>
       <p>本頁面僅供個人記錄用，非官方工具，資料以你自行輸入為準。數值會儲存在「這台瀏覽器」的 localStorage，換裝置或清除瀏覽資料會遺失，請自行留意備份（例如定期截圖）。</p>
-      <p>迎撃Pt門檻與獎勵，目前取自 2025年8月12日～8月26日 的官方活動內容，屬於暫定參考數字。</p>
+      <p>迎撃Pt門檻與獎勵，標示「★2026官方已公布」的四組角色里程碑（童子切安綱剥落／新刀剣男士）取自 2026/8/10 官方預告畫面，其餘素材類獎勵仍取自 2025年8月12日～8月26日 的官方活動內容，屬於暫定參考數字，8/12 維護後請再更新。</p>
     </div>
     <div id="settingsPanel" class="settings-panel">
       <strong>設定</strong>
@@ -162,12 +172,12 @@ footer{font-size:.72rem;color:var(--sub);margin-top:20px;text-align:center;line-
       <p>◇ 「戦鬼」討伐、殘黨戰掉落等特殊機制無法自動判定，請自行對照官方公告手動記錄。</p>
     </div>
 
-    <div class="section-title">迎撃Pt 報酬里程碑（2025年版，暫定）</div>
+    <div class="section-title">迎撃Pt 報酬里程碑（標示 ★2026官方已公布 為新資料，其餘暫沿用2025年版）</div>
     <div class="reward-list" id="ptRewardList"></div>
 
     <footer>
       非官方個人記錄工具，資料來源整理自公開攻略頁面，正式數值請以遊戲內公告為準，使用請自行確認。<br>
-      対百鬼夜行迎撃作戦（暫定沿用 2025年版）：2025年8月12日（週二）17:00 ～ 2025年8月26日（週二）12:59（JST，日本標準時間，比台灣快1小時，實際開始時間以「維護結束時」為準）
+      対百鬼夜行迎擊作戰（暫定沿用 2025年版）：2025年8月12日（週二）17:00 ～ 2025年8月26日（週二）12:59（JST，日本標準時間，比台灣快1小時，實際開始時間以「維護結束時」為準）
     </footer>
   </div>
 </div>
@@ -190,12 +200,21 @@ footer{font-size:.72rem;color:var(--sub);margin-top:20px;text-align:center;line-
     [42500,"旅道具 ×1"],[45000,"銃兵･特上 ×1"],[47500,"木炭 ×1500"],[50000,"三倍法螺貝(迎撃) ×1"],
     [52500,"気力+30バー ×1"],[55000,"冷却材 ×1500"],[57500,"手紙一式 ×1"],[60000,"蘇言機 ×1"],
     [65000,"御札・松 ×1"],[70000,"一口団子 ×3"],[75000,"砥石 ×1500"],[80000,"修行呼び戻し鳩 ×1"],
-    [85000,"玉鋼 ×1500"],[90000,"旅装束 ×1"],[95000,"旅道具 ×1"],[100000,"童子切安綱 剥落 ×1（新キャラ／依進行追加）"],
+    [85000,"玉鋼 ×1500"],[90000,"旅装束 ×1"],[95000,"旅道具 ×1"],
+    [100000,"★2026官方已公布　童子切安綱 剥落 ×1（第1振）"],
     [105000,"手紙一式 ×1"],[110000,"木炭 ×3000"],[115000,"冷却材 ×3000"],[120000,"手伝い札 ×5"],
     [125000,"砥石 ×3000"],[130000,"玉鋼 ×3000"],[135000,"依頼札 ×5"],[140000,"旅装束 ×1"],
-    [150000,"幕の内弁当 ×1"],[160000,"旅道具 ×1"],[170000,"三倍法螺貝(迎撃) ×1"],[180000,"手紙一式 ×1"],
-    [200000,"童子切安綱 剥落 ×1"],[250000,"三倍法螺貝(迎撃) ×1"],[300000,"童子切安綱 剥落 ×1"],
-    [350000,"三倍法螺貝(迎撃) ×1"],[400000,"童子切安綱 剥落 ×1"]
+    [150000,"幕の内弁当 ×1"],
+    [150000,"★2026官方已公布　新刀剣男士（未公開） ×1（第1振）"],
+    [160000,"旅道具 ×1"],[170000,"三倍法螺貝(迎撃) ×1"],[180000,"手紙一式 ×1"],
+    [250000,"三倍法螺貝(迎撃) ×1"],
+    [250000,"★2026官方已公布　童子切安綱 剥落 ×1（第2振）"],
+    [300000,"★2026官方已公布　新刀剣男士（未公開） ×1（第2振）"],
+    [350000,"三倍法螺貝(迎撃) ×1"],
+    [400000,"★2026官方已公布　童子切安綱 剥落 ×1（第3振）"],
+    [450000,"★2026官方已公布　新刀剣男士（未公開） ×1（第3振）"],
+    [550000,"★2026官方已公布　童子切安綱 剥落 ×1（第4振）"],
+    [600000,"★2026官方已公布　新刀剣男士（未公開） ×1（第4振）"]
   ];
 
   let state = load();
@@ -252,7 +271,7 @@ footer{font-size:.72rem;color:var(--sub);margin-top:20px;text-align:center;line-
       }
       row.innerHTML = `<div class="t">${t.toLocaleString()}</div>
         <div class="bar"><div class="bar-fill" style="${fillStyle}"></div>
-        <span${spanStyle}>${done ? "済　"+label : label + "（還差 "+(t-value).toLocaleString()+"）"}</span></div>`;
+        <span${spanStyle}>${done ? "已達成　"+label : label + "（還差 "+(t-value).toLocaleString()+"）"}</span></div>`;
       row.addEventListener("click", ()=>{
         state[overrideKey] = (state[overrideKey]===t) ? null : t;
         save(); renderAll();

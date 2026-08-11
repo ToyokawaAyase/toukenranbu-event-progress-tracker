@@ -1,0 +1,491 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>修行優先順序建議</title>
+<style>
+:root{--header:#7a5c2b;--accent:#e0c98a;--track:#e6ecf1;--card:#ffffff;--bg:#f5f7fa;--text:#2b2b2b;--sub:#6b7785;}
+*{box-sizing:border-box;}
+body{font-family:"Noto Sans TC","Hiragino Sans","Yu Gothic",sans-serif;background:var(--bg);color:var(--text);margin:0;padding:20px;}
+.wrap{max-width:900px;margin:0 auto;}
+header{display:flex;align-items:center;justify-content:space-between;background:var(--header);color:#fff;padding:14px 20px;border-radius:10px 10px 0 0;flex-wrap:wrap;gap:8px;}
+header h1{font-size:1.25rem;margin:0;display:flex;align-items:center;gap:8px;}
+.icon-btn{background:rgba(255,255,255,.15);border:none;color:#fff;border-radius:50%;width:30px;height:30px;cursor:pointer;font-size:.9rem;flex-shrink:0;}
+.icon-btn:hover{background:rgba(255,255,255,.3);}
+.panel{background:var(--card);padding:16px 20px;border:1px solid #e1e6ea;border-top:none;}
+.nav-links{background:#fff;padding:8px 20px;font-size:.8rem;border-bottom:1px solid #e1e6ea;}
+.nav-links a{color:var(--header);text-decoration:none;margin-right:14px;}
+.nav-links a.current{font-weight:700;text-decoration:underline;}
+.nav-links a:hover{text-decoration:underline;}
+.status-bar{background:#fdf6e8;padding:12px 20px;font-size:.88rem;border-left:4px solid var(--header);}
+.status-bar .intro{display:flex;align-items:center;justify-content:space-between;gap:8px;}
+.help-toggle{background:#f3e6bf;border:1px solid var(--header);color:var(--header);border-radius:50%;width:22px;height:22px;font-size:.75rem;cursor:pointer;flex-shrink:0;line-height:1;}
+.help-toggle:hover{background:var(--header);color:#fff;}
+.help-detail{display:none;margin-top:10px;padding-top:10px;border-top:1px dashed #d8cba8;}
+.help-detail.show{display:block;}
+.rule-list{list-style:none;margin:12px 0 0;padding:0;}
+.rule-item{display:flex;align-items:center;gap:8px;background:#fff;border:1px solid #e6d9b8;border-radius:6px;padding:7px 10px;margin-bottom:5px;cursor:grab;font-size:.85rem;}
+.rule-item.dragging{opacity:.4;}
+.rule-item.drag-over{border-top:3px solid var(--header);}
+.rule-item .handle{color:var(--sub);flex-shrink:0;}
+.rule-item .rnum{font-weight:700;color:var(--header);width:20px;flex-shrink:0;}
+.rule-item .rlabel{flex:1;}
+.rule-reset-btn{margin-top:8px;font-size:.72rem;border:1px solid var(--header);color:var(--header);background:#fff;border-radius:4px;padding:3px 9px;cursor:pointer;}
+.rule-reset-btn:hover{background:var(--header);color:#fff;}
+.notes{font-size:.78rem;color:var(--sub);margin-top:8px;line-height:1.7;}
+.section-title{margin-top:26px;font-size:.98rem;font-weight:700;border-bottom:2px solid var(--header);padding-bottom:4px;}
+.settings-row{display:flex;align-items:center;gap:10px;margin-top:12px;flex-wrap:wrap;}
+.settings-row label{font-size:.9rem;display:flex;align-items:center;gap:6px;}
+.type-block{margin-top:16px;}
+.type-block h3{font-size:.9rem;color:var(--header);margin:0 0 8px;border-bottom:1px dashed #d8cba8;padding-bottom:4px;display:flex;align-items:center;gap:8px;flex-wrap:wrap;}
+.bulk-btn{font-size:.68rem;border:1px solid var(--header);color:var(--header);background:#fff;border-radius:4px;padding:2px 7px;cursor:pointer;}
+.bulk-btn:hover{background:var(--header);color:#fff;}
+.char-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:6px;}
+.char-row{display:flex;align-items:center;gap:6px;background:#faf7f0;border-radius:6px;padding:6px 8px;font-size:.8rem;}
+.char-row.polarized{opacity:.45;}
+.char-row .cname{flex:1;}
+.char-row .cstat{color:var(--sub);font-size:.72rem;}
+.chk-lbl{display:flex;align-items:center;gap:2px;font-size:.68rem;color:var(--sub);cursor:pointer;user-select:none;}
+.chk-lbl input[type=checkbox]{cursor:pointer;}
+.lvl-input{width:42px;padding:2px 4px;border:1px solid #cbd6e0;border-radius:4px;font-size:.75rem;text-align:center;}
+.lvl-input.under{border-color:#c0392b;background:#fdeceb;}
+.slot-tag{font-size:.68rem;color:var(--header);cursor:pointer;user-select:none;border:1px solid #d8cba8;border-radius:4px;padding:1px 5px;}
+.slot-tag.on{background:var(--header);color:#fff;}
+.slot-tag.unknown{border-style:dashed;color:#b0392b;border-color:#e0a48a;}
+.slot-tag.unknown.on{background:#e0a48a;color:#fff;border-style:solid;}
+.result-list{margin-top:10px;}
+.result-row{display:flex;align-items:center;gap:10px;background:#fff;border:1px solid #e1e6ea;border-left:4px solid var(--header);border-radius:6px;padding:8px 12px;margin-bottom:6px;font-size:.88rem;}
+.result-row .rank{font-weight:700;color:var(--header);width:24px;flex-shrink:0;}
+.result-row .rname{font-weight:600;flex:1;}
+.result-row .rtags{display:flex;gap:4px;flex-wrap:wrap;}
+.tag{font-size:.68rem;background:#f0e7d6;color:#7a5c2b;border-radius:8px;padding:2px 6px;}
+footer{font-size:.72rem;color:var(--sub);margin-top:20px;text-align:center;line-height:1.8;}
+.danger-btn{background:#c0392b!important;border:none;color:#fff;padding:6px 12px;border-radius:6px;cursor:pointer;}
+</style>
+<script data-goatcounter="https://ayase.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <h1>修行優先順序建議</h1>
+  </header>
+  <div class="nav-links">
+    <a href="index.html">首頁</a>
+    <a href="kyouka_program.html">強化計畫</a>
+    <a href="geigeki_sakusen.html">迎擊作戰</a>
+    <a href="kantou_campaign.html">鍛刀強化活動</a>
+    <a href="shugyou_priority.html" class="current">修行優先順序</a>
+  </div>
+  <div class="panel">
+    <div class="status-bar">
+      <div class="intro">
+        <span>同時只能送 <strong>1隻</strong> 去修行（96小時／4天才會回來），下方是「下一隻該送誰」的排序建議。等級不達標的一律先排除，不會進清單；下面清單可以用滑鼠<strong>左鍵拖曳上下排序</strong>，調整規則優先順序，排序結果會即時套用。</span>
+        <button class="help-toggle" id="ruleHelpBtn" title="詳細說明">?</button>
+      </div>
+      <ol class="rule-list" id="ruleList"></ol>
+      <button class="rule-reset-btn" id="ruleResetBtn" type="button">重設為預設順序</button>
+      <div class="help-detail" id="ruleHelpDetail">
+        <div class="notes">修行等級門檻（未達標的角色不會出現在推薦名單，此項固定不可拖曳調整）：短刀60／脇差65／槍65／薙刀65／打刀70／太刀75／大太刀80（資料來源：wikiwiki.jp/toulove「刀剣男士 極」頁面）。</div>
+        <div class="notes">極化後回歸等級小提示：送出時若等級超過門檻，超出的經驗值會在極化完成時折算加進去，但折算方式依刀種的經驗值曲線而定，不是超幾等就直接回來幾等（例：短刀特Lv99送出，極化回來實測是Lv35，不是Lv39）。這裡沒辦法幫你精算實際回歸等級，下方推薦清單會顯示「目前等級比門檻高出幾等」讓你自己抓感覺。</div>
+        <div class="notes">數值資料來源：你提供的台灣wiki極化數值整理表。部分角色（治金丸、水心子正秀、源清麿、山鳥毛、祢々切丸、白山吉光）表上缺總合值，數值比較時排在同層級較後面，不影響其他判準。劍種目前只有白山吉光可以極化（七星劍、丙子椒林剣尚未實裝極化，未列入清單）。</div>
+        <div class="notes">刀裝升級資料來源：wikiwiki.jp/toulove「刀剣男士 極」頁面（部分角色）＋你實測回報的レア度轉換資料。目前清單裡的角色刀裝升級狀態都已確認。</div>
+      </div>
+    </div>
+
+    <div class="section-title">設定</div>
+    <div class="settings-row">
+      <label><input type="checkbox" id="mapStuck"> 目前卡在地圖6、7（開啟短刀加成）</label>
+      <span class="notes" id="shortCountNote" style="margin:0;"></span>
+    </div>
+    <div class="settings-row">
+      <button class="danger-btn" id="resetBtn">重設本頁全部勾選</button>
+    </div>
+
+    <div class="section-title">建議送出順序</div>
+    <div id="levelBlockedNote" class="notes"></div>
+    <div class="result-list" id="resultList"></div>
+
+    <details style="margin-top:20px;">
+      <summary style="cursor:pointer;font-weight:700;color:var(--header);padding:6px 0;">標記角色狀態（點展開/收合）</summary>
+      <div class="notes" style="margin-top:8px;">「已擁有」＋「已極化」＋「目前等級」各自標記，跟其他頁一樣勾選＝已完成的正向狀態。只有「已擁有」、「未極化」、且等級達標的角色才會進入上方推薦名單。刀裝格數標籤點擊切換（短刀已預設開啟，其餘請依你的資料手動標記）。</div>
+      <div id="rosterArea" style="margin-top:8px;"></div>
+    </details>
+
+    <footer>
+      非官方個人記錄工具，資料以你自行標記為準，實際修行結果請以遊戲內畫面為準。
+    </footer>
+  </div>
+</div>
+
+<script>
+(function(){
+  const STORAGE_KEY = "shugyouPriority_v1";
+
+  // [name, type, total(總合值，缺值為null)]
+  const SWORD_DB = [
+    ["今剣","短刀",678],["平野藤四郎","短刀",680],["厚藤四郎","短刀",664],["後藤藤四郎","短刀",673],
+    ["信濃藤四郎","短刀",684],["前田藤四郎","短刀",667],["秋田藤四郎","短刀",678],["博多藤四郎","短刀",676],
+    ["乱藤四郎","短刀",670],["五虎退","短刀",678],["薬研藤四郎","短刀",677],["包丁藤四郎","短刀",675],
+    ["愛染国俊","短刀",679],["太鼓鐘貞宗","短刀",685],["小夜左文字","短刀",659],["不動行光","短刀",683],
+    ["毛利藤四郎","短刀",671],["謙信景光","短刀",677],["日向正宗","短刀",681],["北谷菜切","短刀",678],
+
+    ["にっかり青江","脇差",689],["鯰尾藤四郎","脇差",685],["骨喰藤四郎","脇差",692],["物吉貞宗","脇差",714],
+    ["堀川国広","脇差",684],["浦島虎徹","脇差",683],["篭手切江","脇差",694],["肥前忠広","脇差",705],
+    ["治金丸","脇差",null],
+
+    ["鳴狐","打刀",652],["千子村正","打刀",670],["亀甲貞宗","打刀",646],["宗三左文字","打刀",630],
+    ["加州清光","打刀",640],["大和守安定","打刀",632],["歌仙兼定","打刀",638],["和泉守兼定","打刀",699],
+    ["陸奥守吉行","打刀",639],["山姥切国広","打刀",640],["蜂須賀虎徹","打刀",644],["長曽祢虎徹","打刀",648],
+    ["大倶利伽羅","打刀",650],["へし切長谷部","打刀",650],["同田貫正国","打刀",637],["南泉一文字","打刀",649],["山姥切長義","打刀",null],
+    ["豊前江","打刀",660],["南海太郎朝尊","打刀",652],["桑名江","打刀",659],["水心子正秀","打刀",null],
+    ["源清麿","打刀",null],["松井江","打刀",659],
+
+    ["三日月宗近","太刀",720],["小狐丸","太刀",700],["大典太光世","太刀",722],["ソハヤノツルキ","太刀",694],
+    ["数珠丸恒次","太刀",716],["鬼丸国綱","太刀",723],["一期一振","太刀",706],["大包平","太刀",717],
+    ["鶯丸","太刀",699],["明石国行","太刀",699],["燭台切光忠","太刀",700],["大般若長光","太刀",703],
+    ["小竜景光","太刀",708],["江雪左文字","太刀",707],["山伏国広","太刀",685],["髭切","太刀",715],
+    ["膝丸","太刀",713],["獅子王","太刀",683],["鶴丸国永","太刀",709],["小豆長光","太刀",695],
+    ["千代金丸","太刀",682],["山鳥毛","太刀",null],
+
+    ["石切丸","大太刀",649],["蛍丸","大太刀",678],["太郎太刀","大太刀",672],["次郎太刀","大太刀",659],["祢々切丸","大太刀",null],
+
+    ["蜻蛉切","槍",680],["日本号","槍",696],["御手杵","槍",680],
+
+    ["岩融","薙刀",678],["巴形薙刀","薙刀",681],["静形薙刀","薙刀",681],
+
+    ["白山吉光","劍",null]
+  ];
+  const TYPE_ORDER = ["短刀","脇差","打刀","太刀","大太刀","槍","薙刀","劍"];
+  const LEVEL_REQ = {"短刀":60,"脇差":65,"槍":65,"薙刀":65,"打刀":70,"太刀":75,"大太刀":80,"劍":80};
+
+  const CONFIRMED_UPGRADE = new Set([
+    // 短刀：查到有資料的12隻皆確認升格，短刀規則本身也已知必升
+    "今剣","平野藤四郎","厚藤四郎","後藤藤四郎","信濃藤四郎","前田藤四郎","秋田藤四郎","博多藤四郎",
+    "乱藤四郎","五虎退","薬研藤四郎","包丁藤四郎","愛染国俊","太鼓鐘貞宗","小夜左文字","不動行光",
+    // 打刀：レア度4confirmed（3→4，2格變3格）
+    "鳴狐","千子村正","和泉守兼定","大倶利伽羅","同田貫正国",
+    // 大太刀：3→4，2格變3格
+    "太郎太刀","次郎太刀","石切丸","祢々切丸",
+    // 槍：3→4，2格變3格
+    "蜻蛉切","御手杵",
+    // 薙刀：3→4，2格變3格
+    "岩融","巴形薙刀","静形薙刀",
+    // 太刀：3→4，2格變3格
+    "小狐丸","ソハヤノツルキ","明石国行","燭台切光忠","山伏国広","獅子王","小豆長光","千代金丸"
+  ]);
+  const CONFIRMED_NO_UPGRADE = new Set([
+    // 脇差：レア度3、格數2→2無變化
+    "にっかり青江","鯰尾藤四郎","骨喰藤四郎","物吉貞宗","堀川国広","浦島虎徹",
+    "肥前忠広","篭手切江","治金丸",
+    // 打刀：レア度3、格數2→2無變化
+    "亀甲貞宗","宗三左文字","加州清光","大和守安定","歌仙兼定","陸奥守吉行","山姥切国広","蜂須賀虎徹","長曽祢虎徹","へし切長谷部",
+    "南泉一文字","山姥切長義","豊前江","南海太郎朝尊","桑名江","水心子正秀","源清麿","松井江",
+    // 大太刀：4→5，3格不變
+    "蛍丸",
+    // 劍：4→5，3格不變
+    "白山吉光",
+    // 槍：4→5，3格不變
+    "日本号",
+    // 太刀：4→5，3格不變
+    "三日月宗近","大典太光世","数珠丸恒次","鬼丸国綱","一期一振","大包平","鶯丸","大般若長光","小竜景光","江雪左文字","髭切","膝丸","鶴丸国永","山鳥毛"
+  ]);
+  // 短刀規則已知必升，未查到資料的短刀角色比照辦理
+  const SHORT_SWORD_ASSUMED_UPGRADE = new Set(["毛利藤四郎","謙信景光","日向正宗","北谷菜切"]);
+
+  function slotStatus(name, type){
+    // 回傳 "up" | "none" | "unknown"
+    if(CONFIRMED_UPGRADE.has(name)) return "up";
+    if(CONFIRMED_NO_UPGRADE.has(name)) return "none";
+    if(type === "短刀" && SHORT_SWORD_ASSUMED_UPGRADE.has(name)) return "up";
+    return "unknown";
+  }
+  function defaultSlotUpgrade(name, type){
+    return slotStatus(name, type) === "up";
+  }
+
+  const BENCHMARK_TRIGGER = 6;
+  // 可拖曳排序的規則清單，tier 回傳數字，數字越小越優先
+  const RULES = {
+    typeCoverage: { label:"每個刀種優先分配到1隻（未分配過的刀種優先）", tier:(c,ctx)=> ctx.represented.has(c[1]) ? 1 : 0 },
+    ken: { label:"「劍」種一律優先送出（若有符合條件的劍）", tier:(c)=> c[1]==="劍" ? 0 : 1 },
+    lowCoverage: { label:"該刀種已極化未滿6隻，自動優先補齊", tier:(c,ctx)=> ctx.polarizedCountByType[c[1]] < BENCHMARK_TRIGGER ? 0 : 1 },
+    shortBoost: { label:"短刀加成（卡地圖6、7時開啟，已極化短刀超過6隻自動停用）", tier:(c,ctx)=> (ctx.mapStuck && c[1]==="短刀") ? 0 : 1 },
+    benchmark: { label:"同刀種已極化超過6隻時，需超過前6強最低值才優先", tier:(c,ctx)=>{ const [,t,total]=c; const b=ctx.benchmarkByType[t]; return (total!==null && b!==null && total<b) ? 1 : 0; } },
+    slotUp: { label:"極化後刀裝格數會增加的優先（レア度1→2或3→4）", tier:(c)=> slotOf(c[0], c[1]) ? 0 : 1 },
+    statVal: { label:"極化總合值高的優先", tier:(c)=> c[2]===null ? 1 : -c[2] }
+  };
+  const DEFAULT_RULE_ORDER = ["typeCoverage","ken","lowCoverage","shortBoost","benchmark","slotUp","statVal"];
+
+  let state = load();
+  function load(){
+    const base = {owned:{}, polarized:{}, level:{}, slot:{}, mapStuck:false, ruleOrder:DEFAULT_RULE_ORDER.slice()};
+    try{
+      const raw = JSON.parse(localStorage.getItem(STORAGE_KEY) || "{}");
+      const merged = Object.assign({}, base, raw, {
+        owned:Object.assign({},base.owned,raw.owned||{}),
+        polarized:Object.assign({},base.polarized,raw.polarized||{}),
+        level:Object.assign({},base.level,raw.level||{}),
+        slot:Object.assign({},base.slot,raw.slot||{})
+      });
+      // 若儲存的順序缺項或多項不合法，回退預設值，避免壞資料讓排序邏輯出錯
+      const valid = Array.isArray(merged.ruleOrder) &&
+        merged.ruleOrder.length === DEFAULT_RULE_ORDER.length &&
+        DEFAULT_RULE_ORDER.every(id=>merged.ruleOrder.includes(id));
+      if(!valid) merged.ruleOrder = DEFAULT_RULE_ORDER.slice();
+      return merged;
+    }catch(e){ return base; }
+  }
+  function save(){ localStorage.setItem(STORAGE_KEY, JSON.stringify(state)); }
+  function slotOf(name, type){
+    if(state.slot[name] !== undefined) return state.slot[name];
+    return defaultSlotUpgrade(name, type);
+  }
+
+  function renderRuleList(){
+    const el = document.getElementById("ruleList");
+    el.innerHTML = "";
+    let dragSrcIdx = null;
+    state.ruleOrder.forEach((id, idx)=>{
+      const li = document.createElement("li");
+      li.className = "rule-item";
+      li.draggable = true;
+      li.dataset.idx = idx;
+      li.innerHTML = `<span class="handle">☰</span><span class="rnum">${idx+1}</span><span class="rlabel">${RULES[id].label}</span>`;
+      li.addEventListener("dragstart", (e)=>{
+        dragSrcIdx = idx;
+        li.classList.add("dragging");
+        e.dataTransfer.effectAllowed = "move";
+      });
+      li.addEventListener("dragend", ()=>{
+        li.classList.remove("dragging");
+        el.querySelectorAll(".rule-item").forEach(x=>x.classList.remove("drag-over"));
+      });
+      li.addEventListener("dragover", (e)=>{
+        e.preventDefault();
+        li.classList.add("drag-over");
+      });
+      li.addEventListener("dragleave", ()=>{
+        li.classList.remove("drag-over");
+      });
+      li.addEventListener("drop", (e)=>{
+        e.preventDefault();
+        li.classList.remove("drag-over");
+        const targetIdx = idx;
+        if(dragSrcIdx===null || dragSrcIdx===targetIdx) return;
+        const moved = state.ruleOrder.splice(dragSrcIdx,1)[0];
+        state.ruleOrder.splice(targetIdx,0,moved);
+        save(); renderRuleList(); renderResult();
+      });
+      el.appendChild(li);
+    });
+  }
+
+  function renderRoster(){
+    const el = document.getElementById("rosterArea");
+    el.innerHTML = "";
+    TYPE_ORDER.forEach(type=>{
+      const items = SWORD_DB.filter(s=>s[1]===type);
+      if(!items.length) return;
+      const block = document.createElement("div");
+      block.className = "type-block";
+      block.innerHTML = `<h3>${type}（修行需 Lv${LEVEL_REQ[type]}+）
+        <button class="bulk-btn" data-bulk-all="${type}" type="button">全選擁有</button>
+        <button class="bulk-btn" data-bulk-polarized="${type}" type="button">全部已極化</button>
+        <button class="bulk-btn" data-bulk-none="${type}" type="button" title="連同已極化狀態一起清除">全部取消</button>
+      </h3>`;
+      const grid = document.createElement("div");
+      grid.className = "char-grid";
+      items.forEach(([name,,total])=>{
+        const owned = !!state.owned[name];
+        const polarized = !!state.polarized[name];
+        const lvl = state.level[name]||"";
+        const meetsLevel = (state.level[name]||0) >= LEVEL_REQ[type];
+        const slotOn = slotOf(name, type);
+        const isUnknown = state.slot[name]===undefined && slotStatus(name, type)==="unknown";
+        const row = document.createElement("div");
+        row.className = "char-row" + (polarized ? " polarized" : "");
+        row.innerHTML = `
+          <label class="chk-lbl" title="已擁有此角色"><input type="checkbox" data-owned="${name}" ${owned?"checked":""}>擁</label>
+          <label class="chk-lbl" title="已經極化完成"><input type="checkbox" data-polarized="${name}" ${polarized?"checked":""}>極</label>
+          <span class="cname">${name}</span>
+          <input type="number" class="lvl-input ${owned && !meetsLevel ? 'under':''}" data-level="${name}" placeholder="Lv" value="${lvl}" min="1" max="99">
+          <span class="cstat">${total===null?"—":total}</span>
+          <span class="slot-tag ${slotOn?"on":""} ${isUnknown?"unknown":""}" data-slot="${name}" title="${isUnknown?"未確認資料，點擊可手動標記":"刀裝是否升級"}">刀裝${isUnknown?"?":""}</span>
+        `;
+        grid.appendChild(row);
+      });
+      block.appendChild(grid);
+      el.appendChild(block);
+    });
+
+    el.querySelectorAll("[data-bulk-all]").forEach(btn=>{
+      btn.addEventListener("click", ()=>{
+        const type = btn.dataset.bulkAll;
+        SWORD_DB.filter(s=>s[1]===type).forEach(([name])=>{ state.owned[name] = true; });
+        save(); renderRoster(); renderResult();
+      });
+    });
+    el.querySelectorAll("[data-bulk-none]").forEach(btn=>{
+      btn.addEventListener("click", ()=>{
+        const type = btn.dataset.bulkNone;
+        SWORD_DB.filter(s=>s[1]===type).forEach(([name])=>{
+          state.owned[name] = false;
+          state.polarized[name] = false;
+        });
+        save(); renderRoster(); renderResult();
+      });
+    });
+    el.querySelectorAll("[data-bulk-polarized]").forEach(btn=>{
+      btn.addEventListener("click", ()=>{
+        const type = btn.dataset.bulkPolarized;
+        SWORD_DB.filter(s=>s[1]===type).forEach(([name])=>{ state.polarized[name] = true; });
+        save(); renderRoster(); renderResult();
+      });
+    });
+    el.querySelectorAll("[data-owned]").forEach(cb=>{
+      cb.addEventListener("change", ()=>{
+        state.owned[cb.dataset.owned] = cb.checked;
+        save(); renderResult();
+      });
+    });
+    el.querySelectorAll("[data-level]").forEach(inp=>{
+      inp.addEventListener("change", ()=>{
+        const v = parseInt(inp.value,10);
+        state.level[inp.dataset.level] = isNaN(v) ? 0 : v;
+        save(); renderRoster(); renderResult();
+      });
+    });
+    el.querySelectorAll("[data-polarized]").forEach(cb=>{
+      cb.addEventListener("change", ()=>{
+        state.polarized[cb.dataset.polarized] = cb.checked;
+        save(); renderRoster(); renderResult();
+      });
+    });
+    el.querySelectorAll("[data-slot]").forEach(tag=>{
+      tag.addEventListener("click", ()=>{
+        const name = tag.dataset.slot;
+        const cur = slotOf(name, SWORD_DB.find(s=>s[0]===name)[1]);
+        state.slot[name] = !cur;
+        save(); renderRoster(); renderResult();
+      });
+    });
+  }
+
+  function renderResult(){
+    const el = document.getElementById("resultList");
+    const noteEl = document.getElementById("levelBlockedNote");
+    el.innerHTML = "";
+    const eligible = SWORD_DB.filter(([name])=>state.owned[name] && !state.polarized[name]);
+    const owned = eligible.filter(([name,type])=> (state.level[name]||0) >= LEVEL_REQ[type]);
+    const levelBlocked = eligible.length - owned.length;
+    noteEl.textContent = levelBlocked>0 ? `另有 ${levelBlocked} 隻已擁有但等級未達修行門檻，先不列入推薦，等級到了會自動出現。` : "";
+    if(!owned.length){
+      el.innerHTML = eligible.length
+        ? "<div class='notes'>已擁有且未極化的角色都還沒達到修行等級門檻。</div>"
+        : "<div class='notes'>目前沒有「已擁有且未極化」的角色，請展開下面標記。</div>";
+      return;
+    }
+    const polarizedShortCount = SWORD_DB.filter(([name,type])=>type==="短刀" && state.polarized[name]).length;
+    const mapStuck = state.mapStuck && polarizedShortCount <= 6;
+    const shortCountEl = document.getElementById("shortCountNote");
+    if(shortCountEl){
+      shortCountEl.textContent = `目前已極化短刀：${polarizedShortCount}隻` + (state.mapStuck && polarizedShortCount>6 ? "（已超過6隻，短刀加成自動停用）" : "");
+    }
+
+    // 每個刀種：已極化超過6隻時，取數值前6強的最低值當基準線
+    // 未超過6隻的刀種不設門檻；未滿6隻的刀種另外會被優先推薦（見 lowCoverage 規則）
+    const benchmarkByType = {};
+    const polarizedCountByType = {};
+    TYPE_ORDER.forEach(type=>{
+      const stats = SWORD_DB
+        .filter(([name,t,total])=>t===type && state.polarized[name] && total!==null)
+        .map(([,,total])=>total)
+        .sort((a,b)=>b-a);
+      const count = SWORD_DB.filter(([name,t])=>t===type && state.polarized[name]).length;
+      polarizedCountByType[type] = count;
+      benchmarkByType[type] = (count > BENCHMARK_TRIGGER && stats.length) ? stats.slice(0,6).pop() : null;
+    });
+    if(shortCountEl && benchmarkByType["短刀"]!==null){
+      shortCountEl.textContent += `　前6強基準線：${benchmarkByType["短刀"]}（新短刀候選需超過此值才優先推薦）`;
+    }
+
+    const represented = new Set();
+    const remaining = owned.slice();
+    const order = [];
+
+    function compareKey(a, b){
+      for(let i=0;i<a.length;i++){
+        if(a[i] !== b[i]) return a[i] - b[i];
+      }
+      return 0;
+    }
+    function buildKey(c){
+      const ctx = { represented, polarizedCountByType, mapStuck, benchmarkByType };
+      return state.ruleOrder.map(id => RULES[id].tier(c, ctx));
+    }
+    function pickBest(candidates){
+      let best = null;
+      candidates.forEach(c=>{
+        const key = buildKey(c);
+        if(!best || compareKey(key, best.key) < 0) best = {c, key};
+      });
+      return best ? best.c : null;
+    }
+
+    while(remaining.length){
+      const pick = pickBest(remaining);
+      if(!pick) break;
+      order.push(pick);
+      represented.add(pick[1]);
+      remaining.splice(remaining.indexOf(pick),1);
+    }
+
+    order.forEach(([name,type,total], idx)=>{
+      const tags = [];
+      if(idx===0) tags.push("下一隻");
+      if(type==="劍") tags.push("劍種最優先");
+      if(polarizedCountByType[type] < BENCHMARK_TRIGGER) tags.push(`${type}未滿6隻，優先補齊`);
+      if(mapStuck && type==="短刀") tags.push("短刀加成");
+      const benchmark = benchmarkByType[type];
+      if(total!==null && benchmark!==null && total < benchmark){
+        tags.push(`未達${type}前6強基準，順位往後`);
+      }
+      if(slotOf(name,type)) tags.push(state.slot[name]===undefined && slotStatus(name,type)==="unknown" ? "刀裝升級(未確認)" : "刀裝升級");
+      const curLvl = state.level[name]||0;
+      const excess = curLvl - LEVEL_REQ[type];
+      if(curLvl>0) tags.push(`目前Lv${curLvl}（超門檻${excess}等）`);
+      const row = document.createElement("div");
+      row.className = "result-row";
+      row.innerHTML = `<span class="rank">${idx+1}</span><span class="rname">${name}（${type}）</span><span class="cstat">${total===null?"—":total}</span><span class="rtags">${tags.map(t=>`<span class="tag">${t}</span>`).join("")}</span>`;
+      el.appendChild(row);
+    });
+  }
+
+  document.getElementById("mapStuck").addEventListener("change", (e)=>{
+    state.mapStuck = e.target.checked; save(); renderResult();
+  });
+  document.getElementById("mapStuck").checked = state.mapStuck;
+
+  document.getElementById("ruleHelpBtn").addEventListener("click", ()=>{
+    document.getElementById("ruleHelpDetail").classList.toggle("show");
+  });
+  document.getElementById("ruleResetBtn").addEventListener("click", ()=>{
+    state.ruleOrder = DEFAULT_RULE_ORDER.slice();
+    save(); renderRuleList(); renderResult();
+  });
+
+  document.getElementById("resetBtn").addEventListener("click", ()=>{
+    if(confirm("確定要清空本頁所有勾選狀態嗎？排序規則的自訂順序不會被清空。此動作無法復原。")){
+      state = {owned:{}, polarized:{}, level:{}, slot:{}, mapStuck:false, ruleOrder:state.ruleOrder};
+      save(); document.getElementById("mapStuck").checked=false; renderRoster(); renderResult();
+    }
+  });
+
+  renderRuleList();
+  renderRoster();
+  renderResult();
+})();
+</script>
+</body>
+</html>
