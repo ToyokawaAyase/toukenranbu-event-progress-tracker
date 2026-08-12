@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>対百鬼夜行迎擊作戰 活動紀錄（2026年，部分官方已公布＋暫沿用2025年資料）</title>
+<title>対百鬼夜行迎擊作戰 活動紀錄</title>
 <style>
 :root{--header:#6b3f8f;--accent:#c3aee0;--accent-text:#4a2d63;--track:#e6ecf1;--warn:#e0703c;--card:#ffffff;--bg:#f5f7fa;--text:#2b2b2b;--sub:#6b7785;}
 *{box-sizing:border-box;}
@@ -81,26 +81,22 @@ footer{font-size:.72rem;color:var(--sub);margin-top:20px;text-align:center;line-
   </header>
   <div class="nav-links">
     <a href="index.html">首頁</a>
-    <a href="kyouka_program.html">強化計畫</a>
     <a href="geigeki_sakusen.html" style="font-weight:700;text-decoration:underline;">迎擊作戰</a>
     <a href="kantou_campaign.html">鍛刀強化活動</a>
     <a href="shugyou_priority.html">修行優先順序</a>
   </div>
   <div class="panel">
-    <div class="tbd-bar">
-      官方已於 <strong>2026/8/10 公布部分「対百鬼夜行迎擊作戰」預告資訊</strong>（下方標示 ★2026官方已公布 的里程碑、及敵方最大迎撃Pt）；<strong>完整活動期間與其餘素材類獎勵仍暫沿用 2025年8月版</strong> 資料。官方預計 8/12（三）維護後公布完整細節，屆時可再請我更新這頁。
-    </div>
     <div class="status-bar" style="border-left-color:#6b3f8f;background:#f3eef8;">
-      <strong>敵方最大迎撃Pt（2026官方預告）</strong>：通常敵 300Pt／「苦無」を含む部隊 350Pt／強力な敵 330Pt／？（催物の進行に応じて出現）350Pt
+      <strong>活動進行中</strong>：迎撃Pt報酬里程碑（100Pt～600,000Pt，共94項）已依官方公告更新，下方報酬清單為正式資料。
     </div>
     <div id="helpPanel" class="settings-panel">
       <strong>使用說明</strong>
       <p>本頁面僅供個人記錄用，非官方工具，資料以你自行輸入為準。數值會儲存在「這台瀏覽器」的 localStorage，換裝置或清除瀏覽資料會遺失，請自行留意備份（例如定期截圖）。</p>
-      <p>迎撃Pt門檻與獎勵，標示「★2026官方已公布」的四組角色里程碑（童子切安綱剥落／新刀剣男士）取自 2026/8/10 官方預告畫面，其餘素材類獎勵仍取自 2025年8月12日～8月26日 的官方活動內容，屬於暫定參考數字，8/12 維護後請再更新。</p>
+      <p>迎撃Pt門檻與獎勵已依官方公告「催物『対百鬼夜行迎撃作戦』報酬一覧」更新（100Pt～600,000Pt）。150,000／300,000／450,000／600,000Pt 的新刀剣男士，官方公告寫明「催物開始時点では達成報酬一覧に表示されません、対百鬼夜行迎撃作戦の進行に合わせて追加されます」──也就是說活動剛開始時這幾格暫時不會出現在遊戲內的達成報酬一覽，會隨活動進行陸續追加，追加前可以先達成條件，但要等追加後才能實際領取。下方報酬清單在你尚未達成 150,000Pt 門檻前會顯示「新刀剣男士」，達成後才會自動改顯示角色正式名稱，留給你自己遊戲內解鎖的驚喜。</p>
     </div>
     <div id="settingsPanel" class="settings-panel">
       <strong>設定</strong>
-      <label>活動結束時間（2026年官方公告後請更新，預設暫用 2025-08-26 12:59，JST日本標準時間）
+      <label>活動結束時間（官方公告：2026-08-25 12:59，JST日本標準時間；如有異動請於此調整）
         <input type="datetime-local" id="endInput">
       </label>
       <div>
@@ -123,7 +119,9 @@ footer{font-size:.72rem;color:var(--sub);margin-top:20px;text-align:center;line-
           <button data-target="pt" data-delta="-100">-100</button>
           <button data-target="pt" data-delta="-10">-10</button>
           <button data-target="pt" data-delta="10">+10</button>
-          <button data-target="pt" data-delta="100">+100</button>
+          <button data-target="pt" data-delta="300">+300</button>
+          <button data-target="pt" data-delta="320">+320</button>
+          <button data-target="pt" data-delta="350">+350</button>
           <button data-target="pt" data-delta="1000">+1000</button>
           <button data-target="pt" data-delta="10000">+10000</button>
         </div>
@@ -170,14 +168,31 @@ footer{font-size:.72rem;color:var(--sub);margin-top:20px;text-align:center;line-
       <p>◇ 迎撃Pt 需要你自己依實際遊玩結果輸入，撃破数門檻請直接看遊戲內的活動任務畫面。</p>
       <p>◇ 手形代為每枚 300 両，「手形購入」的快速按鈕會自動換算進小判消耗。</p>
       <p>◇ 「戦鬼」討伐、殘黨戰掉落等特殊機制無法自動判定，請自行對照官方公告手動記錄。</p>
+      <p>◇ 150,000／300,000／450,000／600,000Pt 的新刀剣男士報酬，達成門檻前顯示「新刀剣男士」，達成後自動改顯示正式角色名；活動剛開始時官方遊戲內尚未顯示達成條件，會隨活動進行才追加，請留意官方後續公告。</p>
     </div>
 
-    <div class="section-title">迎撃Pt 報酬里程碑（標示 ★2026官方已公布 為新資料，其餘暫沿用2025年版）</div>
+    <div class="section-title">迎撃Pt 報酬里程碑（100Pt～600,000Pt）</div>
     <div class="reward-list" id="ptRewardList"></div>
 
+    <div class="section-title">全本丸応援数（全伺服器共同進度）</div>
+    <div class="counters">
+      <div class="counter-card">
+        <h3>全本丸応援数（單位：萬）</h3>
+        <div class="sub">請對照遊戲內「疑似平安京フィールド」畫面上方顯示的全本丸応援數，手動輸入更新（此數值為所有玩家共同累積，非你個人數字）</div>
+        <div class="counter-value primary" id="cheerValue">0 萬</div>
+        <div class="counter-manual">
+          <input type="number" id="cheerManual" placeholder="輸入應援數（萬）">
+          <button id="cheerSetBtn">直接設定</button>
+        </div>
+      </div>
+    </div>
+    <div class="target-reward" id="cheerTargetReward"></div>
+    <div class="progress-track"><div class="progress-fill" id="cheerProgressFill" style="width:0%"></div><div class="progress-label" id="cheerProgressLabel"></div></div>
+    <div class="reward-list" id="cheerRewardList"></div>
+
     <footer>
-      非官方個人記錄工具，資料來源整理自公開攻略頁面，正式數值請以遊戲內公告為準，使用請自行確認。<br>
-      対百鬼夜行迎擊作戰（暫定沿用 2025年版）：2025年8月12日（週二）17:00 ～ 2025年8月26日（週二）12:59（JST，日本標準時間，比台灣快1小時，實際開始時間以「維護結束時」為準）
+      非官方個人記錄工具，資料來源整理自官方公告，正式數值請以遊戲內公告為準，使用請自行確認。<br>
+      対百鬼夜行迎擊作戰：2026年8月12日（週三）維護結束時 ～ 2026年8月25日（週二）12:59（JST，日本標準時間，比台灣快1小時；官方公告「終了日時は變更となる場合がございます」，實際開始時間以遊戲內「維護結束時」為準）
     </footer>
   </div>
 </div>
@@ -185,47 +200,65 @@ footer{font-size:.72rem;color:var(--sub);margin-top:20px;text-align:center;line-
 <script>
 (function(){
   const STORAGE_KEY = "geigekiSakusenProgress_v1";
-  const DEFAULT_END = "2025-08-26T12:59:00+09:00";
-  const START = "2025-08-12T17:00:00+09:00";
+  const DEFAULT_END = "2026-08-25T12:59:00+09:00";
+  const START = "2026-08-12T00:00:00+09:00";
   const TICKET_COST = 300;
 
   const PT_REWARDS = [
-    [100,"三倍法螺貝(迎撃) ×1"],[300,"陣太鼓(迎撃) ×1"],[500,"重歩兵・特上 ×1"],[750,"手伝い札 ×1"],
-    [1000,"軽騎兵･特上 ×1"],[2000,"鹿毛 ×1"],[3000,"遠征呼び戻し鳩 ×1"],[4000,"木炭 ×1000"],
-    [5000,"三倍法螺貝(迎撃) ×1"],[6000,"冷却材 ×1000"],[7000,"砥石 ×1000"],[8000,"玉鋼 ×1000"],
-    [9000,"気力+30バー ×1"],[10000,"蘇言機 ×1"],[12000,"御札・梅 ×1"],[14000,"重騎兵・特上 ×1"],
-    [15000,"仙人団子 ×1"],[16000,"精鋭兵･特上 ×1"],[18000,"御札・竹 ×1"],[20000,"依頼札 ×1"],
-    [22500,"槍兵･特上 ×1"],[25000,"青毛 ×1"],[27500,"盾兵･特上 ×1"],[30000,"気力+30バー ×1"],
-    [32500,"旅装束 ×1"],[35000,"投石兵・特上 ×1"],[37500,"弓兵・特上 ×1"],[40000,"遠征呼び戻し鳩 ×1"],
-    [42500,"旅道具 ×1"],[45000,"銃兵･特上 ×1"],[47500,"木炭 ×1500"],[50000,"三倍法螺貝(迎撃) ×1"],
-    [52500,"気力+30バー ×1"],[55000,"冷却材 ×1500"],[57500,"手紙一式 ×1"],[60000,"蘇言機 ×1"],
-    [65000,"御札・松 ×1"],[70000,"一口団子 ×3"],[75000,"砥石 ×1500"],[80000,"修行呼び戻し鳩 ×1"],
-    [85000,"玉鋼 ×1500"],[90000,"旅装束 ×1"],[95000,"旅道具 ×1"],
-    [100000,"★2026官方已公布　童子切安綱 剥落 ×1（第1振）"],
-    [105000,"手紙一式 ×1"],[110000,"木炭 ×3000"],[115000,"冷却材 ×3000"],[120000,"手伝い札 ×5"],
-    [125000,"砥石 ×3000"],[130000,"玉鋼 ×3000"],[135000,"依頼札 ×5"],[140000,"旅装束 ×1"],
-    [150000,"幕の内弁当 ×1"],
-    [150000,"★2026官方已公布　新刀剣男士（未公開） ×1（第1振）"],
-    [160000,"旅道具 ×1"],[170000,"三倍法螺貝(迎撃) ×1"],[180000,"手紙一式 ×1"],
-    [250000,"三倍法螺貝(迎撃) ×1"],
-    [250000,"★2026官方已公布　童子切安綱 剥落 ×1（第2振）"],
-    [300000,"★2026官方已公布　新刀剣男士（未公開） ×1（第2振）"],
-    [350000,"三倍法螺貝(迎撃) ×1"],
-    [400000,"★2026官方已公布　童子切安綱 剥落 ×1（第3振）"],
-    [450000,"★2026官方已公布　新刀剣男士（未公開） ×1（第3振）"],
-    [550000,"★2026官方已公布　童子切安綱 剥落 ×1（第4振）"],
-    [600000,"★2026官方已公布　新刀剣男士（未公開） ×1（第4振）"]
+    [100,"三倍法螺貝(迎撃) ×1"],[300,"陣太鼓(迎撃) ×1"],[500,"重歩兵･特上 ×1"],[750,"手伝い札 ×1"],
+    [1000,"軽騎兵･特上 ×1"],[2000,"鹿毛 ×1"],[3000,"遠征呼び戻し鳩 ×1"],[4000,"検非違使隠形香 ×1"],
+    [5000,"木炭 ×500"],[6000,"冷却材 ×500"],[7000,"砥石 ×500"],[8000,"玉鋼 ×500"],
+    [9000,"気力+30バー ×1"],[10000,"根兵糖・紅葉 ×1"],[12000,"一口団子 ×1"],[14000,"重騎兵･特上 ×1"],
+    [15000,"仙人団子 ×1"],[16000,"精鋭兵･特上 ×1"],[18000,"根兵糖・紅葉 ×1"],[20000,"御札・梅 ×1"],
+    [22500,"槍兵･特上 ×1"],[25000,"三倍法螺貝(迎撃) ×1"],[27500,"青毛 ×1"],[30000,"盾兵･特上 ×1"],
+    [32500,"依頼札 ×1"],[35000,"投石兵･特上 ×1"],[37500,"旅道具 ×1"],[40000,"弓兵･特上 ×1"],
+    [42500,"旅装束 ×1"],[45000,"遠征呼び戻し鳩 ×1"],[47500,"手紙一式 ×1"],[50000,"御札・竹 ×1"],
+    [52500,"銃兵･特上 ×1"],[55000,"木炭 ×1000"],[57500,"三倍法螺貝(迎撃) ×1"],[60000,"気力+30バー ×1"],
+    [65000,"冷却材 ×1000"],[70000,"蘇言機 ×1"],[75000,"三倍法螺貝(迎撃) ×1"],[80000,"御札・松 ×1"],
+    [85000,"幕の内弁当 ×1"],[90000,"旅道具 ×1"],[95000,"砥石 ×1000"],
+    [100000,"童子切安綱 剥落 ×1（第1振）"],
+    [110000,"修行呼び戻し鳩 ×1"],[120000,"旅装束 ×1"],[130000,"玉鋼 ×1000"],[140000,"手紙一式 ×1"],
+    [150000,"新刀剣男士 ×1（第1振・依活動進度追加）","狐ヶ崎為次 ×1（第1振）"],
+    [160000,"三倍法螺貝(迎撃) ×1"],[170000,"根兵糖・紅葉 ×1"],[180000,"木炭 ×1500"],[190000,"冷却材 ×1500"],
+    [200000,"一口団子 ×6"],[210000,"砥石 ×1500"],[220000,"玉鋼 ×1500"],[230000,"旅道具 ×1"],
+    [240000,"幕の内弁当 ×2"],
+    [250000,"童子切安綱 剥落 ×1（第2振）"],
+    [260000,"根兵糖・紅葉 ×1"],[270000,"旅装束 ×1"],[280000,"気力+30バー ×2"],[290000,"手紙一式 ×1"],
+    [300000,"新刀剣男士 ×1（第2振・依活動進度追加）","狐ヶ崎為次 ×1（第2振）"],
+    [310000,"三倍法螺貝(迎撃) ×1"],[320000,"木炭 ×2000"],[330000,"検非違使隠形香 ×1"],[340000,"根兵糖・紅葉 ×1"],
+    [350000,"依頼札 ×5"],[360000,"玉鋼 ×2000"],[370000,"気力+30バー ×3"],[380000,"幕の内弁当 ×2"],
+    [390000,"冷却材 ×2000"],
+    [400000,"童子切安綱 剥落 ×1（第3振）"],
+    [410000,"根兵糖・紅葉 ×1"],[420000,"気力+30バー ×4"],[430000,"砥石 ×2000"],[440000,"蘇言機 ×2"],
+    [450000,"新刀剣男士 ×1（第3振・依活動進度追加）","狐ヶ崎為次 ×1（第3振）"],
+    [460000,"根兵糖・紅葉 ×1"],[470000,"木炭 ×2500"],[480000,"根兵糖・紅葉 ×1"],[490000,"玉鋼 ×2500"],
+    [500000,"手伝い札 ×5"],[510000,"根兵糖・紅葉 ×1"],[520000,"冷却材 ×2500"],[530000,"根兵糖・紅葉 ×1"],
+    [540000,"砥石 ×2500"],
+    [550000,"童子切安綱 剥落 ×1（第4振）"],
+    [560000,"木炭 ×3000"],[570000,"玉鋼 ×3000"],[580000,"冷却材 ×3000"],[590000,"砥石 ×3000"],
+    [600000,"新刀剣男士 ×1（第4振・依活動進度追加）","狐ヶ崎為次 ×1（第4振）"]
+  ];
+
+  const CHEER_REWARDS = [
+    [5000000,"小判 ×1,000／陣太鼓(迎撃) ×1"],
+    [10000000,"小判 ×2,500／陣太鼓(迎撃) ×1／気力+30バー ×3"],
+    [30000000,"小判 ×4,000／陣太鼓(迎撃) ×1／各資源 ×1,000"],
+    [50000000,"小判 ×5,500／陣太鼓(迎撃) ×1／一口団子 ×3"],
+    [100000000,"小判 ×7,000／陣太鼓(迎撃) ×1／幕の内弁当 ×3"]
   ];
 
   let state = load();
   function load(){
-    const base = {pt:0, tickets:0, kobanExtra:0, end:DEFAULT_END, ptTargetOverride:null, dayTrack:null};
+    const base = {pt:0, tickets:0, kobanExtra:0, end:DEFAULT_END, ptTargetOverride:null, dayTrack:null, cheer:0, cheerTargetOverride:null};
     try{
       const raw = JSON.parse(localStorage.getItem(STORAGE_KEY) || "{}");
       const merged = Object.assign({}, base, raw);
       if(raw && raw.koban!==undefined && raw.tickets===undefined){
         merged.kobanExtra = raw.koban;
         merged.tickets = 0;
+      }
+      if(merged.end && new Date(merged.end).getFullYear() < 2026){
+        merged.end = DEFAULT_END;
       }
       return merged;
     }catch(e){ return base; }
@@ -238,6 +271,13 @@ footer{font-size:.72rem;color:var(--sub);margin-top:20px;text-align:center;line-
     const p = Math.min(1, Math.max(0, pct));
     const hue = 190 + p*80;
     return `hsl(${hue}, 60%, 48%)`;
+  }
+
+  const KOGASAKI_REVEAL_PT = 150000;
+  function rewardLabel(r, value){
+    // 狐ヶ崎為次系列（150,000/300,000/450,000/600,000）：玩家一旦在150,000Pt知道角色名稱後，
+    // 之後尚未達成的同系列格子也直接顯示角色名，不用等各自門檻達成才換字。
+    return (r[2] && value >= KOGASAKI_REVEAL_PT) ? r[2] : r[1];
   }
 
   function nextReward(list, value, override){
@@ -257,9 +297,11 @@ footer{font-size:.72rem;color:var(--sub);margin-top:20px;text-align:center;line-
       if(doneA === doneB) return 0;
       return doneA ? 1 : -1;
     });
-    sorted.forEach(([t, label])=>{
-      const row = document.createElement("div");
+    sorted.forEach((r)=>{
+      const t = r[0];
       const done = value >= t;
+      const label = rewardLabel(r, value);
+      const row = document.createElement("div");
       row.className = "reward-row" + (state[overrideKey]===t ? " selected" : "") + (done ? " done" : "");
       const widthPct = done?100:Math.min(100, Math.max(0,(value/t*100)));
       let fillStyle = `width:${widthPct}%`;
@@ -281,7 +323,9 @@ footer{font-size:.72rem;color:var(--sub);margin-top:20px;text-align:center;line-
   }
 
   function renderProgress(){
-    const [t, label] = nextReward(PT_REWARDS, state.pt, state.ptTargetOverride);
+    const nr = nextReward(PT_REWARDS, state.pt, state.ptTargetOverride);
+    const t = nr[0];
+    const label = rewardLabel(nr, state.pt);
     const pct = Math.min(100, Math.max(0, state.pt/t*100));
     const remain = Math.max(0, t-state.pt);
     const barColor = rowHueColor(state.pt/t);
@@ -300,7 +344,7 @@ footer{font-size:.72rem;color:var(--sub);margin-top:20px;text-align:center;line-
       dailyEl.textContent = "已達成目前目標 Pt，可以點下方報酬列換一個目標繼續看進度。";
     }else if(msLeft <= 0){
       targetHtml += `）`;
-      dailyEl.textContent = "（暫定日期）已過設定的結束時間，請於官方公布 2026 年日期後至設定更新。";
+      dailyEl.textContent = "活動已結束，可對照最終累積 Pt 確認達成的里程碑報酬。";
     }else{
       const daysLeft = Math.max(1, Math.ceil(msLeft/86400000));
       const dailyPt = Math.ceil(remain/daysLeft);
@@ -331,12 +375,12 @@ footer{font-size:.72rem;color:var(--sub);margin-top:20px;text-align:center;line-
     const el = document.getElementById("countdownBar");
     if(now < start){
       const diff = start-now;
-      el.textContent = "（暫定日期）距離開始還有 "+fmtDiff(diff);
+      el.textContent = "距離活動開始還有 "+fmtDiff(diff)+"（實際開始時間以遊戲內「維護結束時」為準）";
     }else if(now <= end){
       const diff = end-now;
-      el.textContent = "（暫定日期）距離結束還有 "+fmtDiff(diff)+"（結束時間：" + end.toLocaleString("zh-TW",{timeZone:"Asia/Tokyo"}) + " JST，日本標準時間）";
+      el.textContent = "距離活動結束還有 "+fmtDiff(diff)+"（結束時間：" + end.toLocaleString("zh-TW",{timeZone:"Asia/Tokyo"}) + " JST，日本標準時間）";
     }else{
-      el.textContent = "（暫定日期已過）目前顯示的是 2025 年舊資料的結束時間，請於官方公布 2026 年日期後至設定更新：" + end.toLocaleString("zh-TW",{timeZone:"Asia/Tokyo"}) + " JST，日本標準時間";
+      el.textContent = "活動已結束（結束時間：" + end.toLocaleString("zh-TW",{timeZone:"Asia/Tokyo"}) + " JST，日本標準時間）";
     }
   }
   function fmtDiff(ms){
@@ -347,10 +391,57 @@ footer{font-size:.72rem;color:var(--sub);margin-top:20px;text-align:center;line-
     return `${d}天 ${h}時 ${m}分`;
   }
 
+  function renderCheerRewardList(containerId, list, value, overrideKey){
+    const el = document.getElementById(containerId);
+    el.innerHTML = "";
+    const sorted = [...list].sort((a,b)=>{
+      const doneA = value >= a[0], doneB = value >= b[0];
+      if(doneA === doneB) return 0;
+      return doneA ? 1 : -1;
+    });
+    sorted.forEach(([t, label])=>{
+      const row = document.createElement("div");
+      const done = value >= t;
+      row.className = "reward-row" + (state[overrideKey]===t ? " selected" : "") + (done ? " done" : "");
+      const widthPct = done?100:Math.min(100, Math.max(0,(value/t*100)));
+      let fillStyle = `width:${widthPct}%`;
+      let spanStyle = "";
+      if(!done){
+        const c = rowHueColor(value/t);
+        fillStyle += `;background:${c}`;
+        spanStyle = ` style="color:#ffffff"`;
+      }
+      const tLabel = (t/10000).toLocaleString()+" 萬";
+      row.innerHTML = `<div class="t">${tLabel}</div>
+        <div class="bar"><div class="bar-fill" style="${fillStyle}"></div>
+        <span${spanStyle}>${done ? "已達成　"+label : label + "（還差 "+((t-value)/10000).toLocaleString()+" 萬）"}</span></div>`;
+      row.addEventListener("click", ()=>{
+        state[overrideKey] = (state[overrideKey]===t) ? null : t;
+        save(); renderCheer();
+      });
+      el.appendChild(row);
+    });
+  }
+
+  function renderCheer(){
+    document.getElementById("cheerValue").textContent = (state.cheer/10000).toLocaleString()+" 萬";
+    const [t, label] = nextReward(CHEER_REWARDS, state.cheer, state.cheerTargetOverride);
+    const pct = Math.min(100, Math.max(0, state.cheer/t*100));
+    const remain = Math.max(0, t-state.cheer);
+    const barColor = rowHueColor(state.cheer/t);
+    document.getElementById("cheerProgressFill").style.width = pct.toFixed(1)+"%";
+    document.getElementById("cheerProgressFill").style.background = barColor;
+    document.getElementById("cheerProgressLabel").style.color = "#ffffff";
+    document.getElementById("cheerProgressLabel").textContent = pct.toFixed(1)+"%（還差 "+(remain/10000).toLocaleString()+" 萬）";
+    document.getElementById("cheerTargetReward").innerHTML = `目前目標：<span class="name">${label}</span>（門檻 ${(t/10000).toLocaleString()} 萬，還差 ${(remain/10000).toLocaleString()} 萬）`;
+    renderCheerRewardList("cheerRewardList", CHEER_REWARDS, state.cheer, "cheerTargetOverride");
+  }
+
   function renderAll(){
     renderCounters();
     renderProgress();
     renderRewardList("ptRewardList", PT_REWARDS, state.pt, "ptTargetOverride");
+    renderCheer();
   }
 
   document.querySelectorAll("[data-target]").forEach(btn=>{
@@ -375,7 +466,6 @@ footer{font-size:.72rem;color:var(--sub);margin-top:20px;text-align:center;line-
       const input = document.getElementById(key+"Manual");
       const v = parseInt(input.value,10);
       if(!isNaN(v)){ state[stateKey] = Math.max(0, (state[stateKey]||0)+v); save(); renderAll(); }
-      input.value="";
     });
   });
   document.querySelectorAll("[data-set-direct]").forEach(btn=>{
@@ -392,6 +482,14 @@ footer{font-size:.72rem;color:var(--sub);margin-top:20px;text-align:center;line-
   document.getElementById("ptManual").addEventListener("keydown", e=>{ if(e.key==="Enter") document.querySelector('[data-add="pt"]').click(); });
   document.getElementById("ticketManual").addEventListener("keydown", e=>{ if(e.key==="Enter") document.querySelector('[data-add="ticket"]').click(); });
 
+  document.getElementById("cheerSetBtn").addEventListener("click", ()=>{
+    const input = document.getElementById("cheerManual");
+    const v = parseFloat(input.value);
+    if(!isNaN(v)){ state.cheer = Math.max(0, Math.round(v*10000)); save(); renderCheer(); }
+    input.value="";
+  });
+  document.getElementById("cheerManual").addEventListener("keydown", e=>{ if(e.key==="Enter") document.getElementById("cheerSetBtn").click(); });
+
   document.getElementById("helpBtn").addEventListener("click", ()=>{
     document.getElementById("helpPanel").classList.toggle("show");
   });
@@ -407,8 +505,8 @@ footer{font-size:.72rem;color:var(--sub);margin-top:20px;text-align:center;line-
   });
   document.getElementById("endInput").addEventListener("keydown", e=>{ if(e.key==="Enter") document.getElementById("applyEnd").click(); });
   document.getElementById("resetProgress").addEventListener("click", ()=>{
-    if(confirm("確定要清空本頁的迎撃Pt／手形／小判紀錄嗎？此動作無法復原。")){
-      state = {pt:0, tickets:0, kobanExtra:0, end:DEFAULT_END, ptTargetOverride:null, dayTrack:null};
+    if(confirm("確定要清空本頁的迎撃Pt／手形／小判／応援數紀錄嗎？此動作無法復原。")){
+      state = {pt:0, tickets:0, kobanExtra:0, end:DEFAULT_END, ptTargetOverride:null, dayTrack:null, cheer:0, cheerTargetOverride:null};
       save(); renderAll(); renderCountdown();
     }
   });
