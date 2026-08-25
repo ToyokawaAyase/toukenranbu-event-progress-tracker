@@ -1,0 +1,472 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>夜花奪還作戦 活動紀錄</title>
+<style>
+:root{--header:#b8452f;--accent:#f2c9a0;--accent-text:#7a2f1c;--track:#e6ecf1;--warn:#e0703c;--card:#ffffff;--bg:#f5f7fa;--text:#2b2b2b;--sub:#6b7785;}
+*{box-sizing:border-box;}
+body{font-family:"Noto Sans TC","Hiragino Sans","Yu Gothic",sans-serif;background:var(--bg);color:var(--text);margin:0;padding:20px;}
+.wrap{max-width:900px;margin:0 auto;}
+header{display:flex;align-items:center;justify-content:space-between;background:var(--header);color:#fff;padding:14px 20px;border-radius:10px 10px 0 0;flex-wrap:wrap;gap:8px;}
+header h1{font-size:1.25rem;margin:0;display:flex;align-items:center;gap:8px;}
+.icon-btn{background:rgba(255,255,255,.15);border:none;color:#fff;border-radius:50%;width:30px;height:30px;cursor:pointer;font-size:.9rem;flex-shrink:0;}
+.icon-btn:hover{background:rgba(255,255,255,.3);}
+.panel{background:var(--card);padding:16px 20px;border:1px solid #e1e6ea;border-top:none;}
+.countdown-bar{background:#fdf1ec;padding:10px 20px;font-size:.92rem;border-left:4px solid var(--header);}
+.status-bar{background:#fff7e6;padding:10px 20px;font-size:.88rem;border-left:4px solid #e0a83c;}
+.tbd-bar{background:#fdeceb;padding:10px 20px;font-size:.85rem;border-left:4px solid #c0392b;}
+.inline-help{background:#f0cd85;border:none;color:#6b4a12;border-radius:50%;width:20px;height:20px;font-size:.72rem;cursor:pointer;flex-shrink:0;line-height:1;}
+.inline-help:hover{background:#e6bb64;}
+.nav-links{background:#fff;padding:8px 20px;font-size:.8rem;border-bottom:1px solid #e1e6ea;}
+.nav-links a{color:var(--header);text-decoration:none;margin-right:14px;}
+.nav-links a:hover{text-decoration:underline;}
+.counters{display:flex;gap:16px;flex-wrap:wrap;}
+.counter-card{flex:1;min-width:260px;background:#fdf1ec;border-radius:10px;padding:14px 16px;display:flex;flex-direction:column;}
+.counter-card h3{margin:0 0 6px;font-size:.85rem;color:var(--sub);}
+.today-badge{display:inline-block;font-size:.68rem;font-weight:600;background:#fbe4d8;color:#7a2f1c;border-radius:10px;padding:2px 8px;margin-left:6px;vertical-align:middle;}
+.counter-card .sub{font-size:.72rem;color:var(--sub);margin-bottom:6px;}
+.counter-value{font-size:1.6rem;font-weight:700;color:var(--header);}
+.counter-value.primary{font-size:2.7rem;}
+.counter-controls{display:flex;gap:6px;flex-wrap:wrap;margin-top:auto;padding-top:8px;}
+.counter-controls button{border:1px solid #cbd6e0;background:#fff;border-radius:6px;padding:4px 8px;cursor:pointer;font-size:.8rem;}
+.counter-controls button:hover{background:#e6edf3;}
+.counter-manual{margin-top:8px;display:flex;gap:6px;}
+.counter-manual input{width:110px;padding:4px 6px;border:1px solid #cbd6e0;border-radius:6px;}
+.counter-manual button{border:none;background:var(--header);color:#fff;border-radius:6px;padding:4px 10px;cursor:pointer;}
+.resource-item{flex:1;min-width:280px;background:#f7f8fa;border-radius:10px;padding:14px 16px;font-size:.85rem;display:flex;flex-direction:column;}
+.resource-item .res-label{color:var(--sub);font-size:.8rem;}
+.resource-item strong{display:block;font-size:1.15rem;color:var(--header);}
+.resource-item .ctl{margin-top:10px;display:flex;gap:6px;flex-wrap:wrap;}
+.resource-item .ctl input{width:90px;padding:3px 6px;border:1px solid #cbd6e0;border-radius:6px;}
+.resource-item .ctl button{border:none;background:var(--header);color:#fff;border-radius:6px;padding:3px 8px;cursor:pointer;font-size:.78rem;}
+.target-reward{margin-top:16px;font-size:1.1rem;}
+.target-reward .name{color:#c0392b;font-weight:700;}
+.progress-track{position:relative;background:var(--track);border-radius:6px;height:26px;margin-top:6px;overflow:hidden;}
+.progress-fill{background:var(--accent);height:100%;transition:width .3s;}
+.progress-label{position:absolute;inset:0;display:flex;align-items:center;padding-left:10px;font-size:.8rem;color:var(--text);font-weight:700;}
+.daily-target{background:#fdf1ec;border-left:4px solid var(--accent);padding:10px 14px;border-radius:6px;margin-top:10px;font-size:1.05rem;color:#7a2f1c;display:flex;align-items:center;justify-content:space-between;gap:8px;}
+.daily-target .inline-help{background:#f6ddc7;color:#7a2f1c;}
+.daily-target .inline-help:hover{background:#f0cba9;}
+.notes{font-size:.78rem;color:var(--sub);margin-top:14px;line-height:1.7;}
+.reward-list{margin-top:10px;max-height:420px;overflow-y:auto;padding-right:4px;}
+.reward-row{display:flex;align-items:center;gap:10px;padding:4px 2px;border-bottom:1px solid #eef1f4;font-size:.82rem;}
+.reward-row .t{width:80px;color:var(--sub);flex-shrink:0;}
+.reward-row .bar{flex:1;height:22px;border-radius:5px;background:var(--track);position:relative;overflow:hidden;}
+.reward-row .bar-fill{height:100%;background:var(--accent);}
+.reward-row .bar span{position:absolute;inset:0;display:flex;align-items:center;padding-left:8px;font-size:.78rem;color:var(--text);font-weight:600;}
+.reward-row.done .bar-fill{background:#4a5568;}
+.reward-row.done .bar span{color:#fff;font-weight:600;}
+.char-list{display:flex;gap:8px;flex-wrap:wrap;margin-top:8px;}
+.char-chip{background:#f7f8fa;border-radius:20px;padding:5px 12px;font-size:.8rem;border:1px solid #e1e6ea;}
+.section-title{margin-top:26px;font-size:.98rem;font-weight:700;border-bottom:2px solid var(--header);padding-bottom:4px;}
+footer{font-size:.72rem;color:var(--sub);margin-top:20px;text-align:center;line-height:1.8;}
+.settings-panel{display:none;background:#fbfcfd;border:1px dashed #c7d0d8;border-radius:8px;padding:14px;margin-top:10px;font-size:.82rem;}
+.settings-panel.show{display:block;}
+.settings-panel label{display:block;margin-top:8px;}
+.settings-panel input{padding:4px 6px;border:1px solid #cbd6e0;border-radius:6px;}
+.settings-panel button{margin-top:10px;border:none;background:var(--header);color:#fff;padding:6px 12px;border-radius:6px;cursor:pointer;margin-right:8px;}
+.danger-btn{background:#c0392b!important;}
+details{margin-top:20px;background:#fbfcfd;border:1px solid #e1e6ea;border-radius:8px;padding:2px 14px 14px;}
+details summary{cursor:pointer;font-weight:700;color:var(--header);padding:10px 0;}
+details[open] summary{border-bottom:1px solid #eef1f4;margin-bottom:10px;}
+</style>
+<script data-goatcounter="https://ayase.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <h1>夜花奪還作戦 活動紀錄 <button class="icon-btn" id="helpBtn" title="說明">?</button></h1>
+    <button class="icon-btn" id="settingsBtn" title="設定">⚙</button>
+  </header>
+  <div class="nav-links">
+    <a href="index.html">首頁</a>
+    <a href="hanabi_dakkan_sakusen.html" style="font-weight:700;text-decoration:underline;">夜花奪還作戦</a>
+    <a href="kantou_campaign.html">鍛刀工具</a>
+    <a href="shugyou_priority.html">修行優先順序</a>
+  </div>
+  <div class="panel">
+    <div id="helpPanel" class="settings-panel">
+      <strong>使用說明</strong>
+      <p>本頁面僅供個人記錄用，非官方工具，資料以你自行輸入為準。數值會儲存在「這台瀏覽器」的 localStorage，換裝置或清除瀏覽資料會遺失，請自行留意備份（例如定期截圖）。</p>
+      <p>花火玉累積上限為 300,000 個，達上限後戰鬥勝利不會再增加；花火玉會在催物結束後全數消滅，請於結束前用完或兌換完報酬。</p>
+      <p>「軽装仕立券」使用期限至 2026年10月6日(火)12:59，逾期未使用會被刪除，請留意。</p>
+      <p>合戦場設定：市街戦・夜。夜戦短刀・脇差・打刀有利；市街戦中「馬」提升的能力值會減少。本次新解放「自動周回」功能（需加入本丸刀剣保存会）。</p>
+      <p><strong>經驗值特典（2倍經驗）對象刀剣男士（含極對象）：</strong>乱藤四郎、千子村正、江雪左文字、堀川国広、小烏丸、抜丸、巴形薙刀、静形薙刀、南泉一文字、山姥切長義、白山吉光、山鳥毛、古今伝授の太刀、地蔵行平、治金丸、日光一文字、太閤左文字、大千鳥十文字槍、泛塵、孫六兼元、雲生、道誉一文字、雲次。</p>
+      <p><strong>花火打上妨害部隊 撃破時可能入手的刀剣男士（稀有掉落，非里程碑報酬）：</strong>使用火打石出陣時必定出現「花火打上妨害部隊」（ボスマス除外），撃破後有機率掉落明石国行、大般若長光、小竜景光、南泉一文字、太閤左文字、石田正宗（也可能掉落名單以外的角色）。</p>
+    </div>
+    <div id="settingsPanel" class="settings-panel">
+      <strong>設定</strong>
+      <label>活動結束時間（官方公告：2026-09-08 12:59，JST日本標準時間；如有異動請於此調整）
+        <input type="datetime-local" id="endInput">
+      </label>
+      <div>
+        <button id="applyEnd">套用結束時間</button>
+        <button id="resetProgress" class="danger-btn">重設本頁全部進度</button>
+      </div>
+      <label style="margin-top:14px;border-top:1px solid #e1e6ea;padding-top:10px;">
+        <input type="checkbox" id="showHiuchiCheckbox"> 顯示火打石記錄（購入／使用次數，非必要，不影響報酬進度）
+      </label>
+      <div id="hiuchiSection" style="display:none;margin-top:8px;">
+        <div class="resource-item" style="min-width:auto;">
+          <div class="res-label">火打石（購入／使用，累計）</div>
+          <strong id="hiuchiValue">0 個</strong>
+          <div class="notes" style="margin-top:0;">火打石可在萬屋購入，出陣前使用可讓「花火打上妨害部隊」必定出現，撃破可獲得較多花火玉與經驗值（ボスマス除外）。500花火玉的里程碑報酬也會贈送火打石×1。官方公告未提供小判單價，此處只單純計數，不做換算。</div>
+          <div class="ctl">
+            <button data-target="hiuchi" data-delta="-10">-10</button>
+            <button data-target="hiuchi" data-delta="-1">-1</button>
+            <button data-target="hiuchi" data-delta="1">+1</button>
+            <button data-target="hiuchi" data-delta="10">+10</button>
+          </div>
+          <div class="ctl">
+            <input type="number" id="hiuchiManual" placeholder="輸入數值">
+            <button data-add="hiuchi">累加</button>
+            <button data-set-direct="hiuchi">直接設定</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="countdown-bar" id="countdownBar">載入中…</div>
+    <div class="status-bar" id="statusBar">期間：2026年8月25日（週二）維護結束後 ～ 2026年9月8日（週二）12:59（JST，日本標準時間，比台灣快1小時，實際開始時間以「維護結束時」為準）。</div>
+
+    <div class="section-title">主要進度：花火玉（累計，上限 300,000）</div>
+    <div class="counters">
+      <div class="counter-card">
+        <h3>花火玉（累計） <span class="today-badge" id="ptTodayBadge">今日 +0</span></h3>
+        <div class="sub">上限 300,000 個，達上限後不再增加，驅動下方報酬進度</div>
+        <div class="counter-value primary" id="ptValue">0</div>
+        <div class="counter-controls">
+          <button data-target="pt" data-delta="-1000">-1000</button>
+          <button data-target="pt" data-delta="-100">-100</button>
+          <button data-target="pt" data-delta="-10">-10</button>
+          <button data-target="pt" data-delta="10">+10</button>
+          <button data-target="pt" data-delta="100">+100</button>
+          <button data-target="pt" data-delta="1000">+1000</button>
+          <button data-target="pt" data-delta="10000">+10000</button>
+        </div>
+        <div class="counter-manual">
+          <input type="number" id="ptManual" placeholder="輸入數值">
+          <button data-add="pt">累加</button>
+          <button data-set-direct="pt">直接設定</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="target-reward" id="targetReward"></div>
+    <div class="progress-track"><div class="progress-fill" id="ptProgressFill" style="width:0%"></div><div class="progress-label" id="ptProgressLabel"></div></div>
+    <div class="daily-target">
+      <span id="dailyTarget"></span>
+      <button class="inline-help" id="notesHelpBtn" title="查看使用小提示">?</button>
+    </div>
+    <div id="notesPanel" class="settings-panel">
+      <p>◇ 點擊下方任一報酬列，可以把它設成「目前目標」，上面會即時算出「平均每天要肝多少花火玉」。</p>
+      <p>◇ 花火玉需要你自己依實際遊玩結果輸入，本頁不會自動計算戰鬥獲得量。</p>
+      <p>◇ 花火玉上限 300,000，設定累加或直接設定時超過上限會自動卡在 300,000。</p>
+    </div>
+
+    <div class="section-title">花火玉報酬里程碑（100～300,000，共69項）</div>
+    <div class="reward-list" id="ptRewardList"></div>
+
+    <details>
+      <summary>特別演出門檻（僅播放特殊演出，非報酬領取點）</summary>
+      <div class="reward-list" id="effectMilestoneList"></div>
+    </details>
+
+    <footer>
+      非官方個人記錄工具，資料來源整理自官方公告，正式數值請以遊戲內公告為準，使用請自行確認。<br>
+      夜花奪還作戦：2026年8月25日（週二）維護結束時 ～ 2026年9月8日（週二）12:59（JST，日本標準時間，比台灣快1小時；官方公告「終了日時は變更となる場合がございます」，實際開始時間以遊戲內「維護結束時」為準）
+    </footer>
+  </div>
+</div>
+
+<script>
+(function(){
+  const STORAGE_KEY = "hanabiDakkanProgress_v1";
+  const DEFAULT_END = "2026-09-08T12:59:00+09:00";
+  const START = "2026-08-25T00:00:00+09:00";
+  const CAP = 300000;
+
+  const PT_REWARDS = [
+    [100,"一口団子 ×1"],[300,"重歩兵･特上 ×2"],[500,"火打石 ×1"],[750,"投石兵・特上 ×2"],
+    [1000,"木炭 ×1500"],[2000,"手伝い札 ×1"],[3000,"弓兵・特上 ×2"],[4000,"玉鋼 ×1500"],
+    [5000,"依頼札 ×1"],[6000,"銃兵・特上 ×2"],[7000,"冷却材 ×1500"],[8000,"小判 ×1000"],
+    [9000,"気力+30バー ×1"],[10000,"軽装仕立券 ×1"],[12000,"精鋭兵･特上 ×2"],[14000,"砥石 ×1500"],
+    [15000,"手伝い札 ×2"],[16000,"槍兵･特上 ×2"],[18000,"仙人団子 ×1"],
+    [20000,"展望の間・花火 ×1（已持有則改贈根兵糖・上×3）"],
+    [22500,"依頼札 ×2"],
+    [25000,"展望の間・花火 かき氷 ×1（已持有則改贈根兵糖・上×3）"],
+    [27500,"盾兵・特上 ×2"],
+    [30000,"太閤左文字 ×1"],
+    [32500,"小判 ×1000"],
+    [35000,"展望の間・花火 団扇 ×1（已持有則改贈根兵糖・上×3）"],
+    [37500,"気力+30バー ×1"],
+    [40000,"展望の間・花火 蚊取り線香 ×1（已持有則改贈根兵糖・上×3）"],
+    [42500,"幕の内弁当 ×1"],
+    [45000,"展望の間・花火 おっきいこんのすけ ×1（已持有則改贈根兵糖・上×3）"],
+    [47500,"木炭 ×2000"],
+    [50000,"日本号 ×1"],
+    [52500,"玉鋼 ×2000"],
+    [55000,"展望の間・花火 夕涼み ×1（已持有則改贈根兵糖・上×3）"],
+    [57500,"冷却材 ×2000"],[60000,"気力+30バー ×1"],[62500,"砥石 ×2000"],[65000,"小判 ×1000"],
+    [67500,"旅道具 ×1"],
+    [70000,"展望の間 花火 西瓜 ×1（已持有則改贈根兵糖・上×3）"],
+    [72500,"旅装束 ×1"],[75000,"手紙一式 ×1"],[77500,"小判 ×1000"],[80000,"軽装仕立券 ×1"],
+    [82500,"手伝い札 ×2"],[85000,"依頼札 ×2"],
+    [90000,"展望の間 花火 金魚鉢 ×1（新規景趣）"],
+    [95000,"蘇言機 ×1"],
+    [100000,"八丁念仏 ×1（第1振・今後其他催物也會定期登場）"],
+    [110000,"小判 ×1000"],[120000,"御札・松 ×1"],[130000,"旅道具 ×1"],[140000,"旅装束 ×1"],
+    [150000,"手紙一式 ×1"],[160000,"一口団子 ×3"],[170000,"手伝い札 ×1"],[180000,"依頼札 ×1"],
+    [190000,"幕の内弁当 ×1"],
+    [200000,"八丁念仏 ×1（第2振）"],
+    [210000,"一口団子 ×3"],[220000,"木炭 ×3000"],[230000,"玉鋼 ×3000"],[240000,"軽装仕立券 ×1"],
+    [250000,"手伝い札 ×1"],[260000,"冷却材 ×3000"],[270000,"砥石 ×3000"],[280000,"依頼札 ×1"],
+    [290000,"御札・松 ×1"],
+    [300000,"八丁念仏 ×1（第3振）"]
+  ];
+
+  const EFFECT_MILESTONES = [10000,30000,50000,80000,90000,100000,200000,240000,300000];
+
+  let state = load();
+  function load(){
+    const base = {pt:0, hiuchi:0, end:DEFAULT_END, ptTargetOverride:null, dayTrack:null, showHiuchi:false};
+    try{
+      const raw = JSON.parse(localStorage.getItem(STORAGE_KEY) || "{}");
+      const merged = Object.assign({}, base, raw);
+      if(merged.end && new Date(merged.end).getFullYear() < 2026){
+        merged.end = DEFAULT_END;
+      }
+      merged.pt = Math.min(CAP, Math.max(0, merged.pt||0));
+      return merged;
+    }catch(e){ return base; }
+  }
+  function save(){ localStorage.setItem(STORAGE_KEY, JSON.stringify(state)); }
+  function jstDateStr(d){ return d.toLocaleDateString("en-CA",{timeZone:"Asia/Tokyo"}); }
+
+  function rowHueColor(pct){
+    const p = Math.min(1, Math.max(0, pct));
+    const hue = 15 + p*30;
+    return `hsl(${hue}, 65%, 48%)`;
+  }
+
+  function nextReward(list, value, override){
+    if(override!==null && override!==undefined){
+      const found = list.find(r=>r[0]===override);
+      if(found) return found;
+    }
+    for(const r of list){ if(value < r[0]) return r; }
+    return list[list.length-1];
+  }
+
+  function renderRewardList(containerId, list, value, overrideKey){
+    const el = document.getElementById(containerId);
+    el.innerHTML = "";
+    const sorted = [...list].sort((a,b)=>{
+      const doneA = value >= a[0], doneB = value >= b[0];
+      if(doneA === doneB) return 0;
+      return doneA ? 1 : -1;
+    });
+    sorted.forEach(([t, label])=>{
+      const row = document.createElement("div");
+      const done = value >= t;
+      row.className = "reward-row" + (state[overrideKey]===t ? " selected" : "") + (done ? " done" : "");
+      const widthPct = done?100:Math.min(100, Math.max(0,(value/t*100)));
+      let fillStyle = `width:${widthPct}%`;
+      let spanStyle = "";
+      if(!done){
+        const c = rowHueColor(value/t);
+        fillStyle += `;background:${c}`;
+        spanStyle = ` style="color:#ffffff"`;
+      }
+      row.innerHTML = `<div class="t">${t.toLocaleString()}</div>
+        <div class="bar"><div class="bar-fill" style="${fillStyle}"></div>
+        <span${spanStyle}>${done ? "已達成　"+label : label + "（還差 "+(t-value).toLocaleString()+"）"}</span></div>`;
+      row.style.cursor = "pointer";
+      row.addEventListener("click", ()=>{
+        state[overrideKey] = (state[overrideKey]===t) ? null : t;
+        save(); renderAll();
+      });
+      el.appendChild(row);
+    });
+  }
+
+  function renderEffectMilestones(){
+    const el = document.getElementById("effectMilestoneList");
+    el.innerHTML = "";
+    const sorted = [...EFFECT_MILESTONES].sort((a,b)=>{
+      const doneA = state.pt >= a, doneB = state.pt >= b;
+      if(doneA === doneB) return a-b;
+      return doneA ? 1 : -1;
+    });
+    sorted.forEach(t=>{
+      const done = state.pt >= t;
+      const row = document.createElement("div");
+      row.className = "reward-row" + (done ? " done" : "");
+      const widthPct = done?100:Math.min(100, Math.max(0,(state.pt/t*100)));
+      let fillStyle = `width:${widthPct}%`;
+      let spanStyle = "";
+      if(!done){
+        const c = rowHueColor(state.pt/t);
+        fillStyle += `;background:${c}`;
+        spanStyle = ` style="color:#ffffff"`;
+      }
+      row.innerHTML = `<div class="t">${t.toLocaleString()}</div>
+        <div class="bar"><div class="bar-fill" style="${fillStyle}"></div>
+        <span${spanStyle}>${done ? "已達成　特別演出" : "特別演出（還差 "+(t-state.pt).toLocaleString()+"）"}</span></div>`;
+      el.appendChild(row);
+    });
+  }
+
+  function renderProgress(){
+    const [t, label] = nextReward(PT_REWARDS, state.pt, state.ptTargetOverride);
+    const pct = Math.min(100, Math.max(0, state.pt/t*100));
+    const remain = Math.max(0, t-state.pt);
+    const barColor = rowHueColor(state.pt/t);
+    document.getElementById("ptProgressFill").style.width = pct.toFixed(1)+"%";
+    document.getElementById("ptProgressFill").style.background = barColor;
+    document.getElementById("ptProgressLabel").style.color = "#ffffff";
+    document.getElementById("ptProgressLabel").textContent = pct.toFixed(1)+"%（還差 "+remain.toLocaleString()+"）";
+
+    const dailyEl = document.getElementById("dailyTarget");
+    const now = new Date();
+    const end = new Date(state.end || DEFAULT_END);
+    const msLeft = end - now;
+    let targetHtml = `目前目標：<span class="name">${label}</span>（門檻 ${t.toLocaleString()} 花火玉，還差 ${remain.toLocaleString()}`;
+    if(state.pt >= CAP){
+      targetHtml += `）`;
+      dailyEl.textContent = "花火玉已達 300,000 上限，戰鬥勝利也不會再增加，記得優先把手上的花火玉換成報酬。";
+    }else if(remain <= 0){
+      targetHtml += `）`;
+      dailyEl.textContent = "已達成目前目標，可以點下方報酬列換一個目標繼續看進度。";
+    }else if(msLeft <= 0){
+      targetHtml += `）`;
+      dailyEl.textContent = "活動已結束，可對照最終累積花火玉確認達成的里程碑。";
+    }else{
+      const daysLeft = Math.max(1, Math.ceil(msLeft/86400000));
+      const dailyPt = Math.ceil(remain/daysLeft);
+      targetHtml += `）`;
+      dailyEl.innerHTML = `距離結束還有約 <strong>${daysLeft} 天</strong>，平均每天需要 <strong>${dailyPt.toLocaleString()}</strong> 花火玉才能在期限內達成上述目標。`;
+    }
+    document.getElementById("targetReward").innerHTML = targetHtml;
+  }
+
+  function renderCounters(){
+    document.getElementById("ptValue").textContent = state.pt.toLocaleString();
+    document.getElementById("hiuchiValue").textContent = state.hiuchi.toLocaleString()+" 個";
+
+    const today = jstDateStr(new Date());
+    if(!state.dayTrack || state.dayTrack.date !== today){
+      state.dayTrack = {date: today, start: state.pt};
+      save();
+    }
+    const todayGain = Math.max(0, state.pt - state.dayTrack.start);
+    document.getElementById("ptTodayBadge").textContent = "今日 +"+todayGain.toLocaleString();
+  }
+
+  function renderCountdown(){
+    const now = new Date();
+    const start = new Date(START);
+    const end = new Date(state.end || DEFAULT_END);
+    const el = document.getElementById("countdownBar");
+    if(now < start){
+      el.textContent = "距離活動開始還有 "+fmtDiff(start-now)+"（實際開始時間以遊戲內「維護結束時」為準）";
+    }else if(now <= end){
+      el.textContent = "距離活動結束還有 "+fmtDiff(end-now)+"（結束時間：" + end.toLocaleString("zh-TW",{timeZone:"Asia/Tokyo"}) + " JST，日本標準時間）";
+    }else{
+      el.textContent = "活動已結束（結束時間：" + end.toLocaleString("zh-TW",{timeZone:"Asia/Tokyo"}) + " JST，日本標準時間）";
+    }
+  }
+  function fmtDiff(ms){
+    const totalMin = Math.floor(ms/60000);
+    const d = Math.floor(totalMin/1440);
+    const h = Math.floor((totalMin%1440)/60);
+    const m = totalMin%60;
+    return `${d}天 ${h}時 ${m}分`;
+  }
+
+  function renderAll(){
+    renderCounters();
+    renderProgress();
+    renderRewardList("ptRewardList", PT_REWARDS, state.pt, "ptTargetOverride");
+    renderEffectMilestones();
+  }
+
+  document.querySelectorAll("[data-target]").forEach(btn=>{
+    btn.addEventListener("click", ()=>{
+      const key = btn.dataset.target;
+      const delta = parseInt(btn.dataset.delta,10);
+      let v = Math.max(0, state[key] + delta);
+      if(key==="pt"){ v = Math.min(CAP, v); }
+      state[key] = v;
+      save(); renderAll();
+    });
+  });
+  document.querySelectorAll("[data-add]").forEach(btn=>{
+    btn.addEventListener("click", ()=>{
+      const key = btn.dataset.add;
+      const input = document.getElementById(key+"Manual");
+      const v = parseInt(input.value,10);
+      if(!isNaN(v)){
+        let nv = Math.max(0, (state[key]||0)+v);
+        if(key==="pt"){ nv = Math.min(CAP, nv); }
+        state[key] = nv; save(); renderAll();
+      }
+    });
+  });
+  document.querySelectorAll("[data-set-direct]").forEach(btn=>{
+    btn.addEventListener("click", ()=>{
+      const key = btn.dataset.setDirect;
+      const input = document.getElementById(key+"Manual");
+      const v = parseInt(input.value,10);
+      if(!isNaN(v)){
+        let nv = Math.max(v,0);
+        if(key==="pt"){ nv = Math.min(CAP, nv); }
+        state[key] = nv; save(); renderAll();
+      }
+      input.value="";
+    });
+  });
+
+  document.getElementById("ptManual").addEventListener("keydown", e=>{ if(e.key==="Enter") document.querySelector('[data-add="pt"]').click(); });
+  document.getElementById("hiuchiManual").addEventListener("keydown", e=>{ if(e.key==="Enter") document.querySelector('[data-add="hiuchi"]').click(); });
+
+  document.getElementById("helpBtn").addEventListener("click", ()=>{
+    document.getElementById("helpPanel").classList.toggle("show");
+  });
+  document.getElementById("notesHelpBtn").addEventListener("click", ()=>{
+    document.getElementById("notesPanel").classList.toggle("show");
+  });
+  document.getElementById("settingsBtn").addEventListener("click", ()=>{
+    document.getElementById("settingsPanel").classList.toggle("show");
+  });
+  document.getElementById("applyEnd").addEventListener("click", ()=>{
+    const v = document.getElementById("endInput").value;
+    if(v){ state.end = new Date(v).toISOString(); save(); renderCountdown(); renderProgress(); }
+  });
+  document.getElementById("endInput").addEventListener("keydown", e=>{ if(e.key==="Enter") document.getElementById("applyEnd").click(); });
+  document.getElementById("resetProgress").addEventListener("click", ()=>{
+    if(confirm("確定要清空本頁的花火玉／火打石紀錄嗎？此動作無法復原。")){
+      state = {pt:0, hiuchi:0, end:DEFAULT_END, ptTargetOverride:null, dayTrack:null, showHiuchi:state.showHiuchi};
+      save(); renderAll(); renderCountdown();
+    }
+  });
+
+  const showHiuchiCheckbox = document.getElementById("showHiuchiCheckbox");
+  showHiuchiCheckbox.checked = !!state.showHiuchi;
+  document.getElementById("hiuchiSection").style.display = state.showHiuchi ? "block" : "none";
+  showHiuchiCheckbox.addEventListener("change", ()=>{
+    state.showHiuchi = showHiuchiCheckbox.checked;
+    document.getElementById("hiuchiSection").style.display = state.showHiuchi ? "block" : "none";
+    save();
+  });
+
+  renderAll();
+  renderCountdown();
+  setInterval(renderCountdown, 30000);
+  setInterval(renderProgress, 60000);
+})();
+</script>
+</body>
+</html>
