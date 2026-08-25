@@ -1,5 +1,4 @@
-<img width="1920" height="1200" alt="image" src="https://github.com/user-attachments/assets/ac0d7976-e4e6-4ec0-8236-7f5c5daaf981" /># toukenranbu-event-progress-tracker
-DMM刀剣乱舞 遊戲活動追蹤工具 V 2.1
+DMM刀剣乱舞 遊戲活動追蹤工具 V 2.3
 
 
 ## 關於本專案
