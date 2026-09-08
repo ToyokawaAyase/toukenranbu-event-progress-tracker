@@ -7,30 +7,36 @@
 <style>
 body{font-family:"Noto Sans TC","Hiragino Sans","Yu Gothic",sans-serif;background:#f5f7fa;color:#2b2b2b;margin:0;padding:20px;}
 .wrap{max-width:700px;margin:60px auto;}
-h1{font-size:1.4rem;text-align:center;margin-bottom:30px;}
+h1{font-size:1.4rem;text-align:center;margin-bottom:32px;}
 .card{display:block;background:#fff;border-radius:10px;padding:20px 24px;margin-bottom:16px;text-decoration:none;color:inherit;box-shadow:0 1px 4px rgba(0,0,0,.08);border-left:6px solid #2b5580;}
-.card.hanabi{border-left-color:#b8452f;}
 .card.kantou{border-left-color:#2b7a5f;}
 .card.shugyou{border-left-color:#7a5c2b;}
-.card h2{margin:0 0 6px;font-size:1.1rem;color:#2b5580;}
-.card.hanabi h2{color:#b8452f;}
+.card.tokumei{border-left-color:#5b3a8e;}
+.card h2{margin:0 0 8px;font-size:1.1rem;color:#2b5580;}
 .card.kantou h2{color:#2b7a5f;}
 .card.shugyou h2{color:#7a5c2b;}
+.card.tokumei h2{color:#5b3a8e;}
 .card p{margin:0;font-size:.85rem;color:#6b7785;}
-footer{text-align:center;font-size:.75rem;color:#6b7785;margin-top:30px;}
+footer{text-align:center;font-size:.75rem;color:#6b7785;margin-top:32px;}
+@media (max-width:600px){
+  body{padding:16px;}
+  .wrap{margin:24px auto;}
+  h1{font-size:1.2rem;margin-bottom:20px;}
+  .card{padding:16px 20px;}
+}
 </style>
 <script data-goatcounter="https://ayase.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
 </head>
 <body>
 <div class="wrap">
   <h1>刀劍亂舞 活動紀錄總覽</h1>
-  <a class="card hanabi" href="hanabi_dakkan_sakusen.html">
-    <h2>夜花奪還作戦</h2>
-    <p>限時活動｜2026年8月25日～9月8日｜花火玉進度（上限300,000）</p>
+  <a class="card tokumei" href="tokumei_kumamoto.html">
+    <h2>特命調査 慶長熊本</h2>
+    <p>限時活動｜2026年9月8日～9月29日｜熊本城本丸御殿最終ボス勝利次數里程碑進度（1～20回）</p>
   </a>
   <a class="card kantou" href="kantou_campaign.html">
     <h2>鍛刀次數材料換算與角色記錄</h2>
-    <p>鍛刀次數換算資材消耗（可自訂各資材用量）、鍛刀時間對照表、角色入手狀態勾選記錄</p>
+    <p>鍛刀次數換算資材消耗（可自訂各資材用量）、鍛刀時間對照表、角色入手狀態勾選記錄、期間限定「二筋樋貞宗」顕現ポイント追蹤</p>
   </a>
   <a class="card shugyou" href="shugyou_priority.html">
     <h2>修行優先順序建議</h2>

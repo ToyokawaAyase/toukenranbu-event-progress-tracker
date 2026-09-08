@@ -8,54 +8,71 @@
 :root{--header:#2b7a5f;--accent:#a6d9c4;--accent-text:#1d5140;--track:#e6ecf1;--warn:#e0703c;--card:#ffffff;--bg:#f5f7fa;--text:#2b2b2b;--sub:#6b7785;}
 *{box-sizing:border-box;}
 body{font-family:"Noto Sans TC","Hiragino Sans","Yu Gothic",sans-serif;background:var(--bg);color:var(--text);margin:0;padding:20px;}
-.wrap{max-width:900px;margin:0 auto;}
-header{display:flex;align-items:center;justify-content:space-between;background:var(--header);color:#fff;padding:14px 20px;border-radius:10px 10px 0 0;flex-wrap:wrap;gap:8px;}
+.wrap{max-width:1200px;margin:0 auto;}
+header{display:flex;align-items:center;justify-content:space-between;background:var(--header);color:#fff;padding:16px 20px;border-radius:10px 10px 0 0;flex-wrap:wrap;gap:8px;}
 header h1{font-size:1.25rem;margin:0;display:flex;align-items:center;gap:8px;}
 .icon-btn{background:rgba(255,255,255,.15);border:none;color:#fff;border-radius:50%;width:30px;height:30px;cursor:pointer;font-size:.9rem;flex-shrink:0;}
 .icon-btn:hover{background:rgba(255,255,255,.3);}
 .panel{background:var(--card);padding:16px 20px;border:1px solid #e1e6ea;border-top:none;}
-.status-bar{background:#fff7e6;padding:10px 20px;font-size:.88rem;border-left:4px solid #e0a83c;}
+.status-bar{background:#fff7e6;padding:12px 20px;font-size:.88rem;border-left:4px solid #e0a83c;}
 .inline-help{background:#f0cd85;border:none;color:#6b4a12;border-radius:50%;width:20px;height:20px;font-size:.72rem;cursor:pointer;flex-shrink:0;line-height:1;}
 .inline-help:hover{background:#e6bb64;}
 .nav-links{background:#fff;padding:8px 20px;font-size:.8rem;border-bottom:1px solid #e1e6ea;}
-.nav-links a{color:var(--header);text-decoration:none;margin-right:14px;}
+.nav-links a{color:var(--header);text-decoration:none;margin-right:16px;}
 .nav-links a.current{font-weight:700;text-decoration:underline;}
 .nav-links a:hover{text-decoration:underline;}
 .counters{display:flex;gap:16px;flex-wrap:wrap;}
-.resource-item{flex:1;min-width:280px;background:#f7f8fa;border-radius:10px;padding:14px 16px;font-size:.85rem;display:flex;flex-direction:column;}
+.resource-item{flex:1;min-width:280px;background:#f7f8fa;border-radius:10px;padding:16px 16px;font-size:.85rem;display:flex;flex-direction:column;}
 .resource-item .res-label{color:var(--sub);font-size:.8rem;}
 .resource-item strong{display:block;font-size:1.15rem;color:var(--header);}
-.today-badge{display:inline-block;font-size:.68rem;font-weight:600;background:#e0f2e9;color:#1d5140;border-radius:10px;padding:2px 8px;margin-left:6px;vertical-align:middle;}
-.counter-controls{display:flex;gap:6px;flex-wrap:wrap;margin-top:auto;padding-top:8px;}
+.today-badge{display:inline-block;font-size:.68rem;font-weight:600;background:#e0f2e9;color:#1d5140;border-radius:10px;padding:4px 8px;margin-left:8px;vertical-align:middle;}
+.counter-controls{display:flex;gap:8px;flex-wrap:wrap;margin-top:auto;padding-top:8px;}
 .counter-controls button{border:1px solid #cbd6e0;background:#fff;border-radius:6px;padding:4px 8px;cursor:pointer;font-size:.8rem;}
 .counter-controls button:hover{background:#e6edf3;}
-.mat-input-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px 14px;margin-top:12px;}
-.mat-input-grid label{font-size:.78rem;color:var(--sub);display:flex;flex-direction:column;gap:3px;}
-.mat-input-grid input{padding:5px 6px;border:1px solid #cbd6e0;border-radius:6px;font-size:.95rem;color:var(--header);font-weight:700;}
-.mat-grid{display:grid;grid-template-columns:1fr 1fr;gap:6px 14px;margin-top:10px;}
+.mat-input-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px 16px;margin-top:12px;}
+.mat-input-grid label{font-size:.78rem;color:var(--sub);display:flex;flex-direction:column;gap:4px;min-width:0;}
+.mat-input-grid input{padding:4px 8px;border:1px solid #cbd6e0;border-radius:6px;font-size:.95rem;color:var(--header);font-weight:700;width:100%;min-width:0;box-sizing:border-box;}
+.mat-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px 16px;margin-top:12px;}
 .mat-grid div{font-size:.85rem;}
 .mat-grid strong{font-size:.95rem;color:var(--header);}
-.preset-row{display:flex;gap:6px;flex-wrap:wrap;margin-top:12px;}
-.preset-row button{border:1px solid var(--accent);background:#eef7f2;color:var(--accent-text);border-radius:6px;padding:5px 10px;cursor:pointer;font-size:.76rem;}
+.preset-row{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px;}
+.preset-row button{border:1px solid var(--accent);background:#eef7f2;color:var(--accent-text);border-radius:6px;padding:4px 12px;cursor:pointer;font-size:.76rem;}
 .preset-row button:hover{background:var(--accent);}
-.notes{font-size:.78rem;color:var(--sub);margin-top:14px;line-height:1.7;}
-.char-list{display:flex;gap:12px;flex-wrap:wrap;margin-top:10px;}
-.char-item{flex:1;min-width:150px;background:#f7f8fa;border-radius:10px;padding:12px 14px;display:flex;align-items:center;justify-content:space-between;gap:8px;cursor:pointer;user-select:none;border:2px solid transparent;}
+.notes{font-size:.78rem;color:var(--sub);margin-top:16px;line-height:1.7;}
+.char-list{display:flex;gap:12px;flex-wrap:wrap;margin-top:12px;}
+.char-item{flex:1;min-width:150px;background:#f7f8fa;border-radius:10px;padding:12px 16px;display:flex;align-items:center;justify-content:space-between;gap:8px;cursor:pointer;user-select:none;border:2px solid transparent;}
 .char-item.got{border-color:var(--header);background:#eef7f2;}
 .char-item .name{font-size:.95rem;font-weight:600;}
 .char-item .mark{font-size:.8rem;color:var(--sub);}
 .char-item.got .mark{color:var(--header);font-weight:700;}
-.section-title{margin-top:26px;font-size:.98rem;font-weight:700;border-bottom:2px solid var(--header);padding-bottom:4px;}
-.cat-title{font-size:.85rem;font-weight:700;color:var(--header);margin-top:14px;}
+.section-title{margin-top:28px;font-size:.98rem;font-weight:700;border-bottom:2px solid var(--header);padding-bottom:4px;}
+.cat-title{font-size:.85rem;font-weight:700;color:var(--header);margin-top:16px;}
 footer{font-size:.72rem;color:var(--sub);margin-top:20px;text-align:center;line-height:1.8;}
-.settings-panel{display:none;background:#fbfcfd;border:1px dashed #c7d0d8;border-radius:8px;padding:14px;margin-top:10px;font-size:.82rem;}
+.settings-panel{display:none;background:#fbfcfd;border:1px dashed #c7d0d8;border-radius:8px;padding:16px;margin-top:12px;font-size:.82rem;}
 .settings-panel.show{display:block;}
-.settings-panel button{margin-top:10px;border:none;background:var(--header);color:#fff;padding:6px 12px;border-radius:6px;cursor:pointer;margin-right:8px;}
+.settings-panel button{margin-top:12px;border:none;background:var(--header);color:#fff;padding:8px 12px;border-radius:6px;cursor:pointer;margin-right:8px;}
 .danger-btn{background:#c0392b!important;}
-.range-table{font-size:.78rem;line-height:1.9;margin-top:6px;}
-details{margin-top:20px;background:#fbfcfd;border:1px solid #e1e6ea;border-radius:8px;padding:2px 14px 14px;}
-details summary{cursor:pointer;font-weight:700;color:var(--header);padding:10px 0;}
-details[open] summary{border-bottom:1px solid #eef1f4;margin-bottom:10px;}
+.range-table{font-size:.78rem;line-height:1.9;margin-top:8px;}
+details{margin-top:20px;background:#fbfcfd;border:1px solid #e1e6ea;border-radius:8px;padding:4px 16px 16px;}
+details summary{cursor:pointer;font-weight:700;color:var(--header);padding:12px 0;}
+details[open] summary{border-bottom:1px solid #eef1f4;margin-bottom:12px;}
+@media (max-width:600px){
+  body{padding:12px;}
+  header{padding:12px 16px;}
+  header h1{font-size:1.05rem;}
+  .panel{padding:12px 16px;}
+  .nav-links{padding:8px 16px;}
+  .nav-links a{margin-right:12px;display:inline-block;margin-bottom:4px;}
+  .countdown-bar,.status-bar{padding:12px 16px;font-size:.82rem;}
+  .counters{gap:12px;}
+  .resource-item,.counter-card{min-width:100%;}
+  .mat-input-grid{grid-template-columns:1fr 1fr;gap:8px;}
+  .counter-controls button{padding:8px 12px;font-size:.82rem;}
+  .preset-row button{font-size:.72rem;padding:4px 8px;}
+  .char-list{gap:8px;}
+  .char-item{min-width:120px;}
+  .settings-panel{padding:12px;}
+}
 </style>
 <script data-goatcounter="https://ayase.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
 </head>
@@ -67,9 +84,9 @@ details[open] summary{border-bottom:1px solid #eef1f4;margin-bottom:10px;}
   </header>
   <div class="nav-links">
     <a href="index.html">首頁</a>
-    <a href="hanabi_dakkan_sakusen.html">夜花奪還作戦</a>
     <a href="kantou_campaign.html" class="current">鍛刀工具</a>
     <a href="shugyou_priority.html">修行優先順序</a>
+    <a href="tokumei_kumamoto.html">特命調査 慶長熊本</a>
   </div>
   <div class="panel">
     <div id="helpPanel" class="settings-panel">
@@ -78,6 +95,7 @@ details[open] summary{border-bottom:1px solid #eef1f4;margin-bottom:10px;}
       <p>材料換算：木炭／玉鋼／冷却材／砥石可以分別輸入不同數字，直接改主畫面上的欄位就會即時套用，不用另外按套用；下方也提供幾組常見配方可以一鍵套用。</p>
       <p>鍛刀時間對照表：選擇目前鍛刀畫面顯示的剩餘時間，可以看到該時間對應的刀種分類與可能角色，現在包含短刀～薙刀全刀種，僅供概略參考，實際結果以遊戲內為準。</p>
       <p>角色入手狀態：下方名單整理自公開資料的鍛刀時間對照表，非遊戲內全部刀剣男士的總表，未來可能隨資料更新調整。</p>
+      <p>期間限定鍛刀キャンペーン（二筋樋貞宗）：期間內以「木炭／玉鋼／冷却材／砥石 各700」進行鍛刀或十連鍛刀時，可額外獲得顕現ポイント，依當次使用的御札等級決定點數（無札5／梅10／竹15／松20／富士60），需自行依實際鍛刀結果輸入。每達 5,000 顕現ポイント自動兌換一隻「二筋樋貞宗」，取得數量無上限；活動結束後30天內（至2026/10/25 12:59），剩餘顕現ポイント每200點自動換算「根兵糖・並」×1，不足200點不補、逾期不換。此點數僅本次活動有效，不會延續到下次同類活動。</p>
       <p><strong>各刀種參考配比範圍（木炭／玉鋼／冷却材／砥石）：</strong></p>
       <div class="range-table">
         短刀：50~699／50~399／50~999／50~999<br>
@@ -95,6 +113,41 @@ details[open] summary{border-bottom:1px solid #eef1f4;margin-bottom:10px;}
     </div>
 
     <div class="status-bar">鍛刀次數材料換算＋角色入手記錄，資料僅儲存在這台瀏覽器。</div>
+
+    <div class="countdown-bar" id="keigenCountdownBar" style="background:#f3edfb;border-left:4px solid #6a4c9c;padding:12px 20px;font-size:.88rem;">載入中…</div>
+    <div class="section-title">期間限定鍛刀キャンペーン：二筋樋貞宗（顕現ポイント累計）</div>
+    <div class="counters">
+      <div class="resource-item">
+        <div class="res-label">顕現ポイント（累計，期間：2026/9/8維護結束後～2026/9/25 12:59 JST）</div>
+        <strong id="keigenValue">0 pt</strong>
+        <div class="notes" style="margin-top:0;">每 5,000 顕現ポイント自動兌換「二筋樋貞宗」×1，取得數量無上限。</div>
+        <div class="counter-controls" style="margin-top:8px;">
+          <button data-target="keigenPt" data-delta="5">+5（無札）</button>
+          <button data-target="keigenPt" data-delta="10">+10（御札・梅）</button>
+          <button data-target="keigenPt" data-delta="15">+15（御札・竹）</button>
+          <button data-target="keigenPt" data-delta="20">+20（御札・松）</button>
+          <button data-target="keigenPt" data-delta="60">+60（御札・富士）</button>
+        </div>
+        <div class="counter-controls">
+          <button data-target="keigenPt" data-delta="-100">-100</button>
+          <button data-target="keigenPt" data-delta="-10">-10</button>
+        </div>
+        <div class="mat-input-grid" style="grid-template-columns:1fr 1fr;margin-top:12px;">
+          <label>手動輸入
+            <input type="number" id="keigenPtManual" placeholder="輸入數值">
+          </label>
+          <div style="display:flex;align-items:flex-end;gap:8px;">
+            <button data-add="keigenPt" style="border:none;background:#6a4c9c;color:#fff;border-radius:6px;padding:4px 12px;cursor:pointer;">累加</button>
+            <button data-set-direct="keigenPt" style="border:none;background:#6a4c9c;color:#fff;border-radius:6px;padding:4px 12px;cursor:pointer;">直接設定</button>
+          </div>
+        </div>
+        <div class="progress-track" style="position:relative;background:#e6ecf1;border-radius:6px;height:24px;margin-top:12px;overflow:hidden;">
+          <div id="keigenProgressFill" style="background:#c9b3e0;height:100%;width:0%;"></div>
+          <div id="keigenProgressLabel" style="position:absolute;inset:0;display:flex;align-items:center;padding-left:12px;font-size:.8rem;font-weight:700;"></div>
+        </div>
+        <div class="notes" id="keigenNote" style="margin-top:8px;"></div>
+      </div>
+    </div>
 
     <div class="section-title">鍛刀次數與材料換算</div>
     <div class="counters">
@@ -133,15 +186,15 @@ details[open] summary{border-bottom:1px solid #eef1f4;margin-bottom:10px;}
           <div>冷却材 <strong id="matRei">0</strong></div>
           <div>砥石 <strong id="matTo">0</strong></div>
         </div>
-        <div class="notes" style="margin-top:10px;">四個欄位可直接修改，或點上方配方按鈕快速套用，總量會依「鍛刀嘗試次數」自動換算。</div>
+        <div class="notes" style="margin-top:12px;">四個欄位可直接修改，或點上方配方按鈕快速套用，總量會依「鍛刀嘗試次數」自動換算。</div>
       </div>
     </div>
 
     <div class="section-title">鍛刀時間對照表</div>
-    <div style="margin-top:10px;">
-      <select id="timeSelect" style="padding:6px 10px;border:1px solid #cbd6e0;border-radius:6px;font-size:.9rem;"></select>
+    <div style="margin-top:12px;">
+      <select id="timeSelect" style="padding:8px 12px;border:1px solid #cbd6e0;border-radius:6px;font-size:.9rem;"></select>
     </div>
-    <div class="char-list" id="timeResult" style="margin-top:10px;"></div>
+    <div class="char-list" id="timeResult" style="margin-top:12px;"></div>
 
     <details open>
       <summary>還沒入手的角色 → 對應時間（快速判斷值不值得用道具）</summary>
@@ -163,6 +216,9 @@ details[open] summary{border-bottom:1px solid #eef1f4;margin-bottom:10px;}
 (function(){
   const STORAGE_KEY = "kantouCampaignProgress_v1";
   const DEFAULT_MAT = {tan:700, tama:700, rei:700, to:700};
+  const KEIGEN_UNIT = 5000;
+  const KEIGEN_START = "2026-09-08T17:00:00+09:00";
+  const KEIGEN_END = "2026-09-25T12:59:00+09:00";
 
   const RECIPE_TABLE = [
     {cat:"短刀", rows:[
@@ -172,7 +228,8 @@ details[open] summary{border-bottom:1px solid #eef1f4;margin-bottom:10px;}
     {cat:"脇差", rows:[
       ["00:30:00",["肥前忠広"]],
       ["00:35:00",["篭手切江"]],
-      ["00:40:00",["にっかり青江","鯰尾藤四郎","骨喰藤四郎","物吉貞宗","堀川国広","浦島虎徹","治金丸","泛塵"]]
+      ["00:40:00",["にっかり青江","鯰尾藤四郎","骨喰藤四郎","物吉貞宗","堀川国広","浦島虎徹","治金丸","泛塵"]],
+      ["01:11:00",["二筋樋貞宗"]]
     ]},
     {cat:"打刀", rows:[
       ["01:25:00",["豊前江","桑名江","松井江","五月雨江","村雲江"]],
@@ -221,14 +278,15 @@ details[open] summary{border-bottom:1px solid #eef1f4;margin-bottom:10px;}
 
   let state = load();
   function load(){
-    const base = {tries:0, mat:Object.assign({},DEFAULT_MAT), got:{}, dayTrack:null};
+    const base = {tries:0, mat:Object.assign({},DEFAULT_MAT), got:{}, dayTrack:null, keigenPt:0};
     try{
       const raw = JSON.parse(localStorage.getItem(STORAGE_KEY) || "{}");
       return {
         tries: typeof raw.tries === "number" ? Math.max(0, raw.tries) : base.tries,
         mat: Object.assign({}, base.mat, raw.mat || {}),
         got: Object.assign({}, base.got, raw.got || {}),
-        dayTrack: raw.dayTrack || null
+        dayTrack: raw.dayTrack || null,
+        keigenPt: typeof raw.keigenPt === "number" ? Math.max(0, raw.keigenPt) : base.keigenPt
       };
     }catch(e){ return base; }
   }
@@ -356,6 +414,37 @@ details[open] summary{border-bottom:1px solid #eef1f4;margin-bottom:10px;}
     document.getElementById("triesTodayBadge").textContent = "今日 +"+todayGain.toLocaleString();
   }
 
+  function renderKeigen(){
+    const done = Math.floor(state.keigenPt / KEIGEN_UNIT);
+    const remain = KEIGEN_UNIT - (state.keigenPt % KEIGEN_UNIT);
+    const pct = (state.keigenPt % KEIGEN_UNIT) / KEIGEN_UNIT * 100;
+    document.getElementById("keigenValue").textContent = state.keigenPt.toLocaleString()+" pt";
+    document.getElementById("keigenProgressFill").style.width = pct.toFixed(1)+"%";
+    document.getElementById("keigenProgressLabel").textContent = `已達成保底 ${done} 次（二筋樋貞宗），距離下一次保底還差 ${remain.toLocaleString()} pt`;
+    document.getElementById("keigenNote").textContent = "顕現ポイント無上限，此處不做卡值處理，數值需自行依實際鍛刀結果累加。";
+  }
+
+  function renderKeigenCountdown(){
+    const now = new Date();
+    const start = new Date(KEIGEN_START);
+    const end = new Date(KEIGEN_END);
+    const el = document.getElementById("keigenCountdownBar");
+    if(now < start){
+      el.textContent = "「二筋樋貞宗」期間限定鍛刀キャンペーン尚未開始，距離開始還有 "+fmtDiff(start-now);
+    }else if(now <= end){
+      el.textContent = "「二筋樋貞宗」期間限定鍛刀キャンペーン進行中，距離結束還有 "+fmtDiff(end-now)+"（結束時間：2026/9/25 12:59 JST）";
+    }else{
+      el.textContent = "「二筋樋貞宗」期間限定鍛刀キャンペーン已結束（結束時間：2026/9/25 12:59 JST，剩餘顕現ポイント可於10/25 12:59前依比例換算根兵糖・並）";
+    }
+  }
+  function fmtDiff(ms){
+    const totalMin = Math.floor(ms/60000);
+    const d = Math.floor(totalMin/1440);
+    const h = Math.floor((totalMin%1440)/60);
+    const m = totalMin%60;
+    return `${d}天 ${h}時 ${m}分`;
+  }
+
   function renderAll(){
     renderCounters();
     renderTimeSelect();
@@ -363,6 +452,7 @@ details[open] summary{border-bottom:1px solid #eef1f4;margin-bottom:10px;}
     renderFullCharList();
     renderMissingByTime();
     renderPresetRow();
+    renderKeigen();
   }
 
   document.querySelectorAll("[data-target]").forEach(btn=>{
@@ -371,6 +461,29 @@ details[open] summary{border-bottom:1px solid #eef1f4;margin-bottom:10px;}
       const delta = parseInt(btn.dataset.delta,10);
       state[key] = Math.max(0, state[key] + delta);
       save(); renderAll();
+    });
+  });
+  document.querySelectorAll("[data-add]").forEach(btn=>{
+    btn.addEventListener("click", ()=>{
+      const key = btn.dataset.add;
+      const input = document.getElementById(key+"Manual");
+      const v = parseInt(input.value,10);
+      if(!isNaN(v)){
+        state[key] = Math.max(0, (state[key]||0)+v);
+        save(); renderAll();
+      }
+    });
+  });
+  document.querySelectorAll("[data-set-direct]").forEach(btn=>{
+    btn.addEventListener("click", ()=>{
+      const key = btn.dataset.setDirect;
+      const input = document.getElementById(key+"Manual");
+      const v = parseInt(input.value,10);
+      if(!isNaN(v)){
+        state[key] = Math.max(v,0);
+        save(); renderAll();
+      }
+      input.value="";
     });
   });
 
@@ -401,8 +514,8 @@ details[open] summary{border-bottom:1px solid #eef1f4;margin-bottom:10px;}
   });
 
   document.getElementById("resetProgress").addEventListener("click", ()=>{
-    if(confirm("確定要清空本頁的鍛刀次數／角色入手紀錄嗎？此動作無法復原。")){
-      state = {tries:0, mat:Object.assign({},DEFAULT_MAT), got:{}, dayTrack:null};
+    if(confirm("確定要清空本頁的鍛刀次數／角色入手紀錄／顕現ポイント嗎？此動作無法復原。")){
+      state = {tries:0, mat:Object.assign({},DEFAULT_MAT), got:{}, dayTrack:null, keigenPt:0};
       save(); renderAll(); fillMatInputs();
       document.getElementById("fullCharDetails").open = true;
     }
@@ -411,7 +524,11 @@ details[open] summary{border-bottom:1px solid #eef1f4;margin-bottom:10px;}
   const hasAnyGot = Object.values(state.got).some(Boolean);
   document.getElementById("fullCharDetails").open = !hasAnyGot;
 
+  document.getElementById("keigenPtManual").addEventListener("keydown", e=>{ if(e.key==="Enter") document.querySelector('[data-add="keigenPt"]').click(); });
+
   renderAll();
+  renderKeigenCountdown();
+  setInterval(renderKeigenCountdown, 30000);
 })();
 </script>
 </body>
