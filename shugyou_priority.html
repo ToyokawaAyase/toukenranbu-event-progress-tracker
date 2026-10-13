@@ -81,10 +81,30 @@ footer{font-size:.72rem;color:var(--sub);margin-top:20px;text-align:center;line-
   .result-row{flex-wrap:wrap;}
   .settings-row{flex-direction:column;align-items:flex-start;gap:8px;}
 }
+.notice-stack{position:fixed;left:16px;top:50%;transform:translateY(-50%);display:flex;flex-direction:column;gap:10px;z-index:999;}
+.exp-notice{position:relative;max-width:200px;background:#fff4e0;border:1px solid #e0a83c;border-left:4px solid #e0703c;border-radius:8px;padding:12px 14px;font-size:.78rem;line-height:1.6;color:#6b4a12;box-shadow:0 2px 8px rgba(0,0,0,.16);}
+.exp-notice strong{display:block;margin-bottom:4px;color:#b85c1a;}
+.exp-notice .exp-close{position:absolute;top:4px;right:6px;background:none;border:none;color:#6b4a12;cursor:pointer;font-size:.85rem;line-height:1;padding:2px;}
+@media (max-width:600px){
+  .notice-stack{left:8px;right:8px;top:auto;bottom:8px;transform:none;}
+  .exp-notice{max-width:none;}
+}
 </style>
 <script data-goatcounter="https://ayase.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
 </head>
 <body>
+<div class="notice-stack" id="noticeStack">
+  <div class="exp-notice" id="expNotice">
+    <button class="exp-close" id="expNoticeClose" title="關閉">×</button>
+    <strong>遠征大成功確定！資源2倍</strong>
+    期間：10/6（火）維護結束～10/14（水）12:59 JST，期間內所有遠征皆大成功歸還，獲得資源量2倍（小判、手伝い札、依頼札不列入2倍；強制帰還不算大成功，僅期間內開始的遠征適用）。
+  </div>
+  <div class="exp-notice" id="koukaNotice">
+    <button class="exp-close" id="koukaNoticeClose" title="關閉">×</button>
+    <strong>強化鏈結 強化効果2倍確定！</strong>
+    期間：10/13（二）維護結束～10/21（二）12:59 JST，期間內強化鏈結獲得的強化効果2倍。
+  </div>
+</div>
 <div class="wrap">
   <header>
     <h1>修行優先順序建議</h1>
@@ -93,12 +113,12 @@ footer{font-size:.72rem;color:var(--sub);margin-top:20px;text-align:center;line-
     <a href="index.html">首頁</a>
     <a href="kantou_campaign.html">鍛刀工具</a>
     <a href="shugyou_priority.html" class="current">修行優先順序</a>
-    <a href="tokumei_kumamoto.html">特命調査 慶長熊本</a>
+    <a href="chika_senryoubako.html">地下に眠る千両箱</a>
   </div>
   <div class="panel">
     <div class="status-bar">
       <div class="intro">
-        <span>同時只能送 <strong>1隻</strong> 去修行（96小時／4天才會回來），下方是「下一隻該送誰」的排序建議。等級不達標的一律先排除，不會進清單；下面清單可以用滑鼠<strong>左鍵拖曳上下排序</strong>，調整規則優先順序，排序結果會即時套用。</span>
+        <span>同時只能送 <strong>1隻</strong> 去修行<span style="color:var(--sub);font-size:.82rem;">（96小時／4天才會回來）</span>，下方是「下一隻該送誰」的排序建議。等級不達標的一律先排除，不會進清單；下面清單可以用滑鼠<strong>左鍵拖曳上下排序</strong>，調整規則優先順序，排序結果會即時套用。</span>
         <button class="help-toggle" id="ruleHelpBtn" title="詳細說明">?</button>
       </div>
       <ol class="rule-list" id="ruleList"></ol>
@@ -107,34 +127,34 @@ footer{font-size:.72rem;color:var(--sub);margin-top:20px;text-align:center;line-
         <button class="help-toggle" id="ruleHelpBtnMobile" title="詳細說明">?</button>
       </div>
       <div class="help-detail" id="ruleHelpDetail">
-        <div class="notes">修行等級門檻（未達標的角色不會出現在推薦名單，此項固定不可拖曳調整）：短刀60／脇差65／槍65／薙刀65／打刀70／太刀75／大太刀80（資料來源：wikiwiki.jp/toulove「刀剣男士 極」頁面）。</div>
-        <div class="notes">極化後回歸等級小提示：送出時若等級超過門檻，超出的經驗值會在極化完成時折算加進去，但折算方式依刀種的經驗值曲線而定，不是超幾等就直接回來幾等（例：短刀特Lv99送出，極化回來實測是Lv35，不是Lv39）。這裡沒辦法幫你精算實際回歸等級，下方推薦清單會顯示「目前等級比門檻高出幾等」讓你自己抓感覺。</div>
-        <div class="notes">數值資料來源：你提供的台灣wiki極化數值整理表；山姥切長義、水心子正秀、源清麿、祢々切丸、白山吉光的總合值已依 wikiwiki.jp/toulove「極 最大値一覧」頁面公開數據補上（8項基礎數值加總）。目前仍缺總合值的角色：治金丸、山鳥毛、太閤左文字、古今伝授の太刀、地蔵行平，數值比較時排在同層級較後面，不影響其他判準。劍種目前只有白山吉光可以極化（七星劍、丙子椒林剣尚未實裝極化，未列入清單）。</div>
-        <div class="notes">刀裝升級資料來源：wikiwiki.jp/toulove「刀剣男士 極」頁面（部分角色）＋你實測回報的レア度轉換資料。目前清單裡的角色刀裝升級狀態都已確認。</div>
+        <div class="notes">修行等級門檻（固定順序，不可拖曳）：短刀60／脇差65／槍65／薙刀65／打刀70／太刀75／大太刀80。未達標的角色不會出現在推薦名單。</div>
+        <div class="notes">極化完成後等級會依經驗值曲線折算，不是超過門檻幾等就直接回歸幾等（例：短刀特Lv99送出，極化回來實測Lv35，非Lv39）。推薦清單會標示「目前等級比門檻高出幾等」供參考。</div>
+        <div class="notes">缺總合值角色：治金丸、太閤左文字、古今伝授の太刀、地蔵行平，比較時排在同層級較後面，不影響其他判準。劍種目前僅白山吉光可極化，七星劍、丙子椒林剣目前只有一般刀形態，極化尚未實裝（非預告角色），未列入清單。總合值資料來源：wikiwiki.jp/toulove「極 最大値一覧」公開數據（8項基礎數值加總）。</div>
+        <div class="notes">清單角色的刀裝升級狀態皆已確認。資料來源：wikiwiki.jp/toulove「刀剣男士 極」頁面＋實測回報的レア度轉換資料。</div>
       </div>
     </div>
 
-    <div class="section-title">設定</div>
+    <div class="section-title">加成設定</div>
     <div class="settings-row">
       <label><input type="checkbox" id="mapStuck"> 目前卡在地圖6、7（開啟短刀加成）</label>
-      <span class="notes" id="shortCountNote" style="margin:0;"></span>
+      <button class="danger-btn" id="resetBtn" style="margin-left:auto;">重設本頁全部勾選</button>
     </div>
-    <div class="settings-row">
-      <button class="danger-btn" id="resetBtn">重設本頁全部勾選</button>
-    </div>
+    <div class="notes" id="shortCountNote" style="margin-top:4px;"></div>
 
     <div class="section-title">建議送出順序</div>
+    <div class="notes" style="margin-top:4px;">標籤圖示：📈 該刀種未滿6隻優先補齊／🔽 未達前6強基準，順位往後／🎒 刀裝格數會升級（滑鼠移上去可看完整說明）</div>
     <div id="levelBlockedNote" class="notes"></div>
     <div class="result-list" id="resultList"></div>
 
     <details style="margin-top:20px;">
-      <summary style="cursor:pointer;font-weight:700;color:var(--header);padding:8px 0;">標記角色狀態（點展開/收合）</summary>
-      <div class="notes" style="margin-top:8px;">「已擁有」＋「已極化」＋「目前等級」各自標記，跟其他頁一樣勾選＝已完成的正向狀態。只有「已擁有」、「未極化」、且等級達標的角色才會進入上方推薦名單。刀裝格數標籤點擊切換（短刀已預設開啟，其餘請依你的資料手動標記）。</div>
+      <summary style="cursor:pointer;font-weight:700;color:var(--header);padding:8px 0;">標記角色狀態<span style="font-weight:400;font-size:.78rem;color:var(--sub);">（點展開/收合）</span></summary>
+      <div class="notes" style="margin-top:8px;">分別標記「已擁有」「已極化」「目前等級」，勾選＝已完成。只有已擁有、未極化、且等級達標會進入推薦名單。刀裝格數標籤可點擊切換。</div>
       <div id="rosterArea" style="margin-top:8px;"></div>
     </details>
 
     <footer>
-      非官方個人記錄工具，資料以你自行標記為準，實際修行結果請以遊戲內畫面為準。
+      非官方個人記錄工具，資料以你自行標記為準，實際修行結果請以遊戲內畫面為準。<br>
+      如網頁有任何問題，請<a href="https://forms.gle/gMPXA4EYkXCvemnf6" target="_blank" rel="noopener">點此</a>填寫表單回報，謝謝。
     </footer>
   </div>
 </div>
@@ -167,7 +187,7 @@ footer{font-size:.72rem;color:var(--sub);margin-top:20px;text-align:center;line-
     ["鶯丸","太刀",699],["明石国行","太刀",699],["燭台切光忠","太刀",700],["大般若長光","太刀",703],
     ["小竜景光","太刀",708],["江雪左文字","太刀",707],["山伏国広","太刀",685],["髭切","太刀",715],
     ["膝丸","太刀",713],["獅子王","太刀",683],["鶴丸国永","太刀",709],["小豆長光","太刀",695],
-    ["千代金丸","太刀",682],["山鳥毛","太刀",null],
+    ["千代金丸","太刀",682],["山鳥毛","太刀",718],
 
     ["石切丸","大太刀",649],["蛍丸","大太刀",678],["太郎太刀","大太刀",672],["次郎太刀","大太刀",659],["祢々切丸","大太刀",673],
 
@@ -186,6 +206,8 @@ footer{font-size:.72rem;color:var(--sub);margin-top:20px;text-align:center;line-
     // 短刀：查到有資料的12隻皆確認升格，短刀規則本身也已知必升
     "今剣","平野藤四郎","厚藤四郎","後藤藤四郎","信濃藤四郎","前田藤四郎","秋田藤四郎","博多藤四郎",
     "乱藤四郎","五虎退","薬研藤四郎","包丁藤四郎","愛染国俊","太鼓鐘貞宗","小夜左文字","不動行光",
+    // 短刀：太閤左文字 1→2，格數變化（Ayase實測回報）
+    "太閤左文字",
     // 打刀：レア度4confirmed（3→4，2格變3格）
     "鳴狐","千子村正","和泉守兼定","大倶利伽羅","同田貫正国",
     // 大太刀：3→4，2格變3格
@@ -211,7 +233,11 @@ footer{font-size:.72rem;color:var(--sub);margin-top:20px;text-align:center;line-
     // 槍：4→5，3格不變
     "日本号",
     // 太刀：4→5，3格不變
-    "三日月宗近","大典太光世","数珠丸恒次","鬼丸国綱","一期一振","大包平","鶯丸","大般若長光","小竜景光","江雪左文字","髭切","膝丸","鶴丸国永","山鳥毛"
+    "三日月宗近","大典太光世","数珠丸恒次","鬼丸国綱","一期一振","大包平","鶯丸","大般若長光","小竜景光","江雪左文字","髭切","膝丸","鶴丸国永","山鳥毛",
+    // 太刀：古今伝授の太刀 4→5，格數不變（Ayase實測回報）
+    "古今伝授の太刀",
+    // 打刀：地蔵行平 2→3，格數不變（Ayase實測回報）
+    "地蔵行平"
   ]);
   // 短刀規則已知必升，未查到資料的短刀角色比照辦理
   const SHORT_SWORD_ASSUMED_UPGRADE = new Set(["毛利藤四郎","謙信景光","日向正宗","北谷菜切"]);
@@ -312,10 +338,12 @@ footer{font-size:.72rem;color:var(--sub);margin-top:20px;text-align:center;line-
       if(!items.length) return;
       const block = document.createElement("div");
       block.className = "type-block";
-      block.innerHTML = `<h3>${type}（修行需 Lv${LEVEL_REQ[type]}+）
-        <button class="bulk-btn" data-bulk-all="${type}" type="button">全選擁有</button>
-        <button class="bulk-btn" data-bulk-polarized="${type}" type="button">全部已極化</button>
-        <button class="bulk-btn" data-bulk-none="${type}" type="button" title="連同已極化狀態一起清除">全部取消</button>
+      block.innerHTML = `<h3><span>${type}（修行需 Lv${LEVEL_REQ[type]}+）</span>
+        <span style="margin-left:auto;display:flex;gap:6px;flex-wrap:wrap;">
+          <button class="bulk-btn" data-bulk-all="${type}" type="button">全選擁有</button>
+          <button class="bulk-btn" data-bulk-polarized="${type}" type="button">全部已極化</button>
+          <button class="bulk-btn" data-bulk-none="${type}" type="button" title="連同已極化狀態一起清除">全部取消</button>
+        </span>
       </h3>`;
       const grid = document.createElement("div");
       grid.className = "char-grid";
@@ -333,6 +361,7 @@ footer{font-size:.72rem;color:var(--sub);margin-top:20px;text-align:center;line-
           <label class="chk-lbl" title="已經極化完成"><input type="checkbox" data-polarized="${name}" ${polarized?"checked":""}>極</label>
           <span class="cname">${name}</span>
           <input type="number" class="lvl-input ${owned && !meetsLevel ? 'under':''}" data-level="${name}" placeholder="Lv" value="${lvl}" min="1" max="99">
+          <button type="button" class="bulk-btn" data-maxlv="${name}" title="直接填入滿等99" style="padding:2px 6px;font-size:.62rem;">滿</button>
           <span class="cstat">${total===null?"—":total}</span>
           <span class="slot-tag ${slotOn?"on":""} ${isUnknown?"unknown":""}" data-slot="${name}" title="${isUnknown?"未確認資料，點擊可手動標記":"刀裝是否升級"}">刀裝${isUnknown?"?":""}</span>
         `;
@@ -376,6 +405,12 @@ footer{font-size:.72rem;color:var(--sub);margin-top:20px;text-align:center;line-
       inp.addEventListener("change", ()=>{
         const v = parseInt(inp.value,10);
         state.level[inp.dataset.level] = isNaN(v) ? 0 : v;
+        save(); renderRoster(); renderResult();
+      });
+    });
+    el.querySelectorAll("[data-maxlv]").forEach(btn=>{
+      btn.addEventListener("click", ()=>{
+        state.level[btn.dataset.maxlv] = 99;
         save(); renderRoster(); renderResult();
       });
     });
@@ -466,21 +501,27 @@ footer{font-size:.72rem;color:var(--sub);margin-top:20px;text-align:center;line-
 
     order.forEach(([name,type,total], idx)=>{
       const tags = [];
-      if(idx===0) tags.push("下一隻");
-      if(type==="劍") tags.push("劍種最優先");
-      if(polarizedCountByType[type] < BENCHMARK_TRIGGER) tags.push(`${type}未滿6隻，優先補齊`);
-      if(mapStuck && type==="短刀") tags.push("短刀加成");
+      if(type==="劍") tags.push({text:"劍種最優先"});
+      if(polarizedCountByType[type] < BENCHMARK_TRIGGER) tags.push({icon:"📈", title:`${type}未滿6隻，優先補齊`});
+      if(mapStuck && type==="短刀") tags.push({text:"短刀加成"});
       const benchmark = benchmarkByType[type];
       if(total!==null && benchmark!==null && total < benchmark){
-        tags.push(`未達${type}前6強基準，順位往後`);
+        tags.push({icon:"🔽", title:`未達${type}前6強基準，順位往後`});
       }
-      if(slotOf(name,type)) tags.push(state.slot[name]===undefined && slotStatus(name,type)==="unknown" ? "刀裝升級(未確認)" : "刀裝升級");
+      if(slotOf(name,type)){
+        const unknown = state.slot[name]===undefined && slotStatus(name,type)==="unknown";
+        tags.push({icon: unknown ? "🎒?" : "🎒", title: unknown ? "刀裝升級（未確認）" : "刀裝升級"});
+      }
       const curLvl = state.level[name]||0;
       const excess = curLvl - LEVEL_REQ[type];
-      if(curLvl>0) tags.push(`目前Lv${curLvl}（超門檻${excess}等）`);
+      if(curLvl>0) tags.push({icon:`Lv${curLvl}`, title:`目前等級Lv${curLvl}，超過修行門檻${excess}等`});
       const row = document.createElement("div");
       row.className = "result-row";
-      row.innerHTML = `<span class="rank">${idx+1}</span><span class="rname">${name}（${type}）</span><span class="cstat">${total===null?"—":total}</span><span class="rtags">${tags.map(t=>`<span class="tag">${t}</span>`).join("")}</span>`;
+      const tagsHtml = tags.map(t=> t.icon
+        ? `<span class="tag" title="${t.title}">${t.icon}</span>`
+        : `<span class="tag">${t.text}</span>`
+      ).join("");
+      row.innerHTML = `<span class="rank">${idx+1}</span><span class="rname">${name}<span style="font-weight:400;font-size:.78rem;color:var(--sub);">（${type}）</span></span><span class="cstat">${total===null?"—":total}</span><span class="rtags">${tagsHtml}</span>`;
       el.appendChild(row);
     });
   }
@@ -511,6 +552,42 @@ footer{font-size:.72rem;color:var(--sub);margin-top:20px;text-align:center;line-
   renderRuleList();
   renderRoster();
   renderResult();
+})();
+</script>
+<script>
+function setupNotice(opts){
+  var el = document.getElementById(opts.elId);
+  if(!el) return;
+  function checkExpiry(){
+    if(new Date() > opts.end){ el.style.display = "none"; return true; }
+    return false;
+  }
+  if(checkExpiry()) return;
+  if(localStorage.getItem(opts.dismissKey) === "1"){ el.style.display = "none"; return; }
+  var closeBtn = document.getElementById(opts.closeBtnId);
+  if(closeBtn){
+    closeBtn.addEventListener("click", function(){
+      el.style.display = "none";
+      localStorage.setItem(opts.dismissKey, "1");
+    });
+  }
+  var timer = setInterval(function(){
+    if(checkExpiry()){ clearInterval(timer); }
+  }, 60000);
+}
+(function(){
+  setupNotice({
+    elId: "expNotice",
+    closeBtnId: "expNoticeClose",
+    end: new Date("2026-10-14T12:59:00+09:00"),
+    dismissKey: "expedition2xNoticeDismissed_20261014"
+  });
+  setupNotice({
+    elId: "koukaNotice",
+    closeBtnId: "koukaNoticeClose",
+    end: new Date("2026-10-21T12:59:00+09:00"),
+    dismissKey: "kouka3renket2xNoticeDismissed_20261021"
+  });
 })();
 </script>
 </body>

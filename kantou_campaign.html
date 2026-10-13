@@ -73,10 +73,30 @@ details[open] summary{border-bottom:1px solid #eef1f4;margin-bottom:12px;}
   .char-item{min-width:120px;}
   .settings-panel{padding:12px;}
 }
+.notice-stack{position:fixed;left:16px;top:50%;transform:translateY(-50%);display:flex;flex-direction:column;gap:10px;z-index:999;}
+.exp-notice{position:relative;max-width:200px;background:#fff4e0;border:1px solid #e0a83c;border-left:4px solid #e0703c;border-radius:8px;padding:12px 14px;font-size:.78rem;line-height:1.6;color:#6b4a12;box-shadow:0 2px 8px rgba(0,0,0,.16);}
+.exp-notice strong{display:block;margin-bottom:4px;color:#b85c1a;}
+.exp-notice .exp-close{position:absolute;top:4px;right:6px;background:none;border:none;color:#6b4a12;cursor:pointer;font-size:.85rem;line-height:1;padding:2px;}
+@media (max-width:600px){
+  .notice-stack{left:8px;right:8px;top:auto;bottom:8px;transform:none;}
+  .exp-notice{max-width:none;}
+}
 </style>
 <script data-goatcounter="https://ayase.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
 </head>
 <body>
+<div class="notice-stack" id="noticeStack">
+  <div class="exp-notice" id="expNotice">
+    <button class="exp-close" id="expNoticeClose" title="關閉">×</button>
+    <strong>遠征大成功確定！資源2倍</strong>
+    期間：10/6（火）維護結束～10/14（水）12:59 JST，期間內所有遠征皆大成功歸還，獲得資源量2倍（小判、手伝い札、依頼札不列入2倍；強制帰還不算大成功，僅期間內開始的遠征適用）。
+  </div>
+  <div class="exp-notice" id="koukaNotice">
+    <button class="exp-close" id="koukaNoticeClose" title="關閉">×</button>
+    <strong>強化鏈結 強化効果2倍確定！</strong>
+    期間：10/13（二）維護結束～10/21（二）12:59 JST，期間內強化鏈結獲得的強化効果2倍。
+  </div>
+</div>
 <div class="wrap">
   <header>
     <h1>鍛刀次數材料換算與角色記錄 <button class="icon-btn" id="helpBtn" title="說明">?</button></h1>
@@ -86,16 +106,16 @@ details[open] summary{border-bottom:1px solid #eef1f4;margin-bottom:12px;}
     <a href="index.html">首頁</a>
     <a href="kantou_campaign.html" class="current">鍛刀工具</a>
     <a href="shugyou_priority.html">修行優先順序</a>
-    <a href="tokumei_kumamoto.html">特命調査 慶長熊本</a>
+    <a href="chika_senryoubako.html">地下に眠る千両箱</a>
   </div>
   <div class="panel">
+    <div class="status-bar" id="limitedCampaignBar">期間限定鍛刀：目標角色「朝倉藤四郎」（短刀），鍛刀時間00:30:00，推薦配方All700（木炭／玉鋼／冷却材／砥石各700）。活動期間：2026年10月13日（週二）維護結束後～10月27日（週二）11:59（JST，日本標準時間）。</div>
     <div id="helpPanel" class="settings-panel">
       <strong>使用說明</strong>
       <p>本頁面僅供個人記錄用，非官方工具，資料以你自行輸入為準，儲存在「這台瀏覽器」的 localStorage，換裝置或清除瀏覽資料會遺失。</p>
       <p>材料換算：木炭／玉鋼／冷却材／砥石可以分別輸入不同數字，直接改主畫面上的欄位就會即時套用，不用另外按套用；下方也提供幾組常見配方可以一鍵套用。</p>
       <p>鍛刀時間對照表：選擇目前鍛刀畫面顯示的剩餘時間，可以看到該時間對應的刀種分類與可能角色，現在包含短刀～薙刀全刀種，僅供概略參考，實際結果以遊戲內為準。</p>
       <p>角色入手狀態：下方名單整理自公開資料的鍛刀時間對照表，非遊戲內全部刀剣男士的總表，未來可能隨資料更新調整。</p>
-      <p>期間限定鍛刀キャンペーン（二筋樋貞宗）：期間內以「木炭／玉鋼／冷却材／砥石 各700」進行鍛刀或十連鍛刀時，可額外獲得顕現ポイント，依當次使用的御札等級決定點數（無札5／梅10／竹15／松20／富士60），需自行依實際鍛刀結果輸入。每達 5,000 顕現ポイント自動兌換一隻「二筋樋貞宗」，取得數量無上限；活動結束後30天內（至2026/10/25 12:59），剩餘顕現ポイント每200點自動換算「根兵糖・並」×1，不足200點不補、逾期不換。此點數僅本次活動有效，不會延續到下次同類活動。</p>
       <p><strong>各刀種參考配比範圍（木炭／玉鋼／冷却材／砥石）：</strong></p>
       <div class="range-table">
         短刀：50~699／50~399／50~999／50~999<br>
@@ -109,44 +129,8 @@ details[open] summary{border-bottom:1px solid #eef1f4;margin-bottom:12px;}
     </div>
     <div id="settingsPanel" class="settings-panel">
       <strong>設定</strong>
+      <p class="notes" style="margin-top:0;">鍛刀次數材料換算＋角色入手記錄，資料僅儲存在這台瀏覽器。</p>
       <button id="resetProgress" class="danger-btn">重設本頁全部進度</button>
-    </div>
-
-    <div class="status-bar">鍛刀次數材料換算＋角色入手記錄，資料僅儲存在這台瀏覽器。</div>
-
-    <div class="countdown-bar" id="keigenCountdownBar" style="background:#f3edfb;border-left:4px solid #6a4c9c;padding:12px 20px;font-size:.88rem;">載入中…</div>
-    <div class="section-title">期間限定鍛刀キャンペーン：二筋樋貞宗（顕現ポイント累計）</div>
-    <div class="counters">
-      <div class="resource-item">
-        <div class="res-label">顕現ポイント（累計，期間：2026/9/8維護結束後～2026/9/25 12:59 JST）</div>
-        <strong id="keigenValue">0 pt</strong>
-        <div class="notes" style="margin-top:0;">每 5,000 顕現ポイント自動兌換「二筋樋貞宗」×1，取得數量無上限。</div>
-        <div class="counter-controls" style="margin-top:8px;">
-          <button data-target="keigenPt" data-delta="5">+5（無札）</button>
-          <button data-target="keigenPt" data-delta="10">+10（御札・梅）</button>
-          <button data-target="keigenPt" data-delta="15">+15（御札・竹）</button>
-          <button data-target="keigenPt" data-delta="20">+20（御札・松）</button>
-          <button data-target="keigenPt" data-delta="60">+60（御札・富士）</button>
-        </div>
-        <div class="counter-controls">
-          <button data-target="keigenPt" data-delta="-100">-100</button>
-          <button data-target="keigenPt" data-delta="-10">-10</button>
-        </div>
-        <div class="mat-input-grid" style="grid-template-columns:1fr 1fr;margin-top:12px;">
-          <label>手動輸入
-            <input type="number" id="keigenPtManual" placeholder="輸入數值">
-          </label>
-          <div style="display:flex;align-items:flex-end;gap:8px;">
-            <button data-add="keigenPt" style="border:none;background:#6a4c9c;color:#fff;border-radius:6px;padding:4px 12px;cursor:pointer;">累加</button>
-            <button data-set-direct="keigenPt" style="border:none;background:#6a4c9c;color:#fff;border-radius:6px;padding:4px 12px;cursor:pointer;">直接設定</button>
-          </div>
-        </div>
-        <div class="progress-track" style="position:relative;background:#e6ecf1;border-radius:6px;height:24px;margin-top:12px;overflow:hidden;">
-          <div id="keigenProgressFill" style="background:#c9b3e0;height:100%;width:0%;"></div>
-          <div id="keigenProgressLabel" style="position:absolute;inset:0;display:flex;align-items:center;padding-left:12px;font-size:.8rem;font-weight:700;"></div>
-        </div>
-        <div class="notes" id="keigenNote" style="margin-top:8px;"></div>
-      </div>
     </div>
 
     <div class="section-title">鍛刀次數與材料換算</div>
@@ -177,6 +161,7 @@ details[open] summary{border-bottom:1px solid #eef1f4;margin-bottom:12px;}
             <input type="number" id="matToInput">
           </label>
         </div>
+        <div class="notes" style="margin-top:12px;">四個欄位可直接修改，或點下方配方按鈕快速套用，總量會依「鍛刀嘗試次數」自動換算。</div>
 
         <div class="preset-row" id="presetRow"></div>
 
@@ -186,7 +171,6 @@ details[open] summary{border-bottom:1px solid #eef1f4;margin-bottom:12px;}
           <div>冷却材 <strong id="matRei">0</strong></div>
           <div>砥石 <strong id="matTo">0</strong></div>
         </div>
-        <div class="notes" style="margin-top:12px;">四個欄位可直接修改，或點上方配方按鈕快速套用，總量會依「鍛刀嘗試次數」自動換算。</div>
       </div>
     </div>
 
@@ -197,17 +181,18 @@ details[open] summary{border-bottom:1px solid #eef1f4;margin-bottom:12px;}
     <div class="char-list" id="timeResult" style="margin-top:12px;"></div>
 
     <details open>
-      <summary>還沒入手的角色 → 對應時間（快速判斷值不值得用道具）</summary>
+      <summary>對應時間 → 還沒入手的角色<span style="font-weight:400;font-size:.78rem;color:var(--sub);">（快速判斷值不值得用道具）</span></summary>
       <div id="missingByTime" style="margin-top:8px;"></div>
     </details>
 
     <details id="fullCharDetails">
-      <summary>角色入手狀態（點卡片切換已入手）</summary>
+      <summary>角色入手狀態<span style="font-weight:400;font-size:.78rem;color:var(--sub);">（點卡片切換已入手）</span></summary>
       <div id="fullCharList"></div>
     </details>
 
     <footer>
-      非官方個人記錄工具，資料來源整理自公開資訊，正式數值請以遊戲內公告為準，使用請自行確認。
+      非官方個人記錄工具，資料來源整理自公開資訊，正式數值請以遊戲內公告為準，使用請自行確認。<br>
+      如網頁有任何問題，請<a href="https://forms.gle/gMPXA4EYkXCvemnf6" target="_blank" rel="noopener">點此</a>填寫表單回報，謝謝。
     </footer>
   </div>
 </div>
@@ -215,21 +200,17 @@ details[open] summary{border-bottom:1px solid #eef1f4;margin-bottom:12px;}
 <script>
 (function(){
   const STORAGE_KEY = "kantouCampaignProgress_v1";
-  const DEFAULT_MAT = {tan:700, tama:700, rei:700, to:700};
-  const KEIGEN_UNIT = 5000;
-  const KEIGEN_START = "2026-09-08T17:00:00+09:00";
-  const KEIGEN_END = "2026-09-25T12:59:00+09:00";
+  const DEFAULT_MAT = {tan:0, tama:0, rei:0, to:0};
 
   const RECIPE_TABLE = [
     {cat:"短刀", rows:[
       ["00:20:00",["今剣","後藤藤四郎","信濃藤四郎","前田藤四郎","秋田藤四郎","博多藤四郎","乱藤四郎","五虎退","薬研藤四郎","包丁藤四郎","愛染国俊","太鼓鐘貞宗","小夜左文字","不動行光","毛利藤四郎","太閤左文字"]],
-      ["00:30:00",["平野藤四郎","厚藤四郎","謙信景光","日向正宗","北谷菜切"]]
+      ["00:30:00",["平野藤四郎","厚藤四郎","謙信景光","日向正宗","北谷菜切","朝倉藤四郎"]]
     ]},
     {cat:"脇差", rows:[
       ["00:30:00",["肥前忠広"]],
       ["00:35:00",["篭手切江"]],
-      ["00:40:00",["にっかり青江","鯰尾藤四郎","骨喰藤四郎","物吉貞宗","堀川国広","浦島虎徹","治金丸","泛塵"]],
-      ["01:11:00",["二筋樋貞宗"]]
+      ["00:40:00",["にっかり青江","鯰尾藤四郎","骨喰藤四郎","物吉貞宗","堀川国広","浦島虎徹","治金丸","泛塵"]]
     ]},
     {cat:"打刀", rows:[
       ["01:25:00",["豊前江","桑名江","松井江","五月雨江","村雲江"]],
@@ -258,6 +239,7 @@ details[open] summary{border-bottom:1px solid #eef1f4;margin-bottom:12px;}
   ];
 
   const RECIPE_PRESETS = [
+    {label:"期間限定・朝倉藤四郎 All700", mat:{tan:700,tama:700,rei:700,to:700}},
     {label:"短刀・高機率 60/60/60/60", mat:{tan:60,tama:60,rei:60,to:60}},
     {label:"短刀・高效率 50/50/50/50", mat:{tan:50,tama:50,rei:50,to:50}},
     {label:"脇差・高機率 150/450/150/150", mat:{tan:150,tama:450,rei:150,to:150}},
@@ -278,15 +260,14 @@ details[open] summary{border-bottom:1px solid #eef1f4;margin-bottom:12px;}
 
   let state = load();
   function load(){
-    const base = {tries:0, mat:Object.assign({},DEFAULT_MAT), got:{}, dayTrack:null, keigenPt:0};
+    const base = {tries:0, mat:Object.assign({},DEFAULT_MAT), got:{}, dayTrack:null};
     try{
       const raw = JSON.parse(localStorage.getItem(STORAGE_KEY) || "{}");
       return {
         tries: typeof raw.tries === "number" ? Math.max(0, raw.tries) : base.tries,
         mat: Object.assign({}, base.mat, raw.mat || {}),
         got: Object.assign({}, base.got, raw.got || {}),
-        dayTrack: raw.dayTrack || null,
-        keigenPt: typeof raw.keigenPt === "number" ? Math.max(0, raw.keigenPt) : base.keigenPt
+        dayTrack: raw.dayTrack || null
       };
     }catch(e){ return base; }
   }
@@ -377,7 +358,7 @@ details[open] summary{border-bottom:1px solid #eef1f4;margin-bottom:12px;}
     }
     times.forEach(t=>{
       const row = document.createElement("div");
-      row.style.cssText = "background:#fdf3ea;border-left:4px solid var(--warn);border-radius:6px;padding:8px 12px;margin-bottom:8px;font-size:.88rem;";
+      row.style.cssText = "background:#eef7f2;border-left:4px solid var(--header);border-radius:6px;padding:8px 12px;margin-bottom:8px;font-size:.88rem;";
       const count = byTime[t].length;
       row.innerHTML = `<strong>${t.slice(0,5)}</strong>　<span style="color:var(--sub);font-size:.78rem;">（${count}隻可能）</span>　${byTime[t].join("、")}`;
       el.appendChild(row);
@@ -414,37 +395,6 @@ details[open] summary{border-bottom:1px solid #eef1f4;margin-bottom:12px;}
     document.getElementById("triesTodayBadge").textContent = "今日 +"+todayGain.toLocaleString();
   }
 
-  function renderKeigen(){
-    const done = Math.floor(state.keigenPt / KEIGEN_UNIT);
-    const remain = KEIGEN_UNIT - (state.keigenPt % KEIGEN_UNIT);
-    const pct = (state.keigenPt % KEIGEN_UNIT) / KEIGEN_UNIT * 100;
-    document.getElementById("keigenValue").textContent = state.keigenPt.toLocaleString()+" pt";
-    document.getElementById("keigenProgressFill").style.width = pct.toFixed(1)+"%";
-    document.getElementById("keigenProgressLabel").textContent = `已達成保底 ${done} 次（二筋樋貞宗），距離下一次保底還差 ${remain.toLocaleString()} pt`;
-    document.getElementById("keigenNote").textContent = "顕現ポイント無上限，此處不做卡值處理，數值需自行依實際鍛刀結果累加。";
-  }
-
-  function renderKeigenCountdown(){
-    const now = new Date();
-    const start = new Date(KEIGEN_START);
-    const end = new Date(KEIGEN_END);
-    const el = document.getElementById("keigenCountdownBar");
-    if(now < start){
-      el.textContent = "「二筋樋貞宗」期間限定鍛刀キャンペーン尚未開始，距離開始還有 "+fmtDiff(start-now);
-    }else if(now <= end){
-      el.textContent = "「二筋樋貞宗」期間限定鍛刀キャンペーン進行中，距離結束還有 "+fmtDiff(end-now)+"（結束時間：2026/9/25 12:59 JST）";
-    }else{
-      el.textContent = "「二筋樋貞宗」期間限定鍛刀キャンペーン已結束（結束時間：2026/9/25 12:59 JST，剩餘顕現ポイント可於10/25 12:59前依比例換算根兵糖・並）";
-    }
-  }
-  function fmtDiff(ms){
-    const totalMin = Math.floor(ms/60000);
-    const d = Math.floor(totalMin/1440);
-    const h = Math.floor((totalMin%1440)/60);
-    const m = totalMin%60;
-    return `${d}天 ${h}時 ${m}分`;
-  }
-
   function renderAll(){
     renderCounters();
     renderTimeSelect();
@@ -452,7 +402,6 @@ details[open] summary{border-bottom:1px solid #eef1f4;margin-bottom:12px;}
     renderFullCharList();
     renderMissingByTime();
     renderPresetRow();
-    renderKeigen();
   }
 
   document.querySelectorAll("[data-target]").forEach(btn=>{
@@ -514,8 +463,8 @@ details[open] summary{border-bottom:1px solid #eef1f4;margin-bottom:12px;}
   });
 
   document.getElementById("resetProgress").addEventListener("click", ()=>{
-    if(confirm("確定要清空本頁的鍛刀次數／角色入手紀錄／顕現ポイント嗎？此動作無法復原。")){
-      state = {tries:0, mat:Object.assign({},DEFAULT_MAT), got:{}, dayTrack:null, keigenPt:0};
+    if(confirm("確定要清空本頁的鍛刀次數／角色入手紀錄嗎？此動作無法復原。")){
+      state = {tries:0, mat:Object.assign({},DEFAULT_MAT), got:{}, dayTrack:null};
       save(); renderAll(); fillMatInputs();
       document.getElementById("fullCharDetails").open = true;
     }
@@ -524,11 +473,43 @@ details[open] summary{border-bottom:1px solid #eef1f4;margin-bottom:12px;}
   const hasAnyGot = Object.values(state.got).some(Boolean);
   document.getElementById("fullCharDetails").open = !hasAnyGot;
 
-  document.getElementById("keigenPtManual").addEventListener("keydown", e=>{ if(e.key==="Enter") document.querySelector('[data-add="keigenPt"]').click(); });
-
   renderAll();
-  renderKeigenCountdown();
-  setInterval(renderKeigenCountdown, 30000);
+})();
+</script>
+<script>
+function setupNotice(opts){
+  var el = document.getElementById(opts.elId);
+  if(!el) return;
+  function checkExpiry(){
+    if(new Date() > opts.end){ el.style.display = "none"; return true; }
+    return false;
+  }
+  if(checkExpiry()) return;
+  if(localStorage.getItem(opts.dismissKey) === "1"){ el.style.display = "none"; return; }
+  var closeBtn = document.getElementById(opts.closeBtnId);
+  if(closeBtn){
+    closeBtn.addEventListener("click", function(){
+      el.style.display = "none";
+      localStorage.setItem(opts.dismissKey, "1");
+    });
+  }
+  var timer = setInterval(function(){
+    if(checkExpiry()){ clearInterval(timer); }
+  }, 60000);
+}
+(function(){
+  setupNotice({
+    elId: "expNotice",
+    closeBtnId: "expNoticeClose",
+    end: new Date("2026-10-14T12:59:00+09:00"),
+    dismissKey: "expedition2xNoticeDismissed_20261014"
+  });
+  setupNotice({
+    elId: "koukaNotice",
+    closeBtnId: "koukaNoticeClose",
+    end: new Date("2026-10-21T12:59:00+09:00"),
+    dismissKey: "kouka3renket2xNoticeDismissed_20261021"
+  });
 })();
 </script>
 </body>

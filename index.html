@@ -11,11 +11,11 @@ h1{font-size:1.4rem;text-align:center;margin-bottom:32px;}
 .card{display:block;background:#fff;border-radius:10px;padding:20px 24px;margin-bottom:16px;text-decoration:none;color:inherit;box-shadow:0 1px 4px rgba(0,0,0,.08);border-left:6px solid #2b5580;}
 .card.kantou{border-left-color:#2b7a5f;}
 .card.shugyou{border-left-color:#7a5c2b;}
-.card.tokumei{border-left-color:#5b3a8e;}
+.card.chika{border-left-color:#8a6d1f;}
 .card h2{margin:0 0 8px;font-size:1.1rem;color:#2b5580;}
 .card.kantou h2{color:#2b7a5f;}
 .card.shugyou h2{color:#7a5c2b;}
-.card.tokumei h2{color:#5b3a8e;}
+.card.chika h2{color:#8a6d1f;}
 .card p{margin:0;font-size:.85rem;color:#6b7785;}
 footer{text-align:center;font-size:.75rem;color:#6b7785;margin-top:32px;}
 @media (max-width:600px){
@@ -24,25 +24,81 @@ footer{text-align:center;font-size:.75rem;color:#6b7785;margin-top:32px;}
   h1{font-size:1.2rem;margin-bottom:20px;}
   .card{padding:16px 20px;}
 }
+.notice-stack{position:fixed;left:16px;top:50%;transform:translateY(-50%);display:flex;flex-direction:column;gap:10px;z-index:999;}
+.exp-notice{position:relative;max-width:200px;background:#fff4e0;border:1px solid #e0a83c;border-left:4px solid #e0703c;border-radius:8px;padding:12px 14px;font-size:.78rem;line-height:1.6;color:#6b4a12;box-shadow:0 2px 8px rgba(0,0,0,.16);}
+.exp-notice strong{display:block;margin-bottom:4px;color:#b85c1a;}
+.exp-notice .exp-close{position:absolute;top:4px;right:6px;background:none;border:none;color:#6b4a12;cursor:pointer;font-size:.85rem;line-height:1;padding:2px;}
+@media (max-width:600px){
+  .notice-stack{left:8px;right:8px;top:auto;bottom:8px;transform:none;}
+  .exp-notice{max-width:none;}
+}
 </style>
 <script data-goatcounter="https://ayase.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
 </head>
 <body>
+<div class="notice-stack" id="noticeStack">
+  <div class="exp-notice" id="expNotice">
+    <button class="exp-close" id="expNoticeClose" title="關閉">×</button>
+    <strong>遠征大成功確定！資源2倍</strong>
+    期間：10/6（火）維護結束～10/14（水）12:59 JST，期間內所有遠征皆大成功歸還，獲得資源量2倍（小判、手伝い札、依頼札不列入2倍；強制帰還不算大成功，僅期間內開始的遠征適用）。
+  </div>
+  <div class="exp-notice" id="koukaNotice">
+    <button class="exp-close" id="koukaNoticeClose" title="關閉">×</button>
+    <strong>強化鏈結 強化効果2倍確定！</strong>
+    期間：10/13（二）維護結束～10/21（二）12:59 JST，期間內強化鏈結獲得的強化効果2倍。
+  </div>
+</div>
 <div class="wrap">
   <h1>刀劍亂舞 活動紀錄總覽</h1>
-  <a class="card tokumei" href="tokumei_kumamoto.html">
-    <h2>特命調査 慶長熊本</h2>
-    <p>限時活動｜2026年9月8日～9月29日｜熊本城本丸御殿最終ボス勝利次數里程碑進度（1～20回）</p>
+  <a class="card chika" href="chika_senryoubako.html">
+    <h2>地下に眠る千両箱</h2>
+    <p>限時活動｜2026年10月6日～10月21日｜目前制覇樓層、小判累計記錄、稀有角色掉落隻數記錄</p>
   </a>
   <a class="card kantou" href="kantou_campaign.html">
     <h2>鍛刀次數材料換算與角色記錄</h2>
-    <p>鍛刀次數換算資材消耗（可自訂各資材用量）、鍛刀時間對照表、角色入手狀態勾選記錄、期間限定「二筋樋貞宗」顕現ポイント追蹤</p>
+    <p>鍛刀次數換算資材消耗（可自訂各資材用量）、鍛刀時間對照表、角色入手狀態勾選記錄</p>
   </a>
   <a class="card shugyou" href="shugyou_priority.html">
     <h2>修行優先順序建議</h2>
     <p>輸入刀種、地圖進度、刀裝與極化數值，自動算出下一隻該送誰去修行</p>
   </a>
-  <footer>非官方個人記錄工具，僅供自用參考。</footer>
+  <footer>非官方個人記錄工具，僅供自用參考。<br>如網頁有任何問題，請<a href="https://forms.gle/gMPXA4EYkXCvemnf6" target="_blank" rel="noopener">點此</a>填寫表單回報，謝謝。</footer>
 </div>
+<script>
+function setupNotice(opts){
+  var el = document.getElementById(opts.elId);
+  if(!el) return;
+  function checkExpiry(){
+    if(new Date() > opts.end){ el.style.display = "none"; return true; }
+    return false;
+  }
+  if(checkExpiry()) return;
+  if(localStorage.getItem(opts.dismissKey) === "1"){ el.style.display = "none"; return; }
+  var closeBtn = document.getElementById(opts.closeBtnId);
+  if(closeBtn){
+    closeBtn.addEventListener("click", function(){
+      el.style.display = "none";
+      localStorage.setItem(opts.dismissKey, "1");
+    });
+  }
+  var timer = setInterval(function(){
+    if(checkExpiry()){ clearInterval(timer); }
+  }, 60000);
+}
+(function(){
+  setupNotice({
+    elId: "expNotice",
+    closeBtnId: "expNoticeClose",
+    end: new Date("2026-10-14T12:59:00+09:00"),
+    dismissKey: "expedition2xNoticeDismissed_20261014"
+  });
+  setupNotice({
+    elId: "koukaNotice",
+    closeBtnId: "koukaNoticeClose",
+    end: new Date("2026-10-21T12:59:00+09:00"),
+    dismissKey: "kouka3renket2xNoticeDismissed_20261021"
+  });
+})();
+</script>
 </body>
 </html>

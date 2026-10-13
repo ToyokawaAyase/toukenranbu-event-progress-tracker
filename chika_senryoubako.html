@@ -1,0 +1,414 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>地下に眠る千両箱 活動紀錄</title>
+<style>
+:root{--header:#8a6d1f;--accent:#e8d08a;--accent-text:#5c4712;--track:#e6ecf1;--warn:#e0703c;--card:#ffffff;--bg:#f5f7fa;--text:#2b2b2b;--sub:#6b7785;}
+*{box-sizing:border-box;}
+body{font-family:"Noto Sans TC","Hiragino Sans","Yu Gothic",sans-serif;background:var(--bg);color:var(--text);margin:0;padding:20px;}
+.wrap{max-width:1200px;margin:0 auto;}
+header{display:flex;align-items:center;justify-content:space-between;background:var(--header);color:#fff;padding:16px 20px;border-radius:10px 10px 0 0;flex-wrap:wrap;gap:8px;}
+header h1{font-size:1.25rem;margin:0;display:flex;align-items:center;gap:8px;}
+.icon-btn{background:rgba(255,255,255,.15);border:none;color:#fff;border-radius:50%;width:30px;height:30px;cursor:pointer;font-size:.9rem;flex-shrink:0;}
+.icon-btn:hover{background:rgba(255,255,255,.3);}
+.panel{background:var(--card);padding:16px 20px;border:1px solid #e1e6ea;border-top:none;}
+.countdown-bar{background:#fbf2dc;padding:12px 20px;font-size:.92rem;border-left:4px solid var(--header);}
+.status-bar{background:#fbf7ec;padding:8px 20px;font-size:.76rem;color:var(--sub);border-left:4px solid #e9ddc0;}
+.inline-help{background:#f0cd85;border:none;color:#6b4a12;border-radius:50%;width:20px;height:20px;font-size:.72rem;cursor:pointer;flex-shrink:0;line-height:1;}
+.inline-help:hover{background:#e6bb64;}
+.nav-links{background:#fff;padding:8px 20px;font-size:.8rem;border-bottom:1px solid #e1e6ea;}
+.nav-links a{color:var(--header);text-decoration:none;margin-right:16px;}
+.nav-links a.current{font-weight:700;text-decoration:underline;}
+.nav-links a:hover{text-decoration:underline;}
+.counters{display:flex;gap:16px;flex-wrap:wrap;}
+.counter-card{flex:1;min-width:260px;background:#fbf2dc;border-radius:10px;padding:16px 16px;display:flex;flex-direction:column;}
+.counter-card h3{margin:0 0 8px;font-size:.85rem;color:var(--sub);}
+.counter-card .sub{font-size:.72rem;color:var(--sub);margin-bottom:8px;}
+.counter-value{font-size:2.2rem;font-weight:700;color:var(--header);word-break:break-all;overflow-wrap:anywhere;}
+.counter-controls{display:flex;gap:8px;flex-wrap:wrap;margin-top:auto;padding-top:8px;}
+.counter-controls button{border:1px solid #cbd6e0;background:#fff;border-radius:6px;padding:4px 8px;cursor:pointer;font-size:.8rem;}
+.counter-controls button:hover{background:#e6edf3;}
+.counter-manual{margin-top:8px;display:flex;gap:8px;flex-wrap:wrap;}
+.counter-manual input{width:110px;min-width:0;padding:4px 8px;border:1px solid #cbd6e0;border-radius:6px;}
+.counter-manual button{border:none;background:var(--header);color:#fff;border-radius:6px;padding:4px 12px;cursor:pointer;}
+.notes{font-size:.78rem;color:var(--sub);margin-top:16px;line-height:1.7;}
+.goal-note{background:#fbf2dc;border-left:4px solid var(--header);border-radius:6px;padding:12px 16px;margin-top:8px;font-size:.86rem;line-height:1.8;}
+.goal-note strong{display:block;color:var(--header);margin-bottom:4px;}
+.goal-note.show{display:block!important;}
+.section-title{margin-top:28px;font-size:.98rem;font-weight:700;border-bottom:2px solid var(--header);padding-bottom:4px;}
+.char-list{display:flex;flex-wrap:wrap;gap:10px;margin-top:12px;}
+.char-item{display:flex;align-items:center;gap:8px;background:#fbfcfd;border:1px solid #e1e6ea;border-radius:8px;padding:8px 12px;font-size:.84rem;min-width:240px;flex:1;}
+.char-item .name{font-weight:600;}
+.char-item.owned{background:#fbf2dc;}
+.char-item .hint{display:block;font-size:.72rem;color:var(--sub);margin-top:2px;}
+footer{font-size:.72rem;color:var(--sub);margin-top:20px;text-align:center;line-height:1.8;}
+.settings-panel{display:none;background:#fbfcfd;border:1px dashed #c7d0d8;border-radius:8px;padding:16px;margin-top:12px;font-size:.82rem;}
+.settings-panel.show{display:block;}
+.settings-panel label{display:block;margin-top:8px;}
+.settings-panel input{padding:4px 8px;border:1px solid #cbd6e0;border-radius:6px;}
+.settings-panel button{margin-top:12px;border:none;background:var(--header);color:#fff;padding:8px 12px;border-radius:6px;cursor:pointer;margin-right:8px;}
+.danger-btn{background:#c0392b!important;}
+details{margin-top:20px;background:#fbfcfd;border:1px solid #e1e6ea;border-radius:8px;padding:4px 16px 16px;}
+details summary{cursor:pointer;font-weight:700;color:var(--header);padding:12px 0;}
+details[open] summary{border-bottom:1px solid #eef1f4;margin-bottom:12px;}
+.notice-stack{position:fixed;left:16px;top:50%;transform:translateY(-50%);display:flex;flex-direction:column;gap:10px;z-index:999;}
+.exp-notice{position:relative;max-width:200px;background:#fff4e0;border:1px solid #e0a83c;border-left:4px solid #e0703c;border-radius:8px;padding:12px 14px;font-size:.78rem;line-height:1.6;color:#6b4a12;box-shadow:0 2px 8px rgba(0,0,0,.16);}
+.exp-notice strong{display:block;margin-bottom:4px;color:#b85c1a;}
+.exp-notice .exp-close{position:absolute;top:4px;right:6px;background:none;border:none;color:#6b4a12;cursor:pointer;font-size:.85rem;line-height:1;padding:2px;}
+@media (max-width:600px){
+  .notice-stack{left:8px;right:8px;top:auto;bottom:8px;transform:none;}
+  .exp-notice{max-width:none;}
+}
+@media (max-width:600px){
+  body{padding:12px;}
+  header{padding:12px 16px;}
+  header h1{font-size:1.05rem;}
+  .panel{padding:12px 16px;}
+  .nav-links{padding:8px 16px;}
+  .nav-links a{margin-right:12px;display:inline-block;margin-bottom:4px;}
+  .countdown-bar{padding:12px 16px;font-size:.82rem;}
+  .status-bar{padding:8px 16px;font-size:.72rem;}
+  .counters{gap:12px;}
+  .counter-card{min-width:100%;}
+  .counter-value{font-size:1.8rem;}
+  .counter-controls button{padding:8px 12px;font-size:.82rem;}
+  .counter-manual input{width:auto;flex:1;min-width:0;}
+  .char-item{min-width:100%;}
+  .settings-panel{padding:12px;}
+}
+</style>
+<script data-goatcounter="https://ayase.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
+</head>
+<body>
+<div class="notice-stack" id="noticeStack">
+  <div class="exp-notice" id="expNotice">
+    <button class="exp-close" id="expNoticeClose" title="關閉">×</button>
+    <strong>遠征大成功確定！資源2倍</strong>
+    期間：10/6（火）維護結束～10/14（水）12:59 JST，期間內所有遠征皆大成功歸還，獲得資源量2倍（小判、手伝い札、依頼札不列入2倍；強制帰還不算大成功，僅期間內開始的遠征適用）。
+  </div>
+  <div class="exp-notice" id="koukaNotice">
+    <button class="exp-close" id="koukaNoticeClose" title="關閉">×</button>
+    <strong>強化鏈結 強化効果2倍確定！</strong>
+    期間：10/13（二）維護結束～10/21（二）12:59 JST，期間內強化鏈結獲得的強化効果2倍。
+  </div>
+</div>
+<div class="wrap">
+  <header>
+    <h1>地下に眠る千両箱 活動紀錄 <button class="icon-btn" id="helpBtn" title="說明">?</button></h1>
+    <button class="icon-btn" id="settingsBtn" title="設定">⚙</button>
+  </header>
+  <div class="nav-links">
+    <a href="index.html">首頁</a>
+    <a href="kantou_campaign.html">鍛刀工具</a>
+    <a href="shugyou_priority.html">修行優先順序</a>
+    <a href="chika_senryoubako.html" class="current">地下に眠る千両箱</a>
+  </div>
+  <div class="panel">
+    <div id="helpPanel" class="settings-panel">
+      <strong>使用說明</strong>
+      <p>本頁面僅供個人記錄用，非官方工具，資料以你自行輸入為準。數值會儲存在「這台瀏覽器」的 localStorage，換裝置或清除瀏覽資料會遺失，請自行留意備份（例如定期截圖）。</p>
+      <p>每層通關的小判／資材報酬，遊戲內過關當下就會直接顯示，本頁不重複列出，只保留目前制覇到第幾層的簡易記錄。</p>
+      <p>小判加成：部隊編成「博多藤四郎」出陣可讓千両箱開出的小判增加（博多藤四郎1.5倍／博多藤四郎(極)2倍），此加成不影響「樓層制覇報酬」本身的小判。官方公告提到活動結束後遊戲內「獲得小判記錄」會消失，想保留這次活動總共賺了多少小判，建議自行用下方小判累計欄位記錄。</p>
+      <p>特定樓層撃破ボス後隨機率稀有入手特定刀剣男士：地下10階「博多藤四郎」、20階「後藤藤四郎」、30階「信濃藤四郎」、40階「包丁藤四郎」、50階「毛利藤四郎」；地下51～99階撃破ボス皆隨機率入手上述五人＋「鬼丸国綱」「白山吉光」。「白山吉光」在51階後每下降10層、以及89階後機率提升；「鬼丸国綱」在90、95、99階機率提升。以上皆為隨機率掉落，非每次通關必得，所以另外做了掉落隻數記錄，方便追蹤「拿過幾隻」。</p>
+      <p>經驗值2倍對象（含極）：鬼丸国綱、鳴狐、平野藤四郎、厚藤四郎、後藤藤四郎、信濃藤四郎，僅限本催物戰鬥中獲得的經驗值，同隊其他角色不受影響。</p>
+    </div>
+    <div id="settingsPanel" class="settings-panel">
+      <strong>設定</strong>
+      <label>活動結束時間（官方公告：2026-10-21 12:59，JST日本標準時間；如有異動請於此調整）
+        <input type="datetime-local" id="endInput">
+      </label>
+      <div>
+        <button id="applyEnd">套用結束時間</button>
+      </div>
+      <div>
+        <button id="resetProgress" class="danger-btn">重設本頁全部記錄</button>
+      </div>
+    </div>
+
+    <div class="status-bar" id="statusBar">期間：2026年10月6日（週二）維護結束後 ～ 2026年10月21日（週三）12:59（JST，日本標準時間，比台灣快1小時，實際開始時間以「維護結束時」為準；結束時間可能依官方公告異動）。</div>
+    <div class="countdown-bar" id="countdownBar">載入中…</div>
+
+    <div class="section-title">目前制覇樓層（簡易記錄，地下1階～地下99階）</div>
+    <div class="counters">
+      <div class="counter-card">
+        <div style="display:flex;align-items:center;justify-content:space-between;gap:6px;margin-bottom:8px;">
+          <h3 style="margin:0;">目前制覇樓層</h3>
+          <button class="inline-help" id="floorGoalHelpBtn" title="備註提醒">?</button>
+        </div>
+        <div class="sub">各層通關報酬遊戲內過關時會直接顯示，這裡只記錄目前跑到第幾層，方便之後對照</div>
+        <div class="goal-note" id="goalNote" style="display:none;"></div>
+        <div class="counter-value" id="floorValue">0</div>
+        <div class="counter-controls">
+          <button data-target="floor" data-delta="-10">-10</button>
+          <button data-target="floor" data-delta="-5">-5</button>
+          <button data-target="floor" data-delta="-1">-1</button>
+          <button data-target="floor" data-delta="1">+1</button>
+          <button data-target="floor" data-delta="5">+5</button>
+          <button data-target="floor" data-delta="10">+10</button>
+        </div>
+        <div class="counter-manual">
+          <input type="number" id="floorManual" placeholder="輸入數值">
+          <button data-add="floor">累加</button>
+          <button data-set-direct="floor">直接設定</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="section-title">小判累計總量（活動期間手動記錄）</div>
+    <div class="counters">
+      <div class="counter-card">
+        <h3>本活動累計入手小判</h3>
+        <div class="sub">活動結束後遊戲內「獲得小判記錄」會消失，想保留總量請自行累加</div>
+        <div class="counter-value" id="coinsValue">0</div>
+        <div class="counter-controls">
+          <button data-target="coins" data-delta="-1000">-1,000</button>
+          <button data-target="coins" data-delta="-100">-100</button>
+          <button data-target="coins" data-delta="100">+100</button>
+          <button data-target="coins" data-delta="500">+500</button>
+          <button data-target="coins" data-delta="1000">+1,000</button>
+          <button data-target="coins" data-delta="5000">+5,000</button>
+          <button data-target="coins" data-delta="10000">+10,000</button>
+          <button data-target="coins" data-delta="50000">+50,000</button>
+        </div>
+        <div class="counter-manual">
+          <input type="number" id="coinsManual" placeholder="輸入數值">
+          <button data-add="coins">累加</button>
+          <button data-set-direct="coins">直接設定</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="section-title">稀有角色掉落記錄（隨機率掉落，可記錄掉落隻數）</div>
+    <div class="notes" style="margin-top:0;">掉到就把對應角色的數字往上加（例如又重複掉到一隻，直接按+1），数字大於0就會自動標成已入手的樣式。</div>
+    <div class="char-list" id="charList"></div>
+
+    <footer>
+      非官方個人記錄工具，資料來源整理自官方公告，正式數值請以遊戲內公告為準，使用請自行確認。<br>
+      如網頁有任何問題，請<a href="https://forms.gle/gMPXA4EYkXCvemnf6" target="_blank" rel="noopener">點此</a>填寫表單回報，謝謝。
+    </footer>
+  </div>
+</div>
+
+<script>
+(function(){
+  const STORAGE_KEY = "chikaSenryoubakoProgress_v2";
+  const OLD_STORAGE_KEY = "chikaSenryoubakoProgress_v1";
+  const DEFAULT_END = "2026-10-21T12:59:00+09:00";
+  const START = "2026-10-06T17:00:00+09:00";
+  const CAP = 99;
+  const MAX_COINS = 999999999;
+
+  const RARE_CHARS = [
+    ["博多藤四郎","地下10階確定機率掉落／51～99階池"],
+    ["後藤藤四郎","地下20階確定機率掉落／51～99階池"],
+    ["信濃藤四郎","地下30階確定機率掉落／51～99階池"],
+    ["包丁藤四郎","地下40階確定機率掉落／51～99階池"],
+    ["毛利藤四郎","地下50階確定機率掉落／51～99階池"],
+    ["鬼丸国綱","51～99階池，90／95／99階機率提升"],
+    ["白山吉光","51～99階池，51階後每10層及89階後機率提升"]
+  ];
+
+  let state = load();
+  function load(){
+    const base = {floor:0, coins:0, end:DEFAULT_END, dropCount:{}};
+    try{
+      const raw = JSON.parse(localStorage.getItem(STORAGE_KEY) || "null");
+      if(raw){
+        const merged = Object.assign({}, base, raw);
+        merged.dropCount = Object.assign({}, raw.dropCount||{});
+        // 從更早的「已持有」勾選版本帶過來一次，勾過的先算1隻
+        if(raw.owned){
+          Object.keys(raw.owned).forEach(name=>{
+            if(raw.owned[name] && !merged.dropCount[name]) merged.dropCount[name] = 1;
+          });
+        }
+        if(merged.end && new Date(merged.end).getFullYear() < 2026){ merged.end = DEFAULT_END; }
+        merged.floor = Math.min(CAP, Math.max(0, merged.floor||0));
+        merged.coins = Math.max(0, merged.coins||0);
+        return merged;
+      }
+      // 沒有 v2 資料時，嘗試從舊版（v1，只有樓層）帶過來一次
+      const old = JSON.parse(localStorage.getItem(OLD_STORAGE_KEY) || "null");
+      if(old && typeof old.floor === "number"){
+        base.floor = Math.min(CAP, Math.max(0, old.floor));
+      }
+      return base;
+    }catch(e){ return base; }
+  }
+  function save(){ localStorage.setItem(STORAGE_KEY, JSON.stringify(state)); }
+
+  function renderCharChecklist(containerId, names){
+    const el = document.getElementById(containerId);
+    el.innerHTML = "";
+    names.forEach(item=>{
+      const name = Array.isArray(item) ? item[0] : item;
+      const hint = Array.isArray(item) ? item[1] : "";
+      const count = state.dropCount[name] || 0;
+      const row = document.createElement("div");
+      row.className = "char-item" + (count>0 ? " owned" : "");
+      row.innerHTML = `<span style="flex:1;"><span class="name">${name}</span>${hint?`<span class="hint">${hint}</span>`:""}</span>
+        <button type="button" class="drop-btn" data-dir="-1" style="border:1px solid var(--header);background:#fff;color:var(--header);border-radius:4px;padding:2px 8px;cursor:pointer;font-size:.72rem;">-1</button>
+        <input type="number" min="0" style="width:48px;padding:4px 4px;border:1px solid #cbd6e0;border-radius:4px;text-align:center;" value="${count}">
+        <button type="button" class="drop-btn" data-dir="1" style="border:1px solid var(--header);background:#fff;color:var(--header);border-radius:4px;padding:2px 8px;cursor:pointer;font-size:.72rem;">+1</button>`;
+      const input = row.querySelector("input");
+      input.addEventListener("change", ()=>{
+        const v = parseInt(input.value,10);
+        state.dropCount[name] = isNaN(v) ? 0 : Math.max(0, v);
+        save(); renderAll();
+      });
+      row.querySelectorAll(".drop-btn").forEach(btn=>{
+        btn.addEventListener("click", ()=>{
+          const dir = parseInt(btn.dataset.dir,10);
+          state.dropCount[name] = Math.max(0, (state.dropCount[name]||0) + dir);
+          save(); renderAll();
+        });
+      });
+      el.appendChild(row);
+    });
+  }
+
+  function renderCounters(){
+    document.getElementById("floorValue").textContent = state.floor.toLocaleString();
+    document.getElementById("coinsValue").textContent = state.coins.toLocaleString();
+  }
+
+  function renderGoalNote(){
+    const el = document.getElementById("goalNote");
+    if(!el) return;
+    el.innerHTML = `<strong>備註提醒</strong>
+      最低目標建議打到地下51階，51階起才會開始機率掉落「白山吉光」「鬼丸国綱」。<br>
+      能力允許下能打多高打多高，地下88階附近常見高速槍系強敵，卡關很正常，依自己戰力調整就好；若能穩定推到99階最理想，99階的千両箱小判報酬最高。<br>
+      建議帶「劍」種類3隻刀輔助練等，並注意連續周回的刀劍氣力值。<br>
+      下個活動是刮刮樂，小判花費是無底洞，這次活動請盡量多刷，把小判存起來。`;
+  }
+
+  function renderCountdown(){
+    const now = new Date();
+    const start = new Date(START);
+    const end = new Date(state.end || DEFAULT_END);
+    const el = document.getElementById("countdownBar");
+    if(now < start){
+      el.textContent = "距離活動開始還有 "+fmtDiff(start-now)+"（實際開始時間以遊戲內「維護結束時」為準）";
+    }else if(now <= end){
+      el.textContent = "距離活動結束還有 "+fmtDiff(end-now)+"（結束時間：" + end.toLocaleString("zh-TW",{timeZone:"Asia/Tokyo"}) + " JST，日本標準時間）";
+    }else{
+      el.textContent = "活動已結束（結束時間：" + end.toLocaleString("zh-TW",{timeZone:"Asia/Tokyo"}) + " JST，日本標準時間）";
+    }
+  }
+  function fmtDiff(ms){
+    const totalMin = Math.floor(ms/60000);
+    const d = Math.floor(totalMin/1440);
+    const h = Math.floor((totalMin%1440)/60);
+    const m = totalMin%60;
+    return `${d}天 ${h}時 ${m}分`;
+  }
+
+  function renderAll(){
+    renderCounters();
+    renderGoalNote();
+    renderCharChecklist("charList", RARE_CHARS);
+  }
+
+  document.querySelectorAll("[data-target]").forEach(btn=>{
+    btn.addEventListener("click", ()=>{
+      const key = btn.dataset.target;
+      const delta = parseInt(btn.dataset.delta,10);
+      const cap = key==="floor" ? CAP : MAX_COINS;
+      state[key] = Math.min(cap, Math.max(0, (state[key]||0) + delta));
+      save(); renderAll();
+    });
+  });
+  document.querySelectorAll("[data-add]").forEach(btn=>{
+    btn.addEventListener("click", ()=>{
+      const key = btn.dataset.add;
+      const input = document.getElementById(key+"Manual");
+      const v = parseInt(input.value,10);
+      const cap = key==="floor" ? CAP : MAX_COINS;
+      if(!isNaN(v)){
+        state[key] = Math.min(cap, Math.max(0, (state[key]||0)+v));
+        save(); renderAll();
+      }
+      input.value="";
+    });
+  });
+  document.querySelectorAll("[data-set-direct]").forEach(btn=>{
+    btn.addEventListener("click", ()=>{
+      const key = btn.dataset.setDirect;
+      const input = document.getElementById(key+"Manual");
+      const v = parseInt(input.value,10);
+      const cap = key==="floor" ? CAP : MAX_COINS;
+      if(!isNaN(v)){
+        state[key] = Math.min(cap, Math.max(v,0));
+        save(); renderAll();
+      }
+      input.value="";
+    });
+  });
+
+  document.getElementById("floorManual").addEventListener("keydown", e=>{ if(e.key==="Enter") document.querySelector('[data-add="floor"]').click(); });
+  document.getElementById("coinsManual").addEventListener("keydown", e=>{ if(e.key==="Enter") document.querySelector('[data-add="coins"]').click(); });
+
+  document.getElementById("helpBtn").addEventListener("click", ()=>{
+    document.getElementById("helpPanel").classList.toggle("show");
+  });
+  document.getElementById("settingsBtn").addEventListener("click", ()=>{
+    document.getElementById("settingsPanel").classList.toggle("show");
+  });
+  document.getElementById("floorGoalHelpBtn").addEventListener("click", ()=>{
+    document.getElementById("goalNote").classList.toggle("show");
+  });
+  document.getElementById("applyEnd").addEventListener("click", ()=>{
+    const v = document.getElementById("endInput").value;
+    if(v){ state.end = new Date(v).toISOString(); save(); renderCountdown(); }
+  });
+  document.getElementById("endInput").addEventListener("keydown", e=>{ if(e.key==="Enter") document.getElementById("applyEnd").click(); });
+
+  document.getElementById("resetProgress").addEventListener("click", ()=>{
+    if(confirm("確定要清空本頁的樓層／小判／角色記錄嗎？此動作無法復原。")){
+      state = {floor:0, coins:0, end:state.end, dropCount:{}};
+      save(); renderAll();
+    }
+  });
+
+  renderAll();
+  renderCountdown();
+  setInterval(renderCountdown, 30000);
+
+  function setupNotice(opts){
+    var el = document.getElementById(opts.elId);
+    if(!el) return;
+    function checkExpiry(){
+      if(new Date() > opts.end){ el.style.display = "none"; return true; }
+      return false;
+    }
+    if(checkExpiry()) return;
+    if(localStorage.getItem(opts.dismissKey) === "1"){ el.style.display = "none"; return; }
+    var closeBtn = document.getElementById(opts.closeBtnId);
+    if(closeBtn){
+      closeBtn.addEventListener("click", function(){
+        el.style.display = "none";
+        localStorage.setItem(opts.dismissKey, "1");
+      });
+    }
+    var timer = setInterval(function(){
+      if(checkExpiry()){ clearInterval(timer); }
+    }, 60000);
+  }
+  setupNotice({
+    elId: "expNotice",
+    closeBtnId: "expNoticeClose",
+    end: new Date("2026-10-14T12:59:00+09:00"),
+    dismissKey: "expedition2xNoticeDismissed_20261014"
+  });
+  setupNotice({
+    elId: "koukaNotice",
+    closeBtnId: "koukaNoticeClose",
+    end: new Date("2026-10-21T12:59:00+09:00"),
+    dismissKey: "kouka3renket2xNoticeDismissed_20261021"
+  });
+})();
+</script>
+</body>
+</html>
