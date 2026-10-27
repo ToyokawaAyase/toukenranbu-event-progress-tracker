@@ -195,6 +195,25 @@ footer{font-size:.72rem;color:var(--sub);margin-top:20px;text-align:center;line-
           <button id="setManual">直接設定</button>
         </div>
       </div>
+      <div class="counter-card">
+        <h3>累計花費小判（購買更新手形）</h3>
+        <div class="sub">更新手形每張900小判；活動結束時，購買後未使用的手形每張換回900小判</div>
+        <div class="counter-value" id="kobanValue">0</div>
+        <div class="sub" style="margin-top:4px;">已購買更新手形 <strong id="tegataValue">0</strong> 張</div>
+        <div class="counter-controls">
+          <button data-tegata="-10">-10張</button>
+          <button data-tegata="-5">-5張</button>
+          <button data-tegata="-1">-1張</button>
+          <button data-tegata="1">+1張</button>
+          <button data-tegata="5">+5張</button>
+          <button data-tegata="10">+10張</button>
+        </div>
+        <div class="counter-manual">
+          <input type="number" id="tegataManual" placeholder="輸入張數">
+          <button id="addTegata">累加</button>
+          <button id="setTegata">直接設定</button>
+        </div>
+      </div>
     </div>
 
     <div class="section-title">報酬進度</div>
@@ -219,6 +238,8 @@ footer{font-size:.72rem;color:var(--sub);margin-top:20px;text-align:center;line-
   const DEFAULT_END = "2026-11-10T12:59:00+09:00";
   const START = "2026-10-27T16:00:00+09:00";
   const CAP = 99999999;
+  const TEGATA_PRICE = 900;
+  const TEGATA_CAP = 99999;
 
   // 南瓜累計報酬：[門檻, 報酬]，依官方公告「報酬一覽」
   const REWARDS = [
@@ -244,12 +265,13 @@ footer{font-size:.72rem;color:var(--sub);margin-top:20px;text-align:center;line-
 
   let state = load();
   function load(){
-    const base = {kabocha:0, end:DEFAULT_END, targetOverride:null, mult:1};
+    const base = {kabocha:0, tegata:0, end:DEFAULT_END, targetOverride:null, mult:1};
     try{
       const raw = JSON.parse(localStorage.getItem(STORAGE_KEY) || "null");
       if(!raw) return base;
       const merged = Object.assign({}, base, raw);
       merged.kabocha = Math.min(CAP, Math.max(0, parseInt(merged.kabocha,10)||0));
+      merged.tegata = Math.min(TEGATA_CAP, Math.max(0, parseInt(merged.tegata,10)||0));
       if(![1,3,10].includes(merged.mult)) merged.mult = 1;
       if(merged.end && new Date(merged.end).getFullYear() < 2026){ merged.end = DEFAULT_END; }
       return merged;
@@ -348,8 +370,15 @@ footer{font-size:.72rem;color:var(--sub);margin-top:20px;text-align:center;line-
     return `${Math.floor(totalMin/1440)}天 ${Math.floor((totalMin%1440)/60)}時 ${totalMin%60}分`;
   }
 
+  function setTegata(v){
+    state.tegata = Math.min(TEGATA_CAP, Math.max(0, v));
+    save(); renderAll();
+  }
+
   function renderAll(){
     document.getElementById("kabochaValue").textContent = state.kabocha.toLocaleString();
+    document.getElementById("tegataValue").textContent = state.tegata.toLocaleString();
+    document.getElementById("kobanValue").textContent = (state.tegata * TEGATA_PRICE).toLocaleString();
     document.querySelectorAll('input[name="mult"]').forEach(r=>{ r.checked = parseInt(r.value,10) === state.mult; });
     document.querySelectorAll("[data-base]").forEach(btn=>{
       const base = parseInt(btn.dataset.base,10);
@@ -381,6 +410,20 @@ footer{font-size:.72rem;color:var(--sub);margin-top:20px;text-align:center;line-
   });
   manual.addEventListener("keydown", e=>{ if(e.key==="Enter") document.getElementById("addManual").click(); });
 
+  document.querySelectorAll("[data-tegata]").forEach(btn=>{
+    btn.addEventListener("click", ()=> setTegata(state.tegata + parseInt(btn.dataset.tegata,10)));
+  });
+  const tegataManual = document.getElementById("tegataManual");
+  document.getElementById("addTegata").addEventListener("click", ()=>{
+    const v = parseInt(tegataManual.value,10);
+    if(!isNaN(v)) setTegata(state.tegata + v);
+  });
+  document.getElementById("setTegata").addEventListener("click", ()=>{
+    const v = parseInt(tegataManual.value,10);
+    if(!isNaN(v)) setTegata(v);
+  });
+  tegataManual.addEventListener("keydown", e=>{ if(e.key==="Enter") document.getElementById("addTegata").click(); });
+
   document.getElementById("helpBtn").addEventListener("click", ()=>{
     document.getElementById("helpPanel").classList.toggle("show");
   });
@@ -393,7 +436,7 @@ footer{font-size:.72rem;color:var(--sub);margin-top:20px;text-align:center;line-
   });
   document.getElementById("resetProgress").addEventListener("click", ()=>{
     if(confirm("確定要清空本頁的南瓜記錄嗎？此動作無法復原。")){
-      state = {kabocha:0, end:state.end, targetOverride:null, mult:1};
+      state = {kabocha:0, tegata:0, end:state.end, targetOverride:null, mult:1};
       save(); renderAll();
     }
   });
