@@ -44,7 +44,7 @@ header h1{font-size:1.25rem;margin:0;display:flex;align-items:center;gap:8px;}
 .type-block h3{font-size:.9rem;color:var(--header);margin:0 0 8px;border-bottom:1px dashed #d8cba8;padding-bottom:4px;display:flex;align-items:center;gap:8px;flex-wrap:wrap;}
 .bulk-btn{font-size:.68rem;border:1px solid var(--header);color:var(--header);background:#fff;border-radius:4px;padding:4px 8px;cursor:pointer;}
 .bulk-btn:hover{background:var(--header);color:#fff;}
-.char-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:8px;}
+.char-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:8px;}
 .char-row{display:flex;align-items:center;gap:8px;background:#faf7f0;border-radius:6px;padding:8px 8px;font-size:.8rem;}
 .char-row.polarized{opacity:.45;}
 .char-row .cname{flex:1;}
@@ -53,7 +53,7 @@ header h1{font-size:1.25rem;margin:0;display:flex;align-items:center;gap:8px;}
 .chk-lbl input[type=checkbox]{cursor:pointer;}
 .lvl-input{width:42px;padding:4px 4px;border:1px solid #cbd6e0;border-radius:4px;font-size:.75rem;text-align:center;}
 .lvl-input.under{border-color:#c0392b;background:#fdeceb;}
-.slot-tag{font-size:.68rem;color:var(--header);cursor:pointer;user-select:none;border:1px solid #d8cba8;border-radius:4px;padding:0px 4px;}
+.slot-tag{white-space:nowrap;flex-shrink:0;font-size:.68rem;color:var(--header);cursor:pointer;user-select:none;border:1px solid #d8cba8;border-radius:4px;padding:0px 4px;}
 .slot-tag.on{background:var(--header);color:#fff;}
 .slot-tag.unknown{border-style:dashed;color:#b0392b;border-color:#e0a48a;}
 .slot-tag.unknown.on{background:#e0a48a;color:#fff;border-style:solid;}
@@ -81,28 +81,35 @@ footer{font-size:.72rem;color:var(--sub);margin-top:20px;text-align:center;line-
   .result-row{flex-wrap:wrap;}
   .settings-row{flex-direction:column;align-items:flex-start;gap:8px;}
 }
-.notice-stack{position:fixed;left:16px;top:50%;transform:translateY(-50%);display:flex;flex-direction:column;gap:10px;z-index:999;}
+.notice-stack{position:fixed;left:16px;top:50%;transform:translateY(-50%);display:flex;flex-direction:column;gap:10px;z-index:999;pointer-events:none;}
 .exp-notice{position:relative;max-width:200px;background:#fff4e0;border:1px solid #e0a83c;border-left:4px solid #e0703c;border-radius:8px;padding:12px 14px;font-size:.78rem;line-height:1.6;color:#6b4a12;box-shadow:0 2px 8px rgba(0,0,0,.16);}
 .exp-notice strong{display:block;margin-bottom:4px;color:#b85c1a;}
 .exp-notice .exp-close{position:absolute;top:4px;right:6px;background:none;border:none;color:#6b4a12;cursor:pointer;font-size:.85rem;line-height:1;padding:2px;}
+.exp-notice{transition:transform .25s;pointer-events:auto;}
+.exp-notice.collapsed{transform:translateX(calc(-100% - 4px));border-right:8px solid #e0703c;cursor:pointer;}
+.exp-notice.collapsed .exp-close{display:none;}
+.exp-notice.important{border-left-color:#c0392b;background:#fdecea;border-color:#e8a39b;color:#5c1f18;}
+.exp-notice.important strong{color:#c0392b;}
+.exp-notice.important.collapsed{border-right-color:#c0392b;}
 @media (max-width:600px){
   .notice-stack{left:8px;right:8px;top:auto;bottom:8px;transform:none;}
   .exp-notice{max-width:none;}
+  .exp-notice.collapsed{transform:translateX(calc(-100% + 4px));}
 }
 </style>
 <script data-goatcounter="https://ayase.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
 </head>
 <body>
 <div class="notice-stack" id="noticeStack">
-  <div class="exp-notice" id="expNotice">
-    <button class="exp-close" id="expNoticeClose" title="關閉">×</button>
-    <strong>遠征大成功確定！資源2倍</strong>
-    期間：10/6（火）維護結束～10/14（水）12:59 JST，期間內所有遠征皆大成功歸還，獲得資源量2倍（小判、手伝い札、依頼札不列入2倍；強制帰還不算大成功，僅期間內開始的遠征適用）。
+  <div class="exp-notice important" id="vpnNotice">
+    <button class="exp-close" id="vpnNoticeClose" title="收合">‹</button>
+    <strong>重要提醒：遊玩需全程使用VPN</strong>
+    網頁版、平板、Android、iOS皆需使用VPN並全程保持連線，不可漫遊、不可中途斷線。Android手機、平板與網頁版可使用筑波大學VPN。
   </div>
-  <div class="exp-notice" id="koukaNotice">
-    <button class="exp-close" id="koukaNoticeClose" title="關閉">×</button>
-    <strong>強化鏈結 強化効果2倍確定！</strong>
-    期間：10/13（二）維護結束～10/21（二）12:59 JST，期間內強化鏈結獲得的強化効果2倍。
+  <div class="exp-notice" id="jleagueNotice">
+    <button class="exp-close" id="jleagueNoticeClose" title="收合">‹</button>
+    <strong>聯名 登入禮物</strong>
+    回復氣力道具領取至11/4（三）12:59，景趣×2領取至12/26（六）12:59（JST）。
   </div>
 </div>
 <div class="wrap">
@@ -111,9 +118,10 @@ footer{font-size:.72rem;color:var(--sub);margin-top:20px;text-align:center;line-
   </header>
   <div class="nav-links">
     <a href="index.html">首頁</a>
-    <a href="kantou_campaign.html">鍛刀工具</a>
+    <a href="senjutsu_kabocha.html">戰術強化訓練</a>
+    <a href="kantou_campaign.html">鍛刀試算與入手記錄</a>
     <a href="shugyou_priority.html" class="current">修行優先順序</a>
-    <a href="chika_senryoubako.html">地下に眠る千両箱</a>
+    <a href="koujisen_kenzou.html">航時船建造</a>
   </div>
   <div class="panel">
     <div class="status-bar">
@@ -130,7 +138,7 @@ footer{font-size:.72rem;color:var(--sub);margin-top:20px;text-align:center;line-
         <div class="notes">修行等級門檻（固定順序，不可拖曳）：短刀60／脇差65／槍65／薙刀65／打刀70／太刀75／大太刀80。未達標的角色不會出現在推薦名單。</div>
         <div class="notes">極化完成後等級會依經驗值曲線折算，不是超過門檻幾等就直接回歸幾等（例：短刀特Lv99送出，極化回來實測Lv35，非Lv39）。推薦清單會標示「目前等級比門檻高出幾等」供參考。</div>
         <div class="notes">缺總合值角色：治金丸、太閤左文字、古今伝授の太刀、地蔵行平，比較時排在同層級較後面，不影響其他判準。劍種目前僅白山吉光可極化，七星劍、丙子椒林剣目前只有一般刀形態，極化尚未實裝（非預告角色），未列入清單。總合值資料來源：wikiwiki.jp/toulove「極 最大値一覧」公開數據（8項基礎數值加總）。</div>
-        <div class="notes">清單角色的刀裝升級狀態皆已確認。資料來源：wikiwiki.jp/toulove「刀剣男士 極」頁面＋實測回報的レア度轉換資料。</div>
+        <div class="notes">資料來源：wikiwiki.jp/toulove「刀剣男士 極」頁面＋實測回報的稀有度轉換資料。2026年10月21日官方調整後，極化後稀有度3的打刀刀裝可裝備數由2個增為3個，所有極化後稀有度3的打刀皆已標示為刀裝升級（其中加州清光、亀甲貞宗、宗三左文字、大和守安定、歌仙兼定、陸奥守吉行、山姥切国広、蜂須賀虎徹、長曽祢虎徹、へし切長谷部已實際確認，其餘依官方公告與其他玩家回報）；如與實際不符，可點擊標籤手動修改。</div>
       </div>
     </div>
 
@@ -210,6 +218,10 @@ footer{font-size:.72rem;color:var(--sub);margin-top:20px;text-align:center;line-
     "太閤左文字",
     // 打刀：レア度4confirmed（3→4，2格變3格）
     "鳴狐","千子村正","和泉守兼定","大倶利伽羅","同田貫正国",
+    // 打刀：極化後レア度3，2026/10/21官方調整後刀裝可裝3個（官方示範為加州清光，以下9隻為Ayase實測回報）
+    "加州清光","亀甲貞宗","宗三左文字","大和守安定","歌仙兼定","陸奥守吉行","山姥切国広","蜂須賀虎徹","長曽祢虎徹","へし切長谷部",
+    // 打刀：同為極化後レア度3，依官方公告與其他玩家回報確認
+    "南泉一文字","山姥切長義","豊前江","南海太郎朝尊","桑名江","水心子正秀","源清麿","松井江","地蔵行平",
     // 大太刀：3→4，2格變3格
     "太郎太刀","次郎太刀","石切丸","祢々切丸",
     // 槍：3→4，2格變3格
@@ -223,9 +235,6 @@ footer{font-size:.72rem;color:var(--sub);margin-top:20px;text-align:center;line-
     // 脇差：レア度3、格數2→2無變化
     "にっかり青江","鯰尾藤四郎","骨喰藤四郎","物吉貞宗","堀川国広","浦島虎徹",
     "肥前忠広","篭手切江","治金丸",
-    // 打刀：レア度3、格數2→2無變化
-    "亀甲貞宗","宗三左文字","加州清光","大和守安定","歌仙兼定","陸奥守吉行","山姥切国広","蜂須賀虎徹","長曽祢虎徹","へし切長谷部",
-    "南泉一文字","山姥切長義","豊前江","南海太郎朝尊","桑名江","水心子正秀","源清麿","松井江",
     // 大太刀：4→5，3格不變
     "蛍丸",
     // 劍：4→5，3格不變
@@ -235,9 +244,7 @@ footer{font-size:.72rem;color:var(--sub);margin-top:20px;text-align:center;line-
     // 太刀：4→5，3格不變
     "三日月宗近","大典太光世","数珠丸恒次","鬼丸国綱","一期一振","大包平","鶯丸","大般若長光","小竜景光","江雪左文字","髭切","膝丸","鶴丸国永","山鳥毛",
     // 太刀：古今伝授の太刀 4→5，格數不變（Ayase實測回報）
-    "古今伝授の太刀",
-    // 打刀：地蔵行平 2→3，格數不變（Ayase實測回報）
-    "地蔵行平"
+    "古今伝授の太刀"
   ]);
   // 短刀規則已知必升，未查到資料的短刀角色比照辦理
   const SHORT_SWORD_ASSUMED_UPGRADE = new Set(["毛利藤四郎","謙信景光","日向正宗","北谷菜切"]);
@@ -261,7 +268,7 @@ footer{font-size:.72rem;color:var(--sub);margin-top:20px;text-align:center;line-
     lowCoverage: { label:"該刀種已極化未滿6隻，自動優先補齊", tier:(c,ctx)=> ctx.polarizedCountByType[c[1]] < BENCHMARK_TRIGGER ? 0 : 1 },
     shortBoost: { label:"短刀加成（卡地圖6、7時開啟，已極化短刀超過6隻自動停用）", tier:(c,ctx)=> (ctx.mapStuck && c[1]==="短刀") ? 0 : 1 },
     benchmark: { label:"同刀種已極化超過6隻時，需超過前6強最低值才優先", tier:(c,ctx)=>{ const [,t,total]=c; const b=ctx.benchmarkByType[t]; return (total!==null && b!==null && total<b) ? 1 : 0; } },
-    slotUp: { label:"極化後刀裝格數會增加的優先（レア度1→2或3→4）", tier:(c)=> slotOf(c[0], c[1]) ? 0 : 1 },
+    slotUp: { label:"極化後刀裝格數會增加的優先（稀有度1→2、3→4，或打刀極化後為稀有度3）", tier:(c)=> slotOf(c[0], c[1]) ? 0 : 1 },
     statVal: { label:"極化總合值高的優先", tier:(c)=> c[2]===null ? 1 : -c[2] }
   };
   const DEFAULT_RULE_ORDER = ["typeCoverage","ken","lowCoverage","shortBoost","benchmark","slotUp","statVal"];
@@ -285,7 +292,7 @@ footer{font-size:.72rem;color:var(--sub);margin-top:20px;text-align:center;line-
       return merged;
     }catch(e){ return base; }
   }
-  function save(){ localStorage.setItem(STORAGE_KEY, JSON.stringify(state)); }
+  function save(){ try{ localStorage.setItem(STORAGE_KEY, JSON.stringify(state)); }catch(e){} }
   function slotOf(name, type){
     if(state.slot[name] !== undefined) return state.slot[name];
     return defaultSlotUpgrade(name, type);
@@ -563,30 +570,42 @@ function setupNotice(opts){
     return false;
   }
   if(checkExpiry()) return;
-  if(localStorage.getItem(opts.dismissKey) === "1"){ el.style.display = "none"; return; }
+  function setCollapsed(c){
+    el.classList.toggle("collapsed", c);
+    try{ localStorage.setItem(opts.dismissKey, c ? "1" : "0"); }catch(e){}
+  }
+  try{
+    if(localStorage.getItem(opts.dismissKey) === "1"){
+      // 重新整理時直接套用收合狀態，不播放滑出動畫
+      el.style.transition = "none";
+      el.classList.add("collapsed");
+      void el.offsetWidth;
+      el.style.transition = "";
+    }
+  }catch(e){}
   var closeBtn = document.getElementById(opts.closeBtnId);
   if(closeBtn){
-    closeBtn.addEventListener("click", function(){
-      el.style.display = "none";
-      localStorage.setItem(opts.dismissKey, "1");
-    });
+    closeBtn.addEventListener("click", function(e){ e.stopPropagation(); setCollapsed(true); });
   }
+  el.addEventListener("click", function(){
+    if(el.classList.contains("collapsed")) setCollapsed(false);
+  });
   var timer = setInterval(function(){
     if(checkExpiry()){ clearInterval(timer); }
   }, 60000);
 }
 (function(){
   setupNotice({
-    elId: "expNotice",
-    closeBtnId: "expNoticeClose",
-    end: new Date("2026-10-14T12:59:00+09:00"),
-    dismissKey: "expedition2xNoticeDismissed_20261014"
+    elId: "vpnNotice",
+    closeBtnId: "vpnNoticeClose",
+    end: new Date("9999-12-31T00:00:00+09:00"),
+    dismissKey: "vpnNoticeCollapsed"
   });
   setupNotice({
-    elId: "koukaNotice",
-    closeBtnId: "koukaNoticeClose",
-    end: new Date("2026-10-21T12:59:00+09:00"),
-    dismissKey: "kouka3renket2xNoticeDismissed_20261021"
+    elId: "jleagueNotice",
+    closeBtnId: "jleagueNoticeClose",
+    end: new Date("2026-12-26T12:59:00+09:00"),
+    dismissKey: "jleagueLoginNoticeDismissed_20261226"
   });
 })();
 </script>

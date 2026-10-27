@@ -1,0 +1,388 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>航時船建造進度</title>
+<style>
+:root{--header:#2b5f80;--accent:#cfe2ee;--accent-text:#1d4258;--track:#e6ecf1;--warn:#e0703c;--done:#2b7a5f;--card:#ffffff;--bg:#f5f7fa;--text:#2b2b2b;--sub:#6b7785;}
+*{box-sizing:border-box;}
+body{font-family:"Noto Sans TC","Hiragino Sans","Yu Gothic",sans-serif;background:var(--bg);color:var(--text);margin:0;padding:20px;}
+.wrap{max-width:1200px;margin:0 auto;}
+header{display:flex;align-items:center;justify-content:space-between;background:var(--header);color:#fff;padding:16px 20px;border-radius:10px 10px 0 0;flex-wrap:wrap;gap:8px;}
+header h1{font-size:1.25rem;margin:0;display:flex;align-items:center;gap:8px;}
+.icon-btn{background:rgba(255,255,255,.15);border:none;color:#fff;border-radius:50%;width:30px;height:30px;cursor:pointer;font-size:.9rem;flex-shrink:0;}
+.icon-btn:hover{background:rgba(255,255,255,.3);}
+.panel{background:var(--card);padding:16px 20px;border:1px solid #e1e6ea;border-top:none;}
+.countdown-bar{background:#e8f1f7;padding:12px 20px;font-size:.92rem;border-left:4px solid var(--header);}
+.countdown-bar.ready{background:#e3f3ec;border-left-color:var(--done);color:var(--done);font-weight:700;}
+.status-bar{background:#f1f6f9;padding:8px 20px;font-size:.76rem;color:var(--sub);border-left:4px solid #c9dbe6;}
+.nav-links{background:#fff;padding:8px 20px;font-size:.8rem;border-bottom:1px solid #e1e6ea;}
+.nav-links a{color:var(--header);text-decoration:none;margin-right:16px;}
+.nav-links a.current{font-weight:700;text-decoration:underline;}
+.nav-links a:hover{text-decoration:underline;}
+.counters{display:flex;gap:16px;flex-wrap:wrap;}
+.counter-card{flex:1;min-width:260px;background:#e8f1f7;border-radius:10px;padding:16px 16px;display:flex;flex-direction:column;}
+.counter-card.done{background:#e3f3ec;}
+.counter-card h3{margin:0 0 8px;font-size:.85rem;color:var(--sub);}
+.counter-card .sub{font-size:.72rem;color:var(--sub);margin-bottom:8px;}
+.counter-value{font-size:2.2rem;font-weight:700;color:var(--header);word-break:break-all;overflow-wrap:anywhere;}
+.counter-value .goal{font-size:1rem;color:var(--sub);font-weight:400;}
+.counter-card.done .counter-value{color:var(--done);}
+.progress{height:8px;background:var(--track);border-radius:4px;overflow:hidden;margin-top:6px;}
+.progress span{display:block;height:100%;background:var(--header);transition:width .2s;}
+.counter-card.done .progress span{background:var(--done);}
+.remain{font-size:.78rem;color:var(--sub);margin-top:6px;}
+.weekly{font-size:.8rem;color:var(--sub);margin-top:8px;display:flex;align-items:center;gap:6px;flex-wrap:wrap;}
+.weekly strong{color:var(--header);font-size:.95rem;}
+.weekly-reset{font-size:.72rem;}
+.cap-note{display:none;background:#fff4e0;border-left:4px solid var(--warn);border-radius:6px;padding:8px 12px;margin-top:8px;font-size:.8rem;line-height:1.7;color:#6b4a12;}
+.cap-note.show{display:block;}
+.counter-controls{display:flex;gap:8px;flex-wrap:wrap;margin-top:auto;padding-top:8px;}
+.counter-controls button{border:1px solid #cbd6e0;background:#fff;border-radius:6px;padding:4px 8px;cursor:pointer;font-size:.8rem;}
+.counter-controls button:hover{background:#e6edf3;}
+.counter-manual{margin-top:8px;display:flex;gap:8px;flex-wrap:wrap;}
+.counter-manual input{width:110px;min-width:0;padding:4px 8px;border:1px solid #cbd6e0;border-radius:6px;}
+.counter-manual button{border:none;background:var(--header);color:#fff;border-radius:6px;padding:4px 12px;cursor:pointer;}
+.check-card{display:flex;align-items:center;gap:12px;cursor:pointer;font-size:.95rem;font-weight:600;margin:8px 0 4px;}
+.check-card input{width:20px;height:20px;cursor:pointer;}
+.section-title{margin-top:28px;font-size:.98rem;font-weight:700;border-bottom:2px solid var(--header);padding-bottom:4px;}
+.notes{font-size:.78rem;color:var(--sub);margin-top:16px;line-height:1.7;}
+footer{font-size:.72rem;color:var(--sub);margin-top:20px;text-align:center;line-height:1.8;}
+.settings-panel{display:none;background:#fbfcfd;border:1px dashed #c7d0d8;border-radius:8px;padding:16px;margin-top:12px;font-size:.82rem;}
+.settings-panel.show{display:block;}
+.settings-panel button{margin-top:12px;border:none;background:var(--header);color:#fff;padding:8px 12px;border-radius:6px;cursor:pointer;margin-right:8px;}
+.danger-btn{background:#c0392b!important;}
+.notice-stack{position:fixed;left:16px;top:50%;transform:translateY(-50%);display:flex;flex-direction:column;gap:10px;z-index:999;pointer-events:none;}
+.exp-notice{position:relative;max-width:200px;background:#fff4e0;border:1px solid #e0a83c;border-left:4px solid #e0703c;border-radius:8px;padding:12px 14px;font-size:.78rem;line-height:1.6;color:#6b4a12;box-shadow:0 2px 8px rgba(0,0,0,.16);}
+.exp-notice strong{display:block;margin-bottom:4px;color:#b85c1a;}
+.exp-notice .exp-close{position:absolute;top:4px;right:6px;background:none;border:none;color:#6b4a12;cursor:pointer;font-size:.85rem;line-height:1;padding:2px;}
+.exp-notice{transition:transform .25s;pointer-events:auto;}
+.exp-notice.collapsed{transform:translateX(calc(-100% - 4px));border-right:8px solid #e0703c;cursor:pointer;}
+.exp-notice.collapsed .exp-close{display:none;}
+.exp-notice.important{border-left-color:#c0392b;background:#fdecea;border-color:#e8a39b;color:#5c1f18;}
+.exp-notice.important strong{color:#c0392b;}
+.exp-notice.important.collapsed{border-right-color:#c0392b;}
+@media (max-width:600px){
+  .notice-stack{left:8px;right:8px;top:auto;bottom:8px;transform:none;}
+  .exp-notice{max-width:none;}
+  .exp-notice.collapsed{transform:translateX(calc(-100% + 4px));}
+}
+@media (max-width:600px){
+  body{padding:12px;}
+  header{padding:12px 16px;}
+  header h1{font-size:1.05rem;}
+  .panel{padding:12px 16px;}
+  .nav-links{padding:8px 16px;}
+  .nav-links a{margin-right:12px;display:inline-block;margin-bottom:4px;}
+  .countdown-bar{padding:12px 16px;font-size:.82rem;}
+  .status-bar{padding:8px 16px;font-size:.72rem;}
+  .counters{gap:12px;}
+  .counter-card{min-width:100%;}
+  .counter-value{font-size:1.8rem;}
+  .counter-controls button{padding:8px 12px;font-size:.82rem;}
+  .counter-manual input{width:auto;flex:1;min-width:0;}
+  .settings-panel{padding:12px;}
+}
+</style>
+<script data-goatcounter="https://ayase.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
+</head>
+<body>
+<div class="notice-stack" id="noticeStack">
+  <div class="exp-notice important" id="vpnNotice">
+    <button class="exp-close" id="vpnNoticeClose" title="收合">‹</button>
+    <strong>重要提醒：遊玩需全程使用VPN</strong>
+    網頁版、平板、Android、iOS皆需使用VPN並全程保持連線，不可漫遊、不可中途斷線。Android手機、平板與網頁版可使用筑波大學VPN。
+  </div>
+  <div class="exp-notice" id="jleagueNotice">
+    <button class="exp-close" id="jleagueNoticeClose" title="收合">‹</button>
+    <strong>聯名 登入禮物</strong>
+    回復氣力道具領取至11/4（三）12:59，景趣×2領取至12/26（六）12:59（JST）。
+  </div>
+</div>
+<div class="wrap">
+  <header>
+    <h1>航時船建造進度 <button class="icon-btn" id="helpBtn" title="說明">?</button></h1>
+    <button class="icon-btn" id="settingsBtn" title="設定">⚙</button>
+  </header>
+  <div class="nav-links">
+    <a href="index.html">首頁</a>
+    <a href="senjutsu_kabocha.html">戰術強化訓練</a>
+    <a href="kantou_campaign.html">鍛刀試算與入手記錄</a>
+    <a href="shugyou_priority.html">修行優先順序</a>
+    <a href="koujisen_kenzou.html" class="current">航時船建造</a>
+  </div>
+  <div class="panel">
+    <div id="helpPanel" class="settings-panel">
+      <strong>使用說明</strong>
+      <p>本頁面僅供個人記錄用，非官方工具，資料以你自行輸入為準。數值會儲存在「這台瀏覽器」的 localStorage，換裝置或清除瀏覽資料會遺失，請自行留意備份（例如定期截圖）。</p>
+      <p>建造資格：需同時滿足①通關合戰場「青野原的記憶 京都（五條）」②回想收集30話以上。取得資格後，持有「建造資材」800個以上即可建造航時船。</p>
+      <p>已收集的回想數，可在遊戲內「目錄」＞「回顧」＞「回想」分頁的回想一覽畫面確認。</p>
+      <p>「建造資材」可透過出陣過去合戰場、遠征取得：到達過去合戰場的「資源格」每次獲得20個（同一合戰場有多個資源格時，只有最先到達的那格會獲得）；遠征成功每次獲得20個，大成功也是20個，失敗則無法獲得。</p>
+      <p>建造資材每週獲得上限為200個，達到上限後無法再獲得，每週一上午5:00（JST）重置；持有上限為99,999個。從0開始累積到800個，最快需要4週。</p>
+      <p>「本週已獲得」會在用加減按鈕或「累加」增加持有數時自動計入（「直接設定」不計入），每週一05:00（JST）自動歸零；本週已獲得達200個後，加減按鈕與「累加」無法再增加持有數。本週獲得數達到200個後，遠征、出陣的入手物不會再出現建造資材，屬正常現象，下週重置後即可再次獲得。</p>
+      <p>航時船建造完成後，可前往更久遠的過去；更久遠過去的開放時間預定為2027年內。</p>
+    </div>
+    <div id="settingsPanel" class="settings-panel">
+      <strong>設定</strong>
+      <div>
+        <button id="resetProgress" class="danger-btn">重設本頁全部記錄</button>
+      </div>
+    </div>
+
+    <div class="status-bar">常駐功能：2026年10月21日（週三）維護結束後實裝，無期間限制。</div>
+    <div class="countdown-bar" id="summaryBar">載入中…</div>
+
+    <div class="section-title">建造資格①：合戰場通關</div>
+    <label class="check-card"><input type="checkbox" id="aonoharaCheck">已通關「青野原的記憶 京都（五條）」</label>
+
+    <div class="section-title">建造資格②：回想收集（目標30話）</div>
+    <div class="counters">
+      <div class="counter-card" id="kaisouCard">
+        <h3>已收集回想數</h3>
+        <div class="sub">遊戲內「目錄」＞「回顧」＞「回想」分頁可確認目前數量（目前回想總數為200話）</div>
+        <div class="counter-value"><span id="kaisouValue">0</span> <span class="goal">／ 30話</span></div>
+        <div class="progress"><span id="kaisouBar" style="width:0%"></span></div>
+        <div class="remain" id="kaisouRemain"></div>
+        <div class="counter-controls">
+          <button data-target="kaisou" data-delta="-10">-10</button>
+          <button data-target="kaisou" data-delta="-5">-5</button>
+          <button data-target="kaisou" data-delta="-1">-1</button>
+          <button data-target="kaisou" data-delta="1">+1</button>
+          <button data-target="kaisou" data-delta="5">+5</button>
+          <button data-target="kaisou" data-delta="10">+10</button>
+        </div>
+        <div class="counter-manual">
+          <input type="number" id="kaisouManual" placeholder="輸入數值">
+          <button data-add="kaisou">累加</button>
+          <button data-set-direct="kaisou">直接設定</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="section-title">建造條件：建造資材（目標800個）</div>
+    <div class="counters">
+      <div class="counter-card" id="shizaiCard">
+        <h3>持有建造資材</h3>
+        <div class="sub">過去合戰場的資源格、遠征成功每次各得20個；每週最多獲得200個（每週一05:00 JST重置）</div>
+        <div class="counter-value"><span id="shizaiValue">0</span> <span class="goal">／ 800個</span></div>
+        <div class="progress"><span id="shizaiBar" style="width:0%"></span></div>
+        <div class="remain" id="shizaiRemain"></div>
+        <div class="weekly">本週已獲得 <strong id="weeklyValue">0</strong> ／ 200個
+          <span class="weekly-reset">（每週一05:00 JST重置）</span>
+        </div>
+        <div class="cap-note" id="weekCapNote">本週已達獲得上限200個：遠征、出陣的入手物沒有出現建造資材是正常的，本週內不會再獲得，下週一05:00（JST）重置後恢復。</div>
+        <div class="counter-controls">
+          <button data-target="shizai" data-delta="-200">-200</button>
+          <button data-target="shizai" data-delta="-100">-100</button>
+          <button data-target="shizai" data-delta="-20">-20</button>
+          <button data-target="shizai" data-delta="20">+20</button>
+          <button data-target="shizai" data-delta="100">+100</button>
+          <button data-target="shizai" data-delta="200">+200</button>
+        </div>
+        <div class="counter-manual">
+          <input type="number" id="shizaiManual" placeholder="輸入數值">
+          <button data-add="shizai">累加</button>
+          <button data-set-direct="shizai">直接設定</button>
+        </div>
+      </div>
+    </div>
+
+    <footer>
+      非官方個人記錄工具，資料來源整理自官方公告，正式數值請以遊戲內公告為準，使用請自行確認。<br>
+      如網頁有任何問題，請<a href="https://forms.gle/gMPXA4EYkXCvemnf6" target="_blank" rel="noopener">點此</a>填寫表單回報，謝謝。
+    </footer>
+  </div>
+</div>
+
+<script>
+(function(){
+  const STORAGE_KEY = "koujisenProgress_v1";
+  const KAISOU_GOAL = 30;
+  const SHIZAI_GOAL = 800;
+  const CAP = {kaisou:200, shizai:99999};
+  const SHIZAI_WEEKLY = 200;
+
+  // 每週獲得上限的週期起點：每週一05:00 JST，回傳該週一的日期字串當作週次代號
+  function currentWeekKey(){
+    const t = new Date(Date.now() + (9-5)*3600000);
+    const back = (t.getUTCDay()+6) % 7;
+    return new Date(Date.UTC(t.getUTCFullYear(), t.getUTCMonth(), t.getUTCDate()-back)).toISOString().slice(0,10);
+  }
+
+  let state = load();
+  function load(){
+    const base = {aonohara:false, kaisou:0, shizai:0, weekly:0, weekKey:currentWeekKey()};
+    try{
+      const raw = JSON.parse(localStorage.getItem(STORAGE_KEY) || "null");
+      if(!raw) return base;
+      const merged = Object.assign({}, base, raw);
+      merged.aonohara = !!merged.aonohara;
+      merged.kaisou = Math.min(CAP.kaisou, Math.max(0, parseInt(merged.kaisou,10)||0));
+      merged.shizai = Math.min(CAP.shizai, Math.max(0, parseInt(merged.shizai,10)||0));
+      merged.weekly = Math.min(SHIZAI_WEEKLY, Math.max(0, parseInt(merged.weekly,10)||0));
+      return merged;
+    }catch(e){ return base; }
+  }
+  function save(){ try{ localStorage.setItem(STORAGE_KEY, JSON.stringify(state)); }catch(e){} }
+  function checkWeekReset(){
+    const key = currentWeekKey();
+    if(state.weekKey !== key){ state.weekKey = key; state.weekly = 0; save(); return true; }
+    return false;
+  }
+
+  function shizaiEstimate(v){
+    const remain = SHIZAI_GOAL - v;
+    const weekLeft = SHIZAI_WEEKLY - state.weekly;
+    if(remain <= weekLeft) return "（本週內即可湊齊）";
+    const weeks = (weekLeft > 0 ? 1 : 0) + Math.ceil((remain - weekLeft) / SHIZAI_WEEKLY);
+    return "（以每週上限" + SHIZAI_WEEKLY + "個計算，最快約" + weeks + "週" + (weekLeft > 0 ? "，本週還可獲得" + weekLeft + "個" : "，從下週起算") + "）";
+  }
+
+  function renderGauge(key, goal, unit){
+    const v = state[key];
+    document.getElementById(key+"Value").textContent = v.toLocaleString();
+    document.getElementById(key+"Bar").style.width = Math.min(100, v/goal*100) + "%";
+    document.getElementById(key+"Card").classList.toggle("done", v >= goal);
+    document.getElementById(key+"Remain").textContent = v >= goal ? "已達成" : "還差 " + (goal-v).toLocaleString() + unit
+      + (key==="shizai" ? shizaiEstimate(v) : "");
+  }
+
+  function renderWeekly(){
+    document.getElementById("weeklyValue").textContent = state.weekly;
+    document.getElementById("weekCapNote").classList.toggle("show", state.weekly >= SHIZAI_WEEKLY);
+  }
+
+  function renderSummary(){
+    const el = document.getElementById("summaryBar");
+    const qualified = state.aonohara && state.kaisou >= KAISOU_GOAL;
+    const enough = state.shizai >= SHIZAI_GOAL;
+    const missing = [];
+    if(!state.aonohara) missing.push("通關青野原的記憶 京都（五條）");
+    if(state.kaisou < KAISOU_GOAL) missing.push("回想還差" + (KAISOU_GOAL-state.kaisou) + "話");
+    if(!enough) missing.push("建造資材還差" + (SHIZAI_GOAL-state.shizai).toLocaleString() + "個");
+    el.classList.toggle("ready", qualified && enough);
+    if(qualified && enough){
+      el.textContent = "建造資格與建造資材皆已達成，可以建造航時船。";
+    }else{
+      el.textContent = (qualified ? "已取得建造資格。" : "尚未取得建造資格。") + "未完成項目：" + missing.join("、");
+    }
+  }
+
+  function renderAll(){
+    checkWeekReset();
+    document.getElementById("aonoharaCheck").checked = state.aonohara;
+    renderWeekly();
+    renderGauge("kaisou", KAISOU_GOAL, "話");
+    renderGauge("shizai", SHIZAI_GOAL, "個");
+    renderSummary();
+  }
+
+  function setWeekly(v){
+    state.weekly = Math.min(SHIZAI_WEEKLY, Math.max(0, v));
+  }
+  // countWeekly：用加減按鈕、累加調整持有數時，實際增減的數量同步計入本週已獲得，
+  // 增加量不能超過本週剩餘可獲得數；直接設定不計入也不受限
+  function setValue(key, v, countWeekly){
+    checkWeekReset();
+    const before = state[key];
+    let next = Math.min(CAP[key], Math.max(0, v));
+    if(key === "shizai" && countWeekly){
+      next = Math.min(next, before + (SHIZAI_WEEKLY - state.weekly));
+      setWeekly(state.weekly + (next - before));
+    }
+    state[key] = next;
+    save(); renderAll();
+  }
+
+  document.querySelectorAll("[data-target]").forEach(btn=>{
+    btn.addEventListener("click", ()=>{
+      setValue(btn.dataset.target, (state[btn.dataset.target]||0) + parseInt(btn.dataset.delta,10), true);
+    });
+  });
+  document.querySelectorAll("[data-add]").forEach(btn=>{
+    btn.addEventListener("click", ()=>{
+      const key = btn.dataset.add;
+      const v = parseInt(document.getElementById(key+"Manual").value,10);
+      if(!isNaN(v)) setValue(key, (state[key]||0) + v, true);
+    });
+  });
+  setInterval(()=>{ if(checkWeekReset()) renderAll(); }, 60000);
+  document.querySelectorAll("[data-set-direct]").forEach(btn=>{
+    btn.addEventListener("click", ()=>{
+      const key = btn.dataset.setDirect;
+      const v = parseInt(document.getElementById(key+"Manual").value,10);
+      if(!isNaN(v)) setValue(key, v);
+    });
+  });
+  ["kaisou","shizai"].forEach(key=>{
+    document.getElementById(key+"Manual").addEventListener("keydown", e=>{ if(e.key==="Enter") document.querySelector(`[data-add="${key}"]`).click(); });
+  });
+
+  document.getElementById("aonoharaCheck").addEventListener("change", e=>{
+    state.aonohara = e.target.checked;
+    save(); renderAll();
+  });
+  document.getElementById("helpBtn").addEventListener("click", ()=>{
+    document.getElementById("helpPanel").classList.toggle("show");
+  });
+  document.getElementById("settingsBtn").addEventListener("click", ()=>{
+    document.getElementById("settingsPanel").classList.toggle("show");
+  });
+  document.getElementById("resetProgress").addEventListener("click", ()=>{
+    if(confirm("確定要清空本頁的通關／回想／建造資材記錄嗎？此動作無法復原。")){
+      state = {aonohara:false, kaisou:0, shizai:0, weekly:0, weekKey:currentWeekKey()};
+      save(); renderAll();
+    }
+  });
+
+  renderAll();
+
+  function setupNotice(opts){
+    var el = document.getElementById(opts.elId);
+    if(!el) return;
+    function checkExpiry(){
+      if(new Date() > opts.end){ el.style.display = "none"; return true; }
+      return false;
+    }
+    if(checkExpiry()) return;
+    function setCollapsed(c){
+      el.classList.toggle("collapsed", c);
+      try{ localStorage.setItem(opts.dismissKey, c ? "1" : "0"); }catch(e){}
+    }
+    try{
+    if(localStorage.getItem(opts.dismissKey) === "1"){
+      // 重新整理時直接套用收合狀態，不播放滑出動畫
+      el.style.transition = "none";
+      el.classList.add("collapsed");
+      void el.offsetWidth;
+      el.style.transition = "";
+    }
+  }catch(e){}
+    var closeBtn = document.getElementById(opts.closeBtnId);
+    if(closeBtn){
+      closeBtn.addEventListener("click", function(e){ e.stopPropagation(); setCollapsed(true); });
+    }
+    el.addEventListener("click", function(){
+      if(el.classList.contains("collapsed")) setCollapsed(false);
+    });
+    var timer = setInterval(function(){
+      if(checkExpiry()){ clearInterval(timer); }
+    }, 60000);
+  }
+  setupNotice({
+    elId: "vpnNotice",
+    closeBtnId: "vpnNoticeClose",
+    end: new Date("9999-12-31T00:00:00+09:00"),
+    dismissKey: "vpnNoticeCollapsed"
+  });
+  setupNotice({
+    elId: "jleagueNotice",
+    closeBtnId: "jleagueNoticeClose",
+    end: new Date("2026-12-26T12:59:00+09:00"),
+    dismissKey: "jleagueLoginNoticeDismissed_20261226"
+  });
+})();
+</script>
+</body>
+</html>

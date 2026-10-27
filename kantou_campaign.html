@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>鍛刀次數材料換算與角色記錄</title>
+<title>鍛刀試算與入手記錄</title>
 <style>
 :root{--header:#2b7a5f;--accent:#a6d9c4;--accent-text:#1d5140;--track:#e6ecf1;--warn:#e0703c;--card:#ffffff;--bg:#f5f7fa;--text:#2b2b2b;--sub:#6b7785;}
 *{box-sizing:border-box;}
@@ -73,59 +73,59 @@ details[open] summary{border-bottom:1px solid #eef1f4;margin-bottom:12px;}
   .char-item{min-width:120px;}
   .settings-panel{padding:12px;}
 }
-.notice-stack{position:fixed;left:16px;top:50%;transform:translateY(-50%);display:flex;flex-direction:column;gap:10px;z-index:999;}
+.notice-stack{position:fixed;left:16px;top:50%;transform:translateY(-50%);display:flex;flex-direction:column;gap:10px;z-index:999;pointer-events:none;}
 .exp-notice{position:relative;max-width:200px;background:#fff4e0;border:1px solid #e0a83c;border-left:4px solid #e0703c;border-radius:8px;padding:12px 14px;font-size:.78rem;line-height:1.6;color:#6b4a12;box-shadow:0 2px 8px rgba(0,0,0,.16);}
 .exp-notice strong{display:block;margin-bottom:4px;color:#b85c1a;}
 .exp-notice .exp-close{position:absolute;top:4px;right:6px;background:none;border:none;color:#6b4a12;cursor:pointer;font-size:.85rem;line-height:1;padding:2px;}
+.exp-notice{transition:transform .25s;pointer-events:auto;}
+.exp-notice.collapsed{transform:translateX(calc(-100% - 4px));border-right:8px solid #e0703c;cursor:pointer;}
+.exp-notice.collapsed .exp-close{display:none;}
+.exp-notice.important{border-left-color:#c0392b;background:#fdecea;border-color:#e8a39b;color:#5c1f18;}
+.exp-notice.important strong{color:#c0392b;}
+.exp-notice.important.collapsed{border-right-color:#c0392b;}
 @media (max-width:600px){
   .notice-stack{left:8px;right:8px;top:auto;bottom:8px;transform:none;}
   .exp-notice{max-width:none;}
+  .exp-notice.collapsed{transform:translateX(calc(-100% + 4px));}
 }
 </style>
 <script data-goatcounter="https://ayase.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
 </head>
 <body>
 <div class="notice-stack" id="noticeStack">
-  <div class="exp-notice" id="expNotice">
-    <button class="exp-close" id="expNoticeClose" title="關閉">×</button>
-    <strong>遠征大成功確定！資源2倍</strong>
-    期間：10/6（火）維護結束～10/14（水）12:59 JST，期間內所有遠征皆大成功歸還，獲得資源量2倍（小判、手伝い札、依頼札不列入2倍；強制帰還不算大成功，僅期間內開始的遠征適用）。
+  <div class="exp-notice important" id="vpnNotice">
+    <button class="exp-close" id="vpnNoticeClose" title="收合">‹</button>
+    <strong>重要提醒：遊玩需全程使用VPN</strong>
+    網頁版、平板、Android、iOS皆需使用VPN並全程保持連線，不可漫遊、不可中途斷線。Android手機、平板與網頁版可使用筑波大學VPN。
   </div>
-  <div class="exp-notice" id="koukaNotice">
-    <button class="exp-close" id="koukaNoticeClose" title="關閉">×</button>
-    <strong>強化鏈結 強化効果2倍確定！</strong>
-    期間：10/13（二）維護結束～10/21（二）12:59 JST，期間內強化鏈結獲得的強化効果2倍。
+  <div class="exp-notice" id="jleagueNotice">
+    <button class="exp-close" id="jleagueNoticeClose" title="收合">‹</button>
+    <strong>聯名 登入禮物</strong>
+    回復氣力道具領取至11/4（三）12:59，景趣×2領取至12/26（六）12:59（JST）。
   </div>
 </div>
 <div class="wrap">
   <header>
-    <h1>鍛刀次數材料換算與角色記錄 <button class="icon-btn" id="helpBtn" title="說明">?</button></h1>
+    <h1>鍛刀試算與入手記錄 <button class="icon-btn" id="helpBtn" title="說明">?</button></h1>
     <button class="icon-btn" id="settingsBtn" title="設定">⚙</button>
   </header>
   <div class="nav-links">
     <a href="index.html">首頁</a>
-    <a href="kantou_campaign.html" class="current">鍛刀工具</a>
+    <a href="senjutsu_kabocha.html">戰術強化訓練</a>
+    <a href="kantou_campaign.html" class="current">鍛刀試算與入手記錄</a>
     <a href="shugyou_priority.html">修行優先順序</a>
-    <a href="chika_senryoubako.html">地下に眠る千両箱</a>
+    <a href="koujisen_kenzou.html">航時船建造</a>
   </div>
   <div class="panel">
-    <div class="status-bar" id="limitedCampaignBar">期間限定鍛刀：目標角色「朝倉藤四郎」（短刀），鍛刀時間00:30:00，推薦配方All700（木炭／玉鋼／冷却材／砥石各700）。活動期間：2026年10月13日（週二）維護結束後～10月27日（週二）11:59（JST，日本標準時間）。</div>
+    <div class="status-bar" id="limitedCampaignBar">期間限定鍛刀：目標角色「朝倉藤四郎」（短刀），鍛刀時間00:30:00，推薦配方All700（木炭／玉鋼／冷却材／砥石各700）。活動期間：2026年10月13日（週二）維護結束後～10月27日（週二）12:59（JST，日本標準時間）。</div>
     <div id="helpPanel" class="settings-panel">
       <strong>使用說明</strong>
       <p>本頁面僅供個人記錄用，非官方工具，資料以你自行輸入為準，儲存在「這台瀏覽器」的 localStorage，換裝置或清除瀏覽資料會遺失。</p>
       <p>材料換算：木炭／玉鋼／冷却材／砥石可以分別輸入不同數字，直接改主畫面上的欄位就會即時套用，不用另外按套用；下方也提供幾組常見配方可以一鍵套用。</p>
       <p>鍛刀時間對照表：選擇目前鍛刀畫面顯示的剩餘時間，可以看到該時間對應的刀種分類與可能角色，現在包含短刀～薙刀全刀種，僅供概略參考，實際結果以遊戲內為準。</p>
       <p>角色入手狀態：下方名單整理自公開資料的鍛刀時間對照表，非遊戲內全部刀剣男士的總表，未來可能隨資料更新調整。</p>
-      <p><strong>各刀種參考配比範圍（木炭／玉鋼／冷却材／砥石）：</strong></p>
-      <div class="range-table">
-        短刀：50~699／50~399／50~999／50~999<br>
-        脇差：100~499／100~499／100~499／100~499<br>
-        打刀：300~999／350~999／300~999／350~999<br>
-        太刀：300~999／350~999／300~999／350~999（無固定推薦配方）<br>
-        大太刀：500~899／600~899／500~799／200~599<br>
-        槍：400~699／50~399／500~799／500~799<br>
-        薙刀：400~699／500~799／700~899／700~899
-      </div>
+      <p>各刀種參考配比範圍：點「每次鍛刀消耗量」旁的「?」即可查看。</p>
+      <p>依賴札：每次鍛刀消耗1張，總量依「鍛刀嘗試次數」自動換算。</p>
     </div>
     <div id="settingsPanel" class="settings-panel">
       <strong>設定</strong>
@@ -147,6 +147,19 @@ details[open] summary{border-bottom:1px solid #eef1f4;margin-bottom:12px;}
           <button data-target="tries" data-delta="10">+10（十連）</button>
         </div>
 
+        <div style="display:flex;align-items:center;gap:6px;margin-top:12px;font-size:.82rem;font-weight:700;color:var(--header);">每次鍛刀消耗量 <button class="inline-help" id="rangeHelpBtn" title="各刀種參考配比範圍">?</button></div>
+        <div id="rangePanel" class="settings-panel">
+          <strong>各刀種參考配比範圍（木炭／玉鋼／冷却材／砥石）</strong>
+          <div class="range-table">
+            短刀：50~699／50~399／50~999／50~999<br>
+            脇差：100~499／100~499／100~499／100~499<br>
+            打刀：300~999／350~999／300~999／350~999<br>
+            太刀：300~999／350~999／300~999／350~999（無固定推薦配方）<br>
+            大太刀：500~899／600~899／500~799／200~599<br>
+            槍：400~699／50~399／500~799／500~799<br>
+            薙刀：400~699／500~799／700~899／700~899
+          </div>
+        </div>
         <div class="mat-input-grid">
           <label>木炭每次消耗量
             <input type="number" id="matTanInput">
@@ -170,6 +183,7 @@ details[open] summary{border-bottom:1px solid #eef1f4;margin-bottom:12px;}
           <div>玉鋼 <strong id="matTama">0</strong></div>
           <div>冷却材 <strong id="matRei">0</strong></div>
           <div>砥石 <strong id="matTo">0</strong></div>
+          <div>依賴札 <strong id="matFuda">0</strong></div>
         </div>
       </div>
     </div>
@@ -201,6 +215,10 @@ details[open] summary{border-bottom:1px solid #eef1f4;margin-bottom:12px;}
 (function(){
   const STORAGE_KEY = "kantouCampaignProgress_v1";
   const DEFAULT_MAT = {tan:0, tama:0, rei:0, to:0};
+  // 期間限定鍛刀：期間內消耗量預設帶入All700，結束後自動隱藏活動提示與快選按鈕
+  const LIMITED_END = new Date("2026-10-27T12:59:00+09:00");
+  const LIMITED_MAT = {tan:700, tama:700, rei:700, to:700};
+  const isLimitedActive = ()=> new Date() <= LIMITED_END;
 
   const RECIPE_TABLE = [
     {cat:"短刀", rows:[
@@ -239,7 +257,7 @@ details[open] summary{border-bottom:1px solid #eef1f4;margin-bottom:12px;}
   ];
 
   const RECIPE_PRESETS = [
-    {label:"期間限定・朝倉藤四郎 All700", mat:{tan:700,tama:700,rei:700,to:700}},
+    {label:"期間限定・朝倉藤四郎 All700", mat:LIMITED_MAT, limited:true},
     {label:"短刀・高機率 60/60/60/60", mat:{tan:60,tama:60,rei:60,to:60}},
     {label:"短刀・高效率 50/50/50/50", mat:{tan:50,tama:50,rei:50,to:50}},
     {label:"脇差・高機率 150/450/150/150", mat:{tan:150,tama:450,rei:150,to:150}},
@@ -271,7 +289,7 @@ details[open] summary{border-bottom:1px solid #eef1f4;margin-bottom:12px;}
       };
     }catch(e){ return base; }
   }
-  function save(){ localStorage.setItem(STORAGE_KEY, JSON.stringify(state)); }
+  function save(){ try{ localStorage.setItem(STORAGE_KEY, JSON.stringify(state)); }catch(e){} }
   function jstDateStr(d){ return d.toLocaleDateString("en-CA",{timeZone:"Asia/Tokyo"}); }
 
   function charToggle(name){
@@ -369,6 +387,7 @@ details[open] summary{border-bottom:1px solid #eef1f4;margin-bottom:12px;}
     const el = document.getElementById("presetRow");
     el.innerHTML = "";
     RECIPE_PRESETS.forEach(p=>{
+      if(p.limited && !isLimitedActive()) return;
       const btn = document.createElement("button");
       btn.textContent = p.label;
       btn.addEventListener("click", ()=>{
@@ -385,6 +404,7 @@ details[open] summary{border-bottom:1px solid #eef1f4;margin-bottom:12px;}
     document.getElementById("matTama").textContent = (state.tries*state.mat.tama).toLocaleString();
     document.getElementById("matRei").textContent = (state.tries*state.mat.rei).toLocaleString();
     document.getElementById("matTo").textContent = (state.tries*state.mat.to).toLocaleString();
+    document.getElementById("matFuda").textContent = state.tries.toLocaleString();
 
     const today = jstDateStr(new Date());
     if(!state.dayTrack || state.dayTrack.date !== today){
@@ -442,6 +462,16 @@ details[open] summary{border-bottom:1px solid #eef1f4;margin-bottom:12px;}
   document.getElementById("settingsBtn").addEventListener("click", ()=>{
     document.getElementById("settingsPanel").classList.toggle("show");
   });
+  document.getElementById("rangeHelpBtn").addEventListener("click", ()=>{
+    document.getElementById("rangePanel").classList.toggle("show");
+  });
+
+  if(isLimitedActive()){
+    // 還沒設定過消耗量（四欄皆0）時，期間內直接帶入All700
+    if(["tan","tama","rei","to"].every(k=>!state.mat[k])){ state.mat = Object.assign({}, LIMITED_MAT); save(); }
+  }else{
+    document.getElementById("limitedCampaignBar").style.display = "none";
+  }
 
   function fillMatInputs(){
     document.getElementById("matTanInput").value = state.mat.tan;
@@ -485,30 +515,42 @@ function setupNotice(opts){
     return false;
   }
   if(checkExpiry()) return;
-  if(localStorage.getItem(opts.dismissKey) === "1"){ el.style.display = "none"; return; }
+  function setCollapsed(c){
+    el.classList.toggle("collapsed", c);
+    try{ localStorage.setItem(opts.dismissKey, c ? "1" : "0"); }catch(e){}
+  }
+  try{
+    if(localStorage.getItem(opts.dismissKey) === "1"){
+      // 重新整理時直接套用收合狀態，不播放滑出動畫
+      el.style.transition = "none";
+      el.classList.add("collapsed");
+      void el.offsetWidth;
+      el.style.transition = "";
+    }
+  }catch(e){}
   var closeBtn = document.getElementById(opts.closeBtnId);
   if(closeBtn){
-    closeBtn.addEventListener("click", function(){
-      el.style.display = "none";
-      localStorage.setItem(opts.dismissKey, "1");
-    });
+    closeBtn.addEventListener("click", function(e){ e.stopPropagation(); setCollapsed(true); });
   }
+  el.addEventListener("click", function(){
+    if(el.classList.contains("collapsed")) setCollapsed(false);
+  });
   var timer = setInterval(function(){
     if(checkExpiry()){ clearInterval(timer); }
   }, 60000);
 }
 (function(){
   setupNotice({
-    elId: "expNotice",
-    closeBtnId: "expNoticeClose",
-    end: new Date("2026-10-14T12:59:00+09:00"),
-    dismissKey: "expedition2xNoticeDismissed_20261014"
+    elId: "vpnNotice",
+    closeBtnId: "vpnNoticeClose",
+    end: new Date("9999-12-31T00:00:00+09:00"),
+    dismissKey: "vpnNoticeCollapsed"
   });
   setupNotice({
-    elId: "koukaNotice",
-    closeBtnId: "koukaNoticeClose",
-    end: new Date("2026-10-21T12:59:00+09:00"),
-    dismissKey: "kouka3renket2xNoticeDismissed_20261021"
+    elId: "jleagueNotice",
+    closeBtnId: "jleagueNoticeClose",
+    end: new Date("2026-12-26T12:59:00+09:00"),
+    dismissKey: "jleagueLoginNoticeDismissed_20261226"
   });
 })();
 </script>

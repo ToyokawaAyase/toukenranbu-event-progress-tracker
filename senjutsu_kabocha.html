@@ -1,0 +1,455 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>戰術強化訓練 ～南瓜大作戰～ 活動紀錄</title>
+<style>
+:root{--header:#b4561a;--accent:#f0a75e;--accent-text:#6b3410;--track:#e6ecf1;--bar-track:#a9b4c0;--warn:#e0703c;--card:#ffffff;--bg:#f5f7fa;--text:#2b2b2b;--sub:#6b7785;}
+*{box-sizing:border-box;}
+body{font-family:"Noto Sans TC","Hiragino Sans","Yu Gothic",sans-serif;background:var(--bg);color:var(--text);margin:0;padding:20px;}
+.wrap{max-width:1200px;margin:0 auto;}
+header{display:flex;align-items:center;justify-content:space-between;background:var(--header);color:#fff;padding:16px 20px;border-radius:10px 10px 0 0;flex-wrap:wrap;gap:8px;}
+header h1{font-size:1.25rem;margin:0;display:flex;align-items:center;gap:8px;}
+.icon-btn{background:rgba(255,255,255,.15);border:none;color:#fff;border-radius:50%;width:30px;height:30px;cursor:pointer;font-size:.9rem;flex-shrink:0;}
+.icon-btn:hover{background:rgba(255,255,255,.3);}
+.panel{background:var(--card);padding:16px 20px;border:1px solid #e1e6ea;border-top:none;}
+.countdown-bar{background:#fdf0e3;padding:12px 20px;font-size:.92rem;border-left:4px solid var(--header);}
+.status-bar{background:#fdf7f0;padding:8px 20px;font-size:.76rem;color:var(--sub);border-left:4px solid #f0d3b5;}
+.nav-links{background:#fff;padding:8px 20px;font-size:.8rem;border-bottom:1px solid #e1e6ea;}
+.nav-links a{color:var(--header);text-decoration:none;margin-right:16px;}
+.nav-links a.current{font-weight:700;text-decoration:underline;}
+.nav-links a:hover{text-decoration:underline;}
+.counters{display:flex;gap:16px;flex-wrap:wrap;}
+.counter-card{flex:1;min-width:260px;background:#fdf0e3;border-radius:10px;padding:16px 16px;display:flex;flex-direction:column;}
+.counter-card h3{margin:0 0 8px;font-size:.85rem;color:var(--sub);}
+.counter-card .sub{font-size:.72rem;color:var(--sub);margin-bottom:8px;}
+.counter-value{font-size:2.2rem;font-weight:700;color:var(--header);word-break:break-all;overflow-wrap:anywhere;}
+.counter-controls{display:flex;gap:8px;flex-wrap:wrap;margin-top:8px;}
+.counter-controls button{border:1px solid #cbd6e0;background:#fff;border-radius:6px;padding:4px 8px;cursor:pointer;font-size:.8rem;}
+.counter-controls button:hover{background:#e6edf3;}
+.counter-manual{margin-top:8px;display:flex;gap:8px;flex-wrap:wrap;}
+.counter-manual input{width:110px;min-width:0;padding:4px 8px;border:1px solid #cbd6e0;border-radius:6px;}
+.counter-manual button{border:none;background:var(--header);color:#fff;border-radius:6px;padding:4px 12px;cursor:pointer;}
+.panel-add{margin-top:12px;background:#fff;border:1px solid #f0d3b5;border-radius:8px;padding:10px 12px;}
+.diff-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:8px;}
+.diff{display:flex;flex-direction:column;gap:6px;background:#fdf7f0;border-radius:6px;padding:8px;font-size:.8rem;}
+.diff .lbl{color:var(--sub);font-weight:700;text-align:center;}
+.panel-add button{border:1px solid var(--accent);background:#fdf0e3;color:var(--accent-text);border-radius:6px;padding:4px 10px;cursor:pointer;font-size:.78rem;}
+.panel-add button:hover{background:var(--accent);}
+.mult{display:flex;gap:6px;flex-wrap:wrap;align-items:center;font-size:.8rem;color:var(--sub);}
+.mult label{display:flex;align-items:center;gap:4px;cursor:pointer;background:#fff;border:1px solid #cbd6e0;border-radius:6px;padding:2px 8px;}
+.mult input{margin:0;}
+.progress-track{position:relative;height:26px;background:var(--bar-track);border-radius:6px;overflow:hidden;margin-top:12px;}
+.progress-fill{position:relative;overflow:hidden;background:var(--accent);height:100%;transition:width .3s;}
+.progress-label{position:absolute;top:0;left:0;bottom:0;width:100%;display:flex;align-items:center;padding-left:12px;font-size:.8rem;color:#fff;font-weight:700;white-space:nowrap;}
+.progress-fill .progress-label{color:#fff;}
+.target-note{margin-top:8px;font-size:.88rem;}
+.target-note .name{font-weight:700;color:var(--header);}
+.daily-target{background:#fdf0e3;border-left:4px solid var(--accent);padding:12px 16px;border-radius:6px;margin-top:12px;font-size:1rem;color:#6b3410;}
+.reward-list{margin-top:12px;max-height:420px;overflow-y:auto;padding-right:4px;}
+.reward-row{display:flex;align-items:center;gap:12px;padding:4px 4px;border-bottom:1px solid #eef1f4;font-size:.82rem;cursor:pointer;}
+.reward-row .t{width:80px;color:var(--sub);flex-shrink:0;}
+.reward-row .bar{flex:1;height:22px;border-radius:5px;background:var(--bar-track);position:relative;overflow:hidden;}
+.reward-row .bar-fill{position:relative;overflow:hidden;height:100%;background:var(--accent);}
+.reward-row .bar .txt{position:absolute;top:0;left:0;bottom:0;width:100%;display:flex;align-items:center;padding-left:8px;font-size:.78rem;color:#fff;font-weight:600;white-space:nowrap;}
+.reward-row .bar-fill .txt{color:#fff;}
+.reward-row.done .bar-fill{background:#4a5568;}
+.reward-row.selected{background:#fdf0e3;}
+.reward-row.key .t{color:var(--header);font-weight:700;}
+.section-title{margin-top:28px;font-size:.98rem;font-weight:700;border-bottom:2px solid var(--header);padding-bottom:4px;}
+.notes{font-size:.78rem;color:var(--sub);margin-top:12px;line-height:1.7;}
+.pt-table{border-collapse:collapse;margin-top:8px;font-size:.8rem;}
+.pt-table th,.pt-table td{border:1px solid #e1e6ea;padding:4px 10px;text-align:center;}
+.pt-table th{background:#fdf0e3;}
+footer{font-size:.72rem;color:var(--sub);margin-top:20px;text-align:center;line-height:1.8;}
+.settings-panel{display:none;background:#fbfcfd;border:1px dashed #c7d0d8;border-radius:8px;padding:16px;margin-top:12px;font-size:.82rem;line-height:1.7;}
+.settings-panel.show{display:block;}
+.settings-panel label{display:block;margin-top:8px;}
+.settings-panel input{padding:4px 8px;border:1px solid #cbd6e0;border-radius:6px;}
+.settings-panel button{margin-top:12px;border:none;background:var(--header);color:#fff;padding:8px 12px;border-radius:6px;cursor:pointer;margin-right:8px;}
+.danger-btn{background:#c0392b!important;}
+.notice-stack{position:fixed;left:16px;top:50%;transform:translateY(-50%);display:flex;flex-direction:column;gap:10px;z-index:999;pointer-events:none;}
+.exp-notice{position:relative;max-width:200px;background:#fff4e0;border:1px solid #e0a83c;border-left:4px solid #e0703c;border-radius:8px;padding:12px 14px;font-size:.78rem;line-height:1.6;color:#6b4a12;box-shadow:0 2px 8px rgba(0,0,0,.16);}
+.exp-notice strong{display:block;margin-bottom:4px;color:#b85c1a;}
+.exp-notice .exp-close{position:absolute;top:4px;right:6px;background:none;border:none;color:#6b4a12;cursor:pointer;font-size:.85rem;line-height:1;padding:2px;}
+.exp-notice{transition:transform .25s;pointer-events:auto;}
+.exp-notice.collapsed{transform:translateX(calc(-100% - 4px));border-right:8px solid #e0703c;cursor:pointer;}
+.exp-notice.collapsed .exp-close{display:none;}
+.exp-notice.important{border-left-color:#c0392b;background:#fdecea;border-color:#e8a39b;color:#5c1f18;}
+.exp-notice.important strong{color:#c0392b;}
+.exp-notice.important.collapsed{border-right-color:#c0392b;}
+@media (max-width:600px){
+  .notice-stack{left:8px;right:8px;top:auto;bottom:8px;transform:none;}
+  .exp-notice{max-width:none;}
+  .exp-notice.collapsed{transform:translateX(calc(-100% + 4px));}
+}
+@media (max-width:600px){
+  body{padding:12px;}
+  header{padding:12px 16px;}
+  header h1{font-size:1.05rem;}
+  .panel{padding:12px 16px;}
+  .nav-links{padding:8px 16px;}
+  .nav-links a{margin-right:12px;display:inline-block;margin-bottom:4px;}
+  .countdown-bar{padding:12px 16px;font-size:.82rem;}
+  .status-bar{padding:8px 16px;font-size:.72rem;}
+  .counters{gap:12px;}
+  .counter-card{min-width:100%;}
+  .counter-value{font-size:1.8rem;}
+  .counter-controls button{padding:8px 12px;font-size:.82rem;}
+  .counter-manual input{width:auto;flex:1;min-width:0;}
+  .reward-row .t{width:64px;}
+  .settings-panel{padding:12px;}
+}
+</style>
+<script data-goatcounter="https://ayase.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
+</head>
+<body>
+<div class="notice-stack" id="noticeStack">
+  <div class="exp-notice important" id="vpnNotice">
+    <button class="exp-close" id="vpnNoticeClose" title="收合">‹</button>
+    <strong>重要提醒：遊玩需全程使用VPN</strong>
+    網頁版、平板、Android、iOS皆需使用VPN並全程保持連線，不可漫遊、不可中途斷線。Android手機、平板與網頁版可使用筑波大學VPN。
+  </div>
+  <div class="exp-notice" id="jleagueNotice">
+    <button class="exp-close" id="jleagueNoticeClose" title="收合">‹</button>
+    <strong>聯名 登入禮物</strong>
+    回復氣力道具領取至11/4（三）12:59，景趣×2領取至12/26（六）12:59（JST）。
+  </div>
+</div>
+<div class="wrap">
+  <header>
+    <h1>戰術強化訓練 ～南瓜大作戰～ <button class="icon-btn" id="helpBtn" title="說明">?</button></h1>
+    <button class="icon-btn" id="settingsBtn" title="設定">⚙</button>
+  </header>
+  <div class="nav-links">
+    <a href="index.html">首頁</a>
+    <a href="senjutsu_kabocha.html" class="current">戰術強化訓練</a>
+    <a href="kantou_campaign.html">鍛刀試算與入手記錄</a>
+    <a href="shugyou_priority.html">修行優先順序</a>
+    <a href="koujisen_kenzou.html">航時船建造</a>
+  </div>
+  <div class="panel">
+    <div id="helpPanel" class="settings-panel">
+      <strong>使用說明</strong>
+      <p>本頁面僅供個人記錄用，非官方工具，資料以你自行輸入為準。數值會儲存在「這台瀏覽器」的 localStorage，換裝置或清除瀏覽資料會遺失，請自行留意備份（例如定期截圖）。</p>
+      <p>玩法：從初級／中級／上級的訓練表中選擇訓練格出陣，達成條件即可獲得南瓜。一張訓練表共3×3＝9格，9格全部解放後可入手訓練表背景剪影的刀劍男士（隨機）。南瓜累計數達到指定數量時，訓練表背景會追加刀劍男士並提高入手上限，累計到一定數量可確定入手「孫六兼元」「雲生」「雲次」「雲重」。</p>
+      <p>每格基本上為1戰，每戰消耗氣力3，氣力管理較一般活動吃緊。本活動戰鬥中刀劍男士不會破壞，戰鬥後傷勢與刀裝會恢復到出陣前狀態；需達成格子條件且戰鬥勝利才算完成。</p>
+      <p>更新手形：活動開始時有4張，每天05:00補充2張（自動補充的上限為4張）；也可用900小判購買1張，購買上限99張，最多同時持有103張。使用時優先消耗自動補充的手形，且只會重置目前進行中難易度的訓練表（訓練格與背景剪影重新抽選）。活動結束時，用小判購買而未使用的手形每張換回900小判，自動補充的不會換成小判。</p>
+      <p>活動專用便利道具（訓練表進行中可隨時使用）：</p>
+      <p>・「特別更新手形・軍配」：重置目前難易度的訓練表，並讓下一戰經驗值5倍（僅限該難易度）。<br>
+      ・「三倍訓練書」／「十倍訓練書」：目前訓練表獲得的南瓜變為3倍／10倍，已解放格子的南瓜也會補算倍率。<br>
+      ・「訓練完了小槌」：不出陣直接完成一格（不獲得經驗值），每張訓練表最多可用8個；先用訓練書再用小槌，南瓜一樣有倍率。<br>
+      ・「一口南瓜餅乾」：1振刀劍男士的氣力回復至70，活動以外也能使用，使用期限至11/10（二）12:59。</p>
+      <p>限定刀劍男士（孫六兼元、雲生、雲次、雲重）：南瓜累計達指定數量後才會在訓練表背景出現，每振從背景最多可入手2振；同一時間只會出現在其中一個難易度。另外可透過南瓜累計確定入手：孫六兼元1振，雲生、雲次、雲重各2振。其他背景刀劍男士入手數量無上限，極之姿不在對象內。</p>
+      <p>特德報酬：於萬屋購買「特德引換手形（南瓜）」後解放，南瓜每累計5,000可獲得「特德引換貼紙（南瓜）」×2，累計至300,000為止；貼紙無法帶到下次活動。</p>
+      <p>每戰獲得的南瓜數量（參考值，倍率道具另計）：</p>
+      <table class="pt-table">
+        <tr><th>難易度</th><th>一般戰</th><th>特別戰（苦無）</th></tr>
+        <tr><td>初級</td><td>130</td><td>325</td></tr>
+        <tr><td>中級</td><td>145</td><td>350</td></tr>
+        <tr><td>上級</td><td>160</td><td>375</td></tr>
+      </table>
+    </div>
+    <div id="settingsPanel" class="settings-panel">
+      <strong>設定</strong>
+      <label>活動結束時間（官方公告：2026-11-10 12:59，JST日本標準時間；如有異動請於此調整）
+        <input type="datetime-local" id="endInput">
+      </label>
+      <div>
+        <button id="applyEnd">套用結束時間</button>
+        <button id="resetProgress" class="danger-btn">重設本頁全部記錄</button>
+      </div>
+    </div>
+
+    <div class="status-bar" id="statusBar">限時活動：2026年10月27日（週二）維護結束後 ～ 2026年11月10日（週二）12:59（JST，日本標準時間，比台灣快1小時）。</div>
+    <div class="countdown-bar" id="countdownBar">載入中…</div>
+
+    <div class="section-title">南瓜累計數</div>
+    <div class="counters">
+      <div class="counter-card">
+        <h3>本活動累計南瓜</h3>
+        <div class="sub">對照遊戲內南瓜累計數記錄，或打完一格就用下方快速加入</div>
+        <div class="counter-value" id="kabochaValue">0</div>
+        <div class="counter-controls">
+          <button data-delta="-1000">-1,000</button>
+          <button data-delta="-100">-100</button>
+          <button data-delta="100">+100</button>
+          <button data-delta="1000">+1,000</button>
+        </div>
+        <div class="panel-add">
+          <div class="mult">倍率：
+            <label><input type="radio" name="mult" value="1" checked>1倍</label>
+            <label><input type="radio" name="mult" value="3">三倍訓練書</label>
+            <label><input type="radio" name="mult" value="10">十倍訓練書</label>
+          </div>
+          <div class="diff-grid">
+            <div class="diff"><span class="lbl">初級</span><button data-base="130">一般 +130</button><button data-base="325">特別 +325</button></div>
+            <div class="diff"><span class="lbl">中級</span><button data-base="145">一般 +145</button><button data-base="350">特別 +350</button></div>
+            <div class="diff"><span class="lbl">上級</span><button data-base="160">一般 +160</button><button data-base="375">特別 +375</button></div>
+          </div>
+        </div>
+        <div class="counter-manual">
+          <input type="number" id="kabochaManual" placeholder="輸入數值">
+          <button id="addManual">累加</button>
+          <button id="setManual">直接設定</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="section-title">報酬進度</div>
+    <div id="rewardArea">
+      <div class="progress-track"><div class="progress-label" id="progressLabel"></div><div class="progress-fill" id="progressFill" style="width:0%"><div class="progress-label" id="progressLabelLight"></div></div></div>
+      <div class="target-note" id="targetNote"></div>
+      <div class="daily-target" id="dailyTarget"></div>
+      <div class="notes">點選下方報酬列可設為「目前目標」，再點一次取消。</div>
+      <div class="reward-list" id="rewardList"></div>
+    </div>
+    <div class="notes" id="rewardPending" style="display:none;">南瓜累計報酬一覽整理中，確認遊戲內報酬表後會補上。</div>
+    <footer>
+      非官方個人記錄工具，資料來源整理自官方公告與公開資訊，正式數值請以遊戲內公告為準，使用請自行確認。<br>
+      如網頁有任何問題，請<a href="https://forms.gle/gMPXA4EYkXCvemnf6" target="_blank" rel="noopener">點此</a>填寫表單回報，謝謝。
+    </footer>
+  </div>
+</div>
+
+<script>
+(function(){
+  const STORAGE_KEY = "senjutsuKabochaProgress_v1";
+  const DEFAULT_END = "2026-11-10T12:59:00+09:00";
+  const START = "2026-10-27T16:00:00+09:00";
+  const CAP = 99999999;
+
+  // 南瓜累計報酬：[門檻, 報酬]，依官方公告「報酬一覽」
+  const REWARDS = [
+    [100,"三倍訓練書×1"],[300,"輕步兵・特上×2"],[600,"木炭×1,000"],[1000,"訓練完了小槌×1"],
+    [1500,"輕騎兵・特上×2"],[2000,"玉鋼×1,000"],[2500,"特別更新手形・軍配×1"],[3000,"重步兵・特上×2"],
+    [4000,"冷却材×1,000"],[5000,"一口南瓜餅乾×12"],[6000,"重騎兵・特上×2"],[7000,"砥石×1,000"],
+    [8000,"依賴札×2"],[9000,"投石兵・特上×2"],[10000,"御札・梅×1"],[12500,"木炭×1,500"],
+    [15000,"手傳札×2"],[17500,"弓兵・特上×2"],[20000,"孫六兼元 解放（訓練表背景開始機率出現，可入手1振）"],[22500,"玉鋼×1,500"],
+    [25000,"遠征召回鴿×1"],[27500,"銃兵・特上×2"],[30000,"雲生 解放（訓練表背景開始機率出現，可入手1振）"],[33000,"冷却材×1,500"],
+    [36000,"槍兵・特上×2"],[40000,"雲次 解放（訓練表背景開始機率出現，可入手1振）"],[43000,"砥石×1,500"],[46000,"盾兵・特上×2"],
+    [50000,"雲重 解放（訓練表背景開始機率出現，可入手1振）"],[53000,"一口南瓜餅乾×12"],[56000,"木炭×2,000、玉鋼×2,000"],
+    [60000,"孫六兼元 入手上限+1（背景最多可入手2振）"],[63000,"冷却材×2,000、砥石×2,000"],[66000,"精銳兵・特上×2"],
+    [70000,"雲生 入手上限+1（背景最多可入手2振）"],[75000,"書信一式×1"],[80000,"雲次 入手上限+1（背景最多可入手2振）"],[85000,"旅行裝束×1"],
+    [90000,"雲重 入手上限+1（背景最多可入手2振）"],[95000,"旅行道具×1"],[100000,"雲次 確定入手1振（直接送至受取箱）"],[105000,"三倍訓練書×1"],
+    [110000,"一口南瓜餅乾×12"],[115000,"訓練完了小槌×1"],[120000,"孫六兼元 確定入手1振（直接送至受取箱）"],[125000,"特別更新手形・軍配×1"],
+    [130000,"木炭×4,000、玉鋼×4,000"],[135000,"御札・梅×1"],[140000,"冷却材×4,000、砥石×4,000"],
+    [145000,"依賴札×2、手傳札×2"],[150000,"雲重 確定入手1振（直接送至受取箱）"],[155000,"御札・竹×1"],[160000,"木炭×5,000、玉鋼×5,000"],
+    [165000,"御札・松×1"],[170000,"雲生 確定入手1振（直接送至受取箱）"],[175000,"書信一式×1"],[180000,"冷却材×5,000、砥石×5,000"],
+    [185000,"旅行裝束×1"],[190000,"旅行道具×1"],[195000,"御札・富士×1"],[200000,"雲次 確定入手1振（直接送至受取箱）"],
+    [250000,"雲重 確定入手1振（直接送至受取箱）"],[300000,"雲生 確定入手1振（直接送至受取箱）"]
+  ];
+  const KEY_PATTERN = /孫六兼元|雲生|雲次|雲重/;
+
+  let state = load();
+  function load(){
+    const base = {kabocha:0, end:DEFAULT_END, targetOverride:null, mult:1};
+    try{
+      const raw = JSON.parse(localStorage.getItem(STORAGE_KEY) || "null");
+      if(!raw) return base;
+      const merged = Object.assign({}, base, raw);
+      merged.kabocha = Math.min(CAP, Math.max(0, parseInt(merged.kabocha,10)||0));
+      if(![1,3,10].includes(merged.mult)) merged.mult = 1;
+      if(merged.end && new Date(merged.end).getFullYear() < 2026){ merged.end = DEFAULT_END; }
+      return merged;
+    }catch(e){ return base; }
+  }
+  function save(){ try{ localStorage.setItem(STORAGE_KEY, JSON.stringify(state)); }catch(e){} }
+
+  function setKabocha(v){
+    state.kabocha = Math.min(CAP, Math.max(0, v));
+    save(); renderAll();
+  }
+
+  // 與過往活動頁一致：離目標越遠越偏深紅橘，越接近完成越偏亮金黃；拉大色相與亮度差距方便辨識
+  function rowHueColor(pct){
+    const p = Math.min(1, Math.max(0, pct));
+    return `hsl(${10 + p*36}, 78%, ${38 + p*8}%)`;
+  }
+  function nextReward(){
+    if(state.targetOverride !== null){
+      const found = REWARDS.find(r=>r[0]===state.targetOverride);
+      if(found) return found;
+    }
+    for(const r of REWARDS){ if(state.kabocha < r[0]) return r; }
+    return REWARDS[REWARDS.length-1];
+  }
+
+  function renderRewardList(){
+    const el = document.getElementById("rewardList");
+    el.innerHTML = "";
+    const v = state.kabocha;
+    const sorted = [...REWARDS].sort((a,b)=>{
+      const doneA = v >= a[0], doneB = v >= b[0];
+      if(doneA === doneB) return a[0]-b[0];
+      return doneA ? 1 : -1;
+    });
+    sorted.forEach(([t, label])=>{
+      const done = v >= t;
+      const row = document.createElement("div");
+      row.className = "reward-row" + (state.targetOverride===t ? " selected" : "") + (done ? " done" : "") + (KEY_PATTERN.test(label) ? " key" : "");
+      const widthPct = done ? 100 : Math.min(100, v/t*100);
+      const fill = done ? "" : `;background:${rowHueColor(v/t)}`;
+      const text = done ? "已達成　"+label : label+"（還差 "+(t-v).toLocaleString()+"）";
+      row.innerHTML = `<div class="t">${t.toLocaleString()}</div>
+        <div class="bar"><span class="txt">${text}</span><div class="bar-fill" style="width:${widthPct}%${fill}">${widthPct > 0 ? `<span class="txt" style="width:${10000/widthPct}%">${text}</span>` : ""}</div></div>`;
+      row.addEventListener("click", ()=>{
+        state.targetOverride = (state.targetOverride===t) ? null : t;
+        save(); renderAll();
+      });
+      el.appendChild(row);
+    });
+  }
+
+  function renderProgress(){
+    const [t, label] = nextReward();
+    const v = state.kabocha;
+    const remain = Math.max(0, t - v);
+    const pct = Math.min(100, v/t*100);
+    const fill = document.getElementById("progressFill");
+    fill.style.width = pct.toFixed(1)+"%";
+    fill.style.background = rowHueColor(v/t);
+    const text = pct.toFixed(1)+"%（還差 "+remain.toLocaleString()+"）";
+    document.getElementById("progressLabel").textContent = text;
+    const light = document.getElementById("progressLabelLight");
+    light.textContent = text;
+    light.style.width = pct > 0 ? (10000/pct)+"%" : "0";
+    document.getElementById("targetNote").innerHTML = `目前目標：<span class="name">${label}</span>（門檻 ${t.toLocaleString()} 南瓜，還差 ${remain.toLocaleString()}）`;
+
+    const daily = document.getElementById("dailyTarget");
+    const msLeft = new Date(state.end || DEFAULT_END) - new Date();
+    if(remain <= 0){
+      daily.textContent = "已達成目前目標，可以點下方報酬列換一個目標繼續看進度。";
+    }else if(msLeft <= 0){
+      daily.textContent = "活動已結束，可對照最終南瓜累計數確認達成的報酬。";
+    }else{
+      const daysLeft = Math.max(1, Math.ceil(msLeft/86400000));
+      daily.innerHTML = `距離結束還有約 <strong>${daysLeft} 天</strong>，平均每天需要 <strong>${Math.ceil(remain/daysLeft).toLocaleString()}</strong> 南瓜才能在期限內達成上述目標。`;
+    }
+  }
+
+  function renderCountdown(){
+    const now = new Date();
+    const start = new Date(START);
+    const end = new Date(state.end || DEFAULT_END);
+    const el = document.getElementById("countdownBar");
+    const endStr = end.toLocaleString("zh-TW",{timeZone:"Asia/Tokyo"});
+    if(now < start){
+      el.textContent = "距離活動開始還有 "+fmtDiff(start-now)+"（實際開始時間以遊戲內「維護結束時」為準）";
+    }else if(now <= end){
+      el.textContent = "距離活動結束還有 "+fmtDiff(end-now)+"（結束時間：" + endStr + " JST，日本標準時間）";
+    }else{
+      el.textContent = "活動已結束（結束時間：" + endStr + " JST，日本標準時間）";
+    }
+  }
+  function fmtDiff(ms){
+    const totalMin = Math.floor(ms/60000);
+    return `${Math.floor(totalMin/1440)}天 ${Math.floor((totalMin%1440)/60)}時 ${totalMin%60}分`;
+  }
+
+  function renderAll(){
+    document.getElementById("kabochaValue").textContent = state.kabocha.toLocaleString();
+    document.querySelectorAll('input[name="mult"]').forEach(r=>{ r.checked = parseInt(r.value,10) === state.mult; });
+    document.querySelectorAll("[data-base]").forEach(btn=>{
+      const base = parseInt(btn.dataset.base,10);
+      btn.textContent = (base>=325 ? "特別" : "一般") + " +" + (base*state.mult).toLocaleString();
+    });
+    const hasRewards = REWARDS.length > 0;
+    document.getElementById("rewardArea").style.display = hasRewards ? "" : "none";
+    document.getElementById("rewardPending").style.display = hasRewards ? "none" : "";
+    if(hasRewards){ renderProgress(); renderRewardList(); }
+  }
+
+  document.querySelectorAll("[data-delta]").forEach(btn=>{
+    btn.addEventListener("click", ()=> setKabocha(state.kabocha + parseInt(btn.dataset.delta,10)));
+  });
+  document.querySelectorAll("[data-base]").forEach(btn=>{
+    btn.addEventListener("click", ()=> setKabocha(state.kabocha + parseInt(btn.dataset.base,10)*state.mult));
+  });
+  document.querySelectorAll('input[name="mult"]').forEach(r=>{
+    r.addEventListener("change", ()=>{ state.mult = parseInt(r.value,10); save(); renderAll(); });
+  });
+  const manual = document.getElementById("kabochaManual");
+  document.getElementById("addManual").addEventListener("click", ()=>{
+    const v = parseInt(manual.value,10);
+    if(!isNaN(v)) setKabocha(state.kabocha + v);
+  });
+  document.getElementById("setManual").addEventListener("click", ()=>{
+    const v = parseInt(manual.value,10);
+    if(!isNaN(v)) setKabocha(v);
+  });
+  manual.addEventListener("keydown", e=>{ if(e.key==="Enter") document.getElementById("addManual").click(); });
+
+  document.getElementById("helpBtn").addEventListener("click", ()=>{
+    document.getElementById("helpPanel").classList.toggle("show");
+  });
+  document.getElementById("settingsBtn").addEventListener("click", ()=>{
+    document.getElementById("settingsPanel").classList.toggle("show");
+  });
+  document.getElementById("applyEnd").addEventListener("click", ()=>{
+    const v = document.getElementById("endInput").value;
+    if(v){ state.end = new Date(v).toISOString(); save(); renderCountdown(); renderAll(); }
+  });
+  document.getElementById("resetProgress").addEventListener("click", ()=>{
+    if(confirm("確定要清空本頁的南瓜記錄嗎？此動作無法復原。")){
+      state = {kabocha:0, end:state.end, targetOverride:null, mult:1};
+      save(); renderAll();
+    }
+  });
+
+  renderAll();
+  renderCountdown();
+  setInterval(renderCountdown, 30000);
+})();
+</script>
+<script>
+function setupNotice(opts){
+  var el = document.getElementById(opts.elId);
+  if(!el) return;
+  function checkExpiry(){
+    if(new Date() > opts.end){ el.style.display = "none"; return true; }
+    return false;
+  }
+  if(checkExpiry()) return;
+  function setCollapsed(c){
+    el.classList.toggle("collapsed", c);
+    try{ localStorage.setItem(opts.dismissKey, c ? "1" : "0"); }catch(e){}
+  }
+  try{
+    if(localStorage.getItem(opts.dismissKey) === "1"){
+      // 重新整理時直接套用收合狀態，不播放滑出動畫
+      el.style.transition = "none";
+      el.classList.add("collapsed");
+      void el.offsetWidth;
+      el.style.transition = "";
+    }
+  }catch(e){}
+  var closeBtn = document.getElementById(opts.closeBtnId);
+  if(closeBtn){
+    closeBtn.addEventListener("click", function(e){ e.stopPropagation(); setCollapsed(true); });
+  }
+  el.addEventListener("click", function(){
+    if(el.classList.contains("collapsed")) setCollapsed(false);
+  });
+  var timer = setInterval(function(){
+    if(checkExpiry()){ clearInterval(timer); }
+  }, 60000);
+}
+(function(){
+  setupNotice({
+    elId: "vpnNotice",
+    closeBtnId: "vpnNoticeClose",
+    end: new Date("9999-12-31T00:00:00+09:00"),
+    dismissKey: "vpnNoticeCollapsed"
+  });
+  setupNotice({
+    elId: "jleagueNotice",
+    closeBtnId: "jleagueNoticeClose",
+    end: new Date("2026-12-26T12:59:00+09:00"),
+    dismissKey: "jleagueLoginNoticeDismissed_20261226"
+  });
+})();
+</script>
+</body>
+</html>

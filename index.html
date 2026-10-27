@@ -11,11 +11,13 @@ h1{font-size:1.4rem;text-align:center;margin-bottom:32px;}
 .card{display:block;background:#fff;border-radius:10px;padding:20px 24px;margin-bottom:16px;text-decoration:none;color:inherit;box-shadow:0 1px 4px rgba(0,0,0,.08);border-left:6px solid #2b5580;}
 .card.kantou{border-left-color:#2b7a5f;}
 .card.shugyou{border-left-color:#7a5c2b;}
-.card.chika{border-left-color:#8a6d1f;}
+.card.koujisen{border-left-color:#2b5f80;}
 .card h2{margin:0 0 8px;font-size:1.1rem;color:#2b5580;}
 .card.kantou h2{color:#2b7a5f;}
 .card.shugyou h2{color:#7a5c2b;}
-.card.chika h2{color:#8a6d1f;}
+.card.koujisen h2{color:#2b5f80;}
+.card.kabocha{border-left-color:#b4561a;}
+.card.kabocha h2{color:#b4561a;}
 .card p{margin:0;font-size:.85rem;color:#6b7785;}
 footer{text-align:center;font-size:.75rem;color:#6b7785;margin-top:32px;}
 @media (max-width:600px){
@@ -24,43 +26,54 @@ footer{text-align:center;font-size:.75rem;color:#6b7785;margin-top:32px;}
   h1{font-size:1.2rem;margin-bottom:20px;}
   .card{padding:16px 20px;}
 }
-.notice-stack{position:fixed;left:16px;top:50%;transform:translateY(-50%);display:flex;flex-direction:column;gap:10px;z-index:999;}
+.notice-stack{position:fixed;left:16px;top:50%;transform:translateY(-50%);display:flex;flex-direction:column;gap:10px;z-index:999;pointer-events:none;}
 .exp-notice{position:relative;max-width:200px;background:#fff4e0;border:1px solid #e0a83c;border-left:4px solid #e0703c;border-radius:8px;padding:12px 14px;font-size:.78rem;line-height:1.6;color:#6b4a12;box-shadow:0 2px 8px rgba(0,0,0,.16);}
 .exp-notice strong{display:block;margin-bottom:4px;color:#b85c1a;}
 .exp-notice .exp-close{position:absolute;top:4px;right:6px;background:none;border:none;color:#6b4a12;cursor:pointer;font-size:.85rem;line-height:1;padding:2px;}
+.exp-notice{transition:transform .25s;pointer-events:auto;}
+.exp-notice.collapsed{transform:translateX(calc(-100% - 4px));border-right:8px solid #e0703c;cursor:pointer;}
+.exp-notice.collapsed .exp-close{display:none;}
+.exp-notice.important{border-left-color:#c0392b;background:#fdecea;border-color:#e8a39b;color:#5c1f18;}
+.exp-notice.important strong{color:#c0392b;}
+.exp-notice.important.collapsed{border-right-color:#c0392b;}
 @media (max-width:600px){
   .notice-stack{left:8px;right:8px;top:auto;bottom:8px;transform:none;}
   .exp-notice{max-width:none;}
+  .exp-notice.collapsed{transform:translateX(calc(-100% + 4px));}
 }
 </style>
 <script data-goatcounter="https://ayase.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
 </head>
 <body>
 <div class="notice-stack" id="noticeStack">
-  <div class="exp-notice" id="expNotice">
-    <button class="exp-close" id="expNoticeClose" title="關閉">×</button>
-    <strong>遠征大成功確定！資源2倍</strong>
-    期間：10/6（火）維護結束～10/14（水）12:59 JST，期間內所有遠征皆大成功歸還，獲得資源量2倍（小判、手伝い札、依頼札不列入2倍；強制帰還不算大成功，僅期間內開始的遠征適用）。
+  <div class="exp-notice important" id="vpnNotice">
+    <button class="exp-close" id="vpnNoticeClose" title="收合">‹</button>
+    <strong>重要提醒：遊玩需全程使用VPN</strong>
+    網頁版、平板、Android、iOS皆需使用VPN並全程保持連線，不可漫遊、不可中途斷線。Android手機、平板與網頁版可使用筑波大學VPN。
   </div>
-  <div class="exp-notice" id="koukaNotice">
-    <button class="exp-close" id="koukaNoticeClose" title="關閉">×</button>
-    <strong>強化鏈結 強化効果2倍確定！</strong>
-    期間：10/13（二）維護結束～10/21（二）12:59 JST，期間內強化鏈結獲得的強化効果2倍。
+  <div class="exp-notice" id="jleagueNotice">
+    <button class="exp-close" id="jleagueNoticeClose" title="收合">‹</button>
+    <strong>聯名 登入禮物</strong>
+    回復氣力道具領取至11/4（三）12:59，景趣×2領取至12/26（六）12:59（JST）。
   </div>
 </div>
 <div class="wrap">
   <h1>刀劍亂舞 活動紀錄總覽</h1>
-  <a class="card chika" href="chika_senryoubako.html">
-    <h2>地下に眠る千両箱</h2>
-    <p>限時活動｜2026年10月6日～10月21日｜目前制覇樓層、小判累計記錄、稀有角色掉落隻數記錄</p>
+  <a class="card kabocha" href="senjutsu_kabocha.html">
+    <h2>戰術強化訓練 ～南瓜大作戰～</h2>
+    <p>限時活動｜2026年10月27日～11月10日｜南瓜累計記錄、每戰南瓜快速加入（可選三倍／十倍訓練書）、報酬進度與每日目標試算</p>
   </a>
   <a class="card kantou" href="kantou_campaign.html">
-    <h2>鍛刀次數材料換算與角色記錄</h2>
-    <p>鍛刀次數換算資材消耗（可自訂各資材用量）、鍛刀時間對照表、角色入手狀態勾選記錄</p>
+    <h2>鍛刀試算與入手記錄</h2>
+    <p>鍛刀次數換算資材與依賴札消耗（可自訂各資材用量）、鍛刀時間對照表、角色入手狀態勾選記錄</p>
   </a>
   <a class="card shugyou" href="shugyou_priority.html">
     <h2>修行優先順序建議</h2>
     <p>輸入刀種、地圖進度、刀裝與極化數值，自動算出下一隻該送誰去修行</p>
+  </a>
+  <a class="card koujisen" href="koujisen_kenzou.html">
+    <h2>航時船建造進度</h2>
+    <p>青野原通關、回想收集（目標30話）、建造資材累計（目標800個）記錄，自動判斷是否可建造</p>
   </a>
   <footer>非官方個人記錄工具，僅供自用參考。<br>如網頁有任何問題，請<a href="https://forms.gle/gMPXA4EYkXCvemnf6" target="_blank" rel="noopener">點此</a>填寫表單回報，謝謝。</footer>
 </div>
@@ -73,30 +86,42 @@ function setupNotice(opts){
     return false;
   }
   if(checkExpiry()) return;
-  if(localStorage.getItem(opts.dismissKey) === "1"){ el.style.display = "none"; return; }
+  function setCollapsed(c){
+    el.classList.toggle("collapsed", c);
+    try{ localStorage.setItem(opts.dismissKey, c ? "1" : "0"); }catch(e){}
+  }
+  try{
+    if(localStorage.getItem(opts.dismissKey) === "1"){
+      // 重新整理時直接套用收合狀態，不播放滑出動畫
+      el.style.transition = "none";
+      el.classList.add("collapsed");
+      void el.offsetWidth;
+      el.style.transition = "";
+    }
+  }catch(e){}
   var closeBtn = document.getElementById(opts.closeBtnId);
   if(closeBtn){
-    closeBtn.addEventListener("click", function(){
-      el.style.display = "none";
-      localStorage.setItem(opts.dismissKey, "1");
-    });
+    closeBtn.addEventListener("click", function(e){ e.stopPropagation(); setCollapsed(true); });
   }
+  el.addEventListener("click", function(){
+    if(el.classList.contains("collapsed")) setCollapsed(false);
+  });
   var timer = setInterval(function(){
     if(checkExpiry()){ clearInterval(timer); }
   }, 60000);
 }
 (function(){
   setupNotice({
-    elId: "expNotice",
-    closeBtnId: "expNoticeClose",
-    end: new Date("2026-10-14T12:59:00+09:00"),
-    dismissKey: "expedition2xNoticeDismissed_20261014"
+    elId: "vpnNotice",
+    closeBtnId: "vpnNoticeClose",
+    end: new Date("9999-12-31T00:00:00+09:00"),
+    dismissKey: "vpnNoticeCollapsed"
   });
   setupNotice({
-    elId: "koukaNotice",
-    closeBtnId: "koukaNoticeClose",
-    end: new Date("2026-10-21T12:59:00+09:00"),
-    dismissKey: "kouka3renket2xNoticeDismissed_20261021"
+    elId: "jleagueNotice",
+    closeBtnId: "jleagueNoticeClose",
+    end: new Date("2026-12-26T12:59:00+09:00"),
+    dismissKey: "jleagueLoginNoticeDismissed_20261226"
   });
 })();
 </script>
