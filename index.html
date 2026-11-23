@@ -16,8 +16,8 @@ h1{font-size:1.4rem;text-align:center;margin-bottom:32px;}
 .card.kantou h2{color:#2b7a5f;}
 .card.shugyou h2{color:#7a5c2b;}
 .card.koujisen h2{color:#2b5f80;}
-.card.kabocha{border-left-color:#b4561a;}
-.card.kabocha h2{color:#b4561a;}
+.card.edo{border-left-color:#4a3f6b;}
+.card.edo h2{color:#4a3f6b;}
 .card p{margin:0;font-size:.85rem;color:#6b7785;}
 footer{text-align:center;font-size:.75rem;color:#6b7785;margin-top:32px;}
 @media (max-width:600px){
@@ -51,17 +51,22 @@ footer{text-align:center;font-size:.75rem;color:#6b7785;margin-top:32px;}
     <strong>重要提醒：遊玩需全程使用VPN</strong>
     網頁版、平板、Android、iOS皆需使用VPN並全程保持連線，不可漫遊、不可中途斷線。Android手機、平板與網頁版可使用筑波大學VPN。
   </div>
+  <div class="exp-notice" id="keishuNotice">
+    <button class="exp-close" id="keishuNoticeClose" title="收合">‹</button>
+    <strong>景趣「小雪・寒椿」再登場</strong>
+    未入手者可用小判8,000兌換，至12/4（五）12:59（JST）。
+  </div>
   <div class="exp-notice" id="jleagueNotice">
     <button class="exp-close" id="jleagueNoticeClose" title="收合">‹</button>
     <strong>聯名 登入禮物</strong>
-    回復氣力道具領取至11/4（三）12:59，景趣×2領取至12/26（六）12:59（JST）。
+    景趣×2領取至12/26（六）12:59（JST）。
   </div>
 </div>
 <div class="wrap">
   <h1>刀劍亂舞 活動紀錄總覽</h1>
-  <a class="card kabocha" href="senjutsu_kabocha.html">
-    <h2>戰術強化訓練 ～南瓜大作戰～</h2>
-    <p>限時活動｜2026年10月27日～11月10日｜南瓜累計記錄、每戰南瓜快速加入（可選三倍／十倍訓練書）、報酬進度與每日目標試算</p>
+  <a class="card edo" href="edojou_sennyuu.html">
+    <h2>江戶城潛入調查</h2>
+    <p>限時活動｜2026年11月10日～11月24日（開寶箱至12月2日）｜持有鍵記錄、寶物庫開封進度與所需鍵數試算、通行手形小判花費記錄</p>
   </a>
   <a class="card kantou" href="kantou_campaign.html">
     <h2>鍛刀試算與入手記錄</h2>
@@ -116,6 +121,12 @@ function setupNotice(opts){
     closeBtnId: "vpnNoticeClose",
     end: new Date("9999-12-31T00:00:00+09:00"),
     dismissKey: "vpnNoticeCollapsed"
+  });
+  setupNotice({
+    elId: "keishuNotice",
+    closeBtnId: "keishuNoticeClose",
+    end: new Date("2026-12-04T12:59:00+09:00"),
+    dismissKey: "keishuShousetsuNoticeDismissed_20261204"
   });
   setupNotice({
     elId: "jleagueNotice",

@@ -106,10 +106,15 @@ footer{font-size:.72rem;color:var(--sub);margin-top:20px;text-align:center;line-
     <strong>重要提醒：遊玩需全程使用VPN</strong>
     網頁版、平板、Android、iOS皆需使用VPN並全程保持連線，不可漫遊、不可中途斷線。Android手機、平板與網頁版可使用筑波大學VPN。
   </div>
+  <div class="exp-notice" id="keishuNotice">
+    <button class="exp-close" id="keishuNoticeClose" title="收合">‹</button>
+    <strong>景趣「小雪・寒椿」再登場</strong>
+    未入手者可用小判8,000兌換，至12/4（五）12:59（JST）。
+  </div>
   <div class="exp-notice" id="jleagueNotice">
     <button class="exp-close" id="jleagueNoticeClose" title="收合">‹</button>
     <strong>聯名 登入禮物</strong>
-    回復氣力道具領取至11/4（三）12:59，景趣×2領取至12/26（六）12:59（JST）。
+    景趣×2領取至12/26（六）12:59（JST）。
   </div>
 </div>
 <div class="wrap">
@@ -118,7 +123,7 @@ footer{font-size:.72rem;color:var(--sub);margin-top:20px;text-align:center;line-
   </header>
   <div class="nav-links">
     <a href="index.html">首頁</a>
-    <a href="senjutsu_kabocha.html">戰術強化訓練</a>
+    <a href="edojou_sennyuu.html">江戶城潛入調查</a>
     <a href="kantou_campaign.html">鍛刀試算與入手記錄</a>
     <a href="shugyou_priority.html" class="current">修行優先順序</a>
     <a href="koujisen_kenzou.html">航時船建造</a>
@@ -600,6 +605,12 @@ function setupNotice(opts){
     closeBtnId: "vpnNoticeClose",
     end: new Date("9999-12-31T00:00:00+09:00"),
     dismissKey: "vpnNoticeCollapsed"
+  });
+  setupNotice({
+    elId: "keishuNotice",
+    closeBtnId: "keishuNoticeClose",
+    end: new Date("2026-12-04T12:59:00+09:00"),
+    dismissKey: "keishuShousetsuNoticeDismissed_20261204"
   });
   setupNotice({
     elId: "jleagueNotice",

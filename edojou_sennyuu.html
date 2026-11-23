@@ -1,0 +1,574 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>江戶城潛入調查 活動紀錄</title>
+<style>
+:root{--header:#4a3f6b;--accent:#8f7fc0;--accent-text:#3a2f5a;--track:#e6ecf1;--warn:#e0703c;--done:#2b7a5f;--card:#ffffff;--bg:#f5f7fa;--text:#2b2b2b;--sub:#6b7785;}
+*{box-sizing:border-box;}
+body{font-family:"Noto Sans TC","Hiragino Sans","Yu Gothic",sans-serif;background:var(--bg);color:var(--text);margin:0;padding:20px;}
+.wrap{max-width:1200px;margin:0 auto;}
+header{display:flex;align-items:center;justify-content:space-between;background:var(--header);color:#fff;padding:16px 20px;border-radius:10px 10px 0 0;flex-wrap:wrap;gap:8px;}
+header h1{font-size:1.25rem;margin:0;display:flex;align-items:center;gap:8px;}
+.icon-btn{background:rgba(255,255,255,.15);border:none;color:#fff;border-radius:50%;width:30px;height:30px;cursor:pointer;font-size:.9rem;flex-shrink:0;}
+.icon-btn:hover{background:rgba(255,255,255,.3);}
+.panel{background:var(--card);padding:16px 20px;border:1px solid #e1e6ea;border-top:none;}
+.countdown-bar{background:#efecf7;padding:12px 20px;font-size:.92rem;border-left:4px solid var(--header);line-height:1.7;}
+.status-bar{background:#f6f4fb;padding:8px 20px;font-size:.76rem;color:var(--sub);border-left:4px solid #d6d0ea;}
+.nav-links{background:#fff;padding:8px 20px;font-size:.8rem;border-bottom:1px solid #e1e6ea;}
+.nav-links a{color:var(--header);text-decoration:none;margin-right:16px;}
+.nav-links a.current{font-weight:700;text-decoration:underline;}
+.nav-links a:hover{text-decoration:underline;}
+.counters{display:flex;gap:16px;flex-wrap:wrap;}
+.counter-card{flex:1;min-width:260px;background:#efecf7;border-radius:10px;padding:16px 16px;display:flex;flex-direction:column;}
+.counter-card h3{margin:0 0 8px;font-size:.85rem;color:var(--sub);}
+.counter-card .sub{font-size:.72rem;color:var(--sub);margin-bottom:8px;line-height:1.6;}
+.counter-value{font-size:2.2rem;font-weight:700;color:var(--header);word-break:break-all;overflow-wrap:anywhere;}
+.counter-controls{display:flex;gap:8px;flex-wrap:wrap;margin-top:8px;}
+.counter-controls button{border:1px solid #cbd6e0;background:#fff;border-radius:6px;padding:4px 8px;cursor:pointer;font-size:.8rem;}
+.counter-controls button:hover{background:#e6edf3;}
+.counter-manual{margin-top:8px;display:flex;gap:8px;flex-wrap:wrap;}
+.counter-manual input{width:110px;min-width:0;padding:4px 8px;border:1px solid #cbd6e0;border-radius:6px;}
+.counter-manual button{border:none;background:var(--header);color:#fff;border-radius:6px;padding:4px 12px;cursor:pointer;}
+.reset-row{display:flex;align-items:center;gap:6px;flex-wrap:wrap;margin-top:8px;font-size:.8rem;color:var(--sub);}
+.reset-row label{display:flex;align-items:center;gap:4px;cursor:pointer;background:#fff;border:1px solid #cbd6e0;border-radius:6px;padding:2px 8px;}
+.reset-row input{margin:0;}
+.summary{background:#fff;border:1px solid #d6d0ea;border-radius:8px;padding:10px 12px;margin-top:10px;font-size:.84rem;line-height:1.8;}
+.summary strong{color:var(--header);}
+.vault-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:10px;margin-top:12px;}
+.vault{background:#fbfcfd;border:1px solid #e1e6ea;border-radius:8px;padding:10px 12px;font-size:.82rem;line-height:1.7;}
+.vault.done{background:#e3f3ec;border-color:#b9dfcc;}
+.vault .vname{font-weight:700;font-size:.95rem;color:var(--header);display:flex;justify-content:space-between;align-items:center;}
+.vault.done .vname{color:var(--done);}
+.vault .vchar{font-size:.75rem;color:var(--sub);}
+.vbar{height:8px;background:var(--track);border-radius:4px;overflow:hidden;margin:6px 0;}
+.vbar span{display:block;height:100%;background:var(--accent);}
+.vault.done .vbar span{background:var(--done);}
+.vault .ctrl{display:flex;align-items:center;gap:6px;flex-wrap:wrap;}
+.vault .ctrl button{border:1px solid var(--header);background:#fff;color:var(--header);border-radius:4px;padding:2px 8px;cursor:pointer;font-size:.75rem;}
+.vault .ctrl input{width:56px;padding:2px 4px;border:1px solid #cbd6e0;border-radius:4px;text-align:center;}
+.vault .got{display:flex;align-items:center;gap:6px;margin-top:4px;font-size:.78rem;cursor:pointer;}
+.section-title{margin-top:28px;font-size:.98rem;font-weight:700;border-bottom:2px solid var(--header);padding-bottom:4px;}
+.notes{font-size:.78rem;color:var(--sub);margin-top:12px;line-height:1.7;}
+details{margin-top:16px;background:#fbfcfd;border:1px solid #e1e6ea;border-radius:8px;padding:0 16px;}
+details[open]{padding-bottom:12px;}
+details summary{cursor:pointer;font-weight:700;color:var(--header);padding:10px 0;}
+details .sum-note{font-weight:400;font-size:.78rem;color:var(--sub);margin-left:4px;}
+.drop-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:10px;margin-top:12px;}
+.drop-item{display:flex;align-items:center;gap:8px;background:#fbfcfd;border:1px solid #e1e6ea;border-radius:8px;padding:8px 12px;font-size:.84rem;}
+.drop-item.got{background:#efecf7;border-color:#d6d0ea;}
+.drop-item .name{flex:1;font-weight:600;}
+.drop-item button{border:1px solid var(--header);background:#fff;color:var(--header);border-radius:4px;padding:2px 8px;cursor:pointer;font-size:.75rem;}
+.drop-select{padding:4px 8px;border:1px solid #cbd6e0;border-radius:6px;min-width:180px;max-width:100%;}
+.drop-item .del{border-color:#c7d0d8;color:var(--sub);}
+.drop-item input{width:48px;padding:2px 4px;border:1px solid #cbd6e0;border-radius:4px;text-align:center;}
+footer{font-size:.72rem;color:var(--sub);margin-top:20px;text-align:center;line-height:1.8;}
+.settings-panel{display:none;background:#fbfcfd;border:1px dashed #c7d0d8;border-radius:8px;padding:16px;margin-top:12px;font-size:.82rem;line-height:1.7;}
+.settings-panel.show{display:block;}
+.settings-panel button{margin-top:12px;border:none;background:var(--header);color:#fff;padding:8px 12px;border-radius:6px;cursor:pointer;margin-right:8px;}
+.danger-btn{background:#c0392b!important;}
+.notice-stack{position:fixed;left:16px;top:50%;transform:translateY(-50%);display:flex;flex-direction:column;gap:10px;z-index:999;pointer-events:none;}
+.exp-notice{position:relative;max-width:200px;background:#fff4e0;border:1px solid #e0a83c;border-left:4px solid #e0703c;border-radius:8px;padding:12px 14px;font-size:.78rem;line-height:1.6;color:#6b4a12;box-shadow:0 2px 8px rgba(0,0,0,.16);}
+.exp-notice strong{display:block;margin-bottom:4px;color:#b85c1a;}
+.exp-notice .exp-close{position:absolute;top:4px;right:6px;background:none;border:none;color:#6b4a12;cursor:pointer;font-size:.85rem;line-height:1;padding:2px;}
+.exp-notice{transition:transform .25s;pointer-events:auto;}
+.exp-notice.collapsed{transform:translateX(calc(-100% - 4px));border-right:8px solid #e0703c;cursor:pointer;}
+.exp-notice.collapsed .exp-close{display:none;}
+.exp-notice.important{border-left-color:#c0392b;background:#fdecea;border-color:#e8a39b;color:#5c1f18;}
+.exp-notice.important strong{color:#c0392b;}
+.exp-notice.important.collapsed{border-right-color:#c0392b;}
+@media (max-width:600px){
+  .notice-stack{left:8px;right:8px;top:auto;bottom:8px;transform:none;}
+  .exp-notice{max-width:none;}
+  .exp-notice.collapsed{transform:translateX(calc(-100% + 4px));}
+}
+@media (max-width:600px){
+  body{padding:12px;}
+  header{padding:12px 16px;}
+  header h1{font-size:1.05rem;}
+  .panel{padding:12px 16px;}
+  .nav-links{padding:8px 16px;}
+  .nav-links a{margin-right:12px;display:inline-block;margin-bottom:4px;}
+  .countdown-bar{padding:12px 16px;font-size:.82rem;}
+  .status-bar{padding:8px 16px;font-size:.72rem;}
+  .counters{gap:12px;}
+  .counter-card{min-width:100%;}
+  .counter-value{font-size:1.8rem;}
+  .counter-controls button{padding:8px 12px;font-size:.82rem;}
+  .counter-manual input{width:auto;flex:1;min-width:0;}
+  .vault-grid{grid-template-columns:1fr;}
+  .settings-panel{padding:12px;}
+}
+</style>
+<script data-goatcounter="https://ayase.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
+</head>
+<body>
+<div class="notice-stack" id="noticeStack">
+  <div class="exp-notice important" id="vpnNotice">
+    <button class="exp-close" id="vpnNoticeClose" title="收合">‹</button>
+    <strong>重要提醒：遊玩需全程使用VPN</strong>
+    網頁版、平板、Android、iOS皆需使用VPN並全程保持連線，不可漫遊、不可中途斷線。Android手機、平板與網頁版可使用筑波大學VPN。
+  </div>
+  <div class="exp-notice" id="keishuNotice">
+    <button class="exp-close" id="keishuNoticeClose" title="收合">‹</button>
+    <strong>景趣「小雪・寒椿」再登場</strong>
+    未入手者可用小判8,000兌換，至12/4（五）12:59（JST）。
+  </div>
+  <div class="exp-notice" id="jleagueNotice">
+    <button class="exp-close" id="jleagueNoticeClose" title="收合">‹</button>
+    <strong>聯名 登入禮物</strong>
+    景趣×2領取至12/26（六）12:59（JST）。
+  </div>
+</div>
+<div class="wrap">
+  <header>
+    <h1>江戶城潛入調查 <button class="icon-btn" id="helpBtn" title="說明">?</button></h1>
+    <button class="icon-btn" id="settingsBtn" title="設定">⚙</button>
+  </header>
+  <div class="nav-links">
+    <a href="index.html">首頁</a>
+    <a href="edojou_sennyuu.html" class="current">江戶城潛入調查</a>
+    <a href="kantou_campaign.html">鍛刀試算與入手記錄</a>
+    <a href="shugyou_priority.html">修行優先順序</a>
+    <a href="koujisen_kenzou.html">航時船建造</a>
+  </div>
+  <div class="panel">
+    <div id="helpPanel" class="settings-panel">
+      <strong>使用說明</strong>
+      <p>本頁面僅供個人記錄用，非官方工具，資料以你自行輸入為準。數值會儲存在「這台瀏覽器」的 localStorage，換裝置或清除瀏覽資料會遺失，請自行留意備份（例如定期截圖）。</p>
+      <p>玩法：潛入江戶城取得「鍵」，回本丸後用鍵開啟寶物庫裡的寶箱拿報酬。寶物庫・二～五需要先從前一個寶物庫的寶箱開出「寶物庫的鍵」才能開啟。本次起即使強制歸城，該次出陣取得的鍵也會全部帶回。</p>
+      <p>鍵的取得：踩到鍵格（同時回復1次行動次數），或戰鬥勝利時偶爾取得；每次取得的數量為隨機。部隊編成「物吉貞宗」（含極）擊破首領時，該次出陣首領的鍵+1。</p>
+      <p>通行手形：每次出陣、每次「繼續調查」各消耗1張。活動開始時有6張，每天05:00與17:00各補充3張（自動補充上限6張）；也可用300小判購買1張，購買上限99張，最多同時持有105張，優先消耗自動補充的手形。活動結束時，用小判購買而未使用的手形每張換回300小判。</p>
+      <p>「調查道具一式（二倍）／（五倍）」：不消耗通行手形即可出陣、行軍中可看見鍵格位置、鍵格取得的鍵變為2倍／5倍（戰鬥取得的鍵不加倍），活動結束後刪除。</p>
+      <p>行動次數：每走1格消耗1次，初始次數為易・普5次、難・超難6次。歸零時可使用「梅干」回復1次，每次出陣最多使用5個，否則強制歸城。梅干活動結束後刪除。</p>
+      <p>戰鬥限制：城牆、門、走廊的戰鬥中馬無效、大太刀單體攻擊、薙刀二體攻擊，遠戰只有銃兵會攻擊；大廳的戰鬥中遠戰刀裝全部不攻擊。本活動不會刀劍破壞，歸城或擊破首領後生存會回復到出陣前狀態。</p>
+      <p>寶箱開封：鍵5個開1個寶箱。使用「寶箱初始化手形」後，寶物庫・一～五全部恢復未開封（寶箱位置重新配置），之後開寶箱所需的鍵減少1個（用1張4個、2張3個、3張2個、4張1個），每人最多購買4張；寶物庫・特不受初始化影響，固定5個鍵開1箱。寶物庫・特需購買「寶物庫・特的鍵」開放（每人限購1個）。</p>
+      <p>首領擊破時偶爾入手：物吉貞宗、祢々切丸、福島光忠、京極正宗。</p>
+    </div>
+    <div id="settingsPanel" class="settings-panel">
+      <strong>設定</strong>
+      <div>
+        <button id="resetProgress" class="danger-btn">重設本頁全部記錄</button>
+      </div>
+    </div>
+
+    <div class="status-bar">限時活動：取得鍵 2026年11月10日（週二）維護結束後 ～ 11月24日（週二）12:59；開寶箱 ～ 12月2日（週三）04:59（JST，日本標準時間）。12月2日04:59後未使用的鍵會被刪除。</div>
+    <div class="countdown-bar" id="countdownBar">載入中…</div>
+
+    <div class="section-title">鍵與寶箱</div>
+    <div class="counters">
+      <div class="counter-card">
+        <h3>目前持有的鍵</h3>
+        <div class="sub">對照遊戲內持有數記錄；開寶箱時用下方寶物庫的+1，會自動扣掉對應的鍵</div>
+        <div class="counter-value" id="keyValue">0</div>
+        <div class="counter-controls">
+          <button data-key="-100">-100</button>
+          <button data-key="-10">-10</button>
+          <button data-key="-5">-5</button>
+          <button data-key="5">+5</button>
+          <button data-key="10">+10</button>
+          <button data-key="100">+100</button>
+        </div>
+        <div class="counter-manual">
+          <input type="number" id="keyManual" placeholder="輸入數值">
+          <button id="addKey">累加</button>
+          <button id="setKey">直接設定</button>
+        </div>
+        <div class="reset-row">已使用寶箱初始化手形：
+          <label><input type="radio" name="resets" value="0" checked>0張</label>
+          <label><input type="radio" name="resets" value="1">1張</label>
+          <label><input type="radio" name="resets" value="2">2張</label>
+          <label><input type="radio" name="resets" value="3">3張</label>
+          <label><input type="radio" name="resets" value="4">4張</label>
+        </div>
+        <div class="summary" id="keySummary"></div>
+      </div>
+      <div class="counter-card">
+        <h3>累計花費小判（購買通行手形）</h3>
+        <div class="sub">通行手形每張300小判；活動結束時，購買後未使用的手形每張換回300小判</div>
+        <div class="counter-value" id="kobanValue">0</div>
+        <div class="sub" style="margin-top:4px;">已購買通行手形 <strong id="tegataValue">0</strong> 張</div>
+        <div class="counter-controls">
+          <button data-tegata="-10">-10張</button>
+          <button data-tegata="-5">-5張</button>
+          <button data-tegata="-1">-1張</button>
+          <button data-tegata="1">+1張</button>
+          <button data-tegata="5">+5張</button>
+          <button data-tegata="10">+10張</button>
+        </div>
+        <div class="counter-manual">
+          <input type="number" id="tegataManual" placeholder="輸入張數">
+          <button id="addTegata">累加</button>
+          <button id="setTegata">直接設定</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="section-title">寶物庫開封進度</div>
+    <div class="notes" style="margin-top:8px;">每開1個寶箱按+1（會自動扣鍵），開到該寶物庫的刀劍男士時勾選。使用寶箱初始化手形時，選擇上方張數後按「寶物庫一～五歸零」。寶物庫・特與首領掉落記錄收合在下方，點標題展開。</div>
+    <div class="counter-controls"><button id="resetVaults">寶物庫一～五歸零（使用初始化手形後）</button></div>
+    <div class="vault-grid" id="vaultGrid"></div>
+
+    <details id="spDetails">
+      <summary>寶物庫・特<span class="sum-note">（需購買「寶物庫・特的鍵」開放）</span></summary>
+      <div class="vault-grid" id="spGrid"></div>
+    </details>
+
+    <details id="dropDetails">
+      <summary>首領擊破掉落記錄<span class="sum-note" id="dropTotal"></span></summary>
+      <div class="notes" style="margin-top:0;">擊破首領時會掉落刀劍男士，下方4振為偶爾才會掉落的稀有角色。其他角色可以合併記在「其他刀劍男士」，或從下方選單依刀種挑選後新增個別記錄（選單內沒有的角色請記在「其他刀劍男士」）。</div>
+      <div class="drop-grid" id="dropGrid"></div>
+      <div class="counter-manual">
+        <select id="customDropName" class="drop-select"></select>
+        <button id="addCustomDrop">新增記錄</button>
+      </div>
+    </details>
+
+    <footer>
+      非官方個人記錄工具，資料來源整理自官方公告，正式數值請以遊戲內公告為準，使用請自行確認。<br>
+      如網頁有任何問題，請<a href="https://forms.gle/gMPXA4EYkXCvemnf6" target="_blank" rel="noopener">點此</a>填寫表單回報，謝謝。
+    </footer>
+  </div>
+</div>
+
+<script>
+(function(){
+  const STORAGE_KEY = "edojouSennyuuProgress_v1";
+  const KEY_END = new Date("2026-11-24T12:59:00+09:00");
+  const OPEN_END = new Date("2026-12-02T04:59:00+09:00");
+  const KEY_CAP = 999999;
+  const TEGATA_PRICE = 300;
+  const TEGATA_CAP = 99999;
+  const BASE_COST = 5;
+
+  // 寶物庫：id、名稱、寶箱數、刀劍男士、是否受初始化影響（依官方公告「報酬一覽」）
+  const VAULTS = [
+    {id:"v1", name:"寶物庫・一", boxes:15, chars:["物吉貞宗"], resettable:true},
+    {id:"v2", name:"寶物庫・二", boxes:30, chars:["祢々切丸"], resettable:true},
+    {id:"v3", name:"寶物庫・三", boxes:45, chars:["福島光忠"], resettable:true},
+    {id:"v4", name:"寶物庫・四", boxes:90, chars:["京極正宗"], resettable:true},
+    {id:"v5", name:"寶物庫・五", boxes:120, chars:["八八王国吉"], resettable:true},
+    {id:"sp", name:"寶物庫・特", boxes:90, chars:["古備前信房","石田正宗","南泉一文字"], resettable:false}
+  ];
+  // 首領擊破時偶爾掉落的刀劍男士
+  const DROPS = ["物吉貞宗","祢々切丸","福島光忠","京極正宗"];
+  const OTHER_KEY = "__other__";
+  // 掉落選單用的刀劍男士清單（與鍛刀試算頁的鍛刀時間對照表相同，依刀種分組）
+  const CHAR_TABLE = [
+    {cat:"短刀", rows:[
+      ["00:20:00",["今剣","後藤藤四郎","信濃藤四郎","前田藤四郎","秋田藤四郎","博多藤四郎","乱藤四郎","五虎退","薬研藤四郎","包丁藤四郎","愛染国俊","太鼓鐘貞宗","小夜左文字","不動行光","毛利藤四郎","太閤左文字"]],
+      ["00:30:00",["平野藤四郎","厚藤四郎","謙信景光","日向正宗","北谷菜切","朝倉藤四郎"]]
+    ]},
+    {cat:"脇差", rows:[
+      ["00:30:00",["肥前忠広"]],
+      ["00:35:00",["篭手切江"]],
+      ["00:40:00",["にっかり青江","鯰尾藤四郎","骨喰藤四郎","物吉貞宗","堀川国広","浦島虎徹","治金丸","泛塵"]]
+    ]},
+    {cat:"打刀", rows:[
+      ["01:25:00",["豊前江","桑名江","松井江","五月雨江","村雲江"]],
+      ["01:30:00",["鳴狐","亀甲貞宗","宗三左文字","加州清光","大和守安定","歌仙兼定","陸奥守吉行","山姥切国広","蜂須賀虎徹","南泉一文字"]],
+      ["02:20:00",["山姥切長義","南海太郎朝尊","水心子正秀","源清麿","地蔵行平"]],
+      ["02:30:00",["へし切長谷部"]],
+      ["03:00:00",["千子村正","和泉守兼定","長曾祢虎徹","大俱利伽羅","同田貫正国"]]
+    ]},
+    {cat:"太刀", rows:[
+      ["03:00:00",["ソハヤノツルキ","明石国行","燭台切光忠","山伏国広","獅子王","千代金丸"]],
+      ["03:10:00",["古今伝授の太刀"]],
+      ["03:20:00",["一期一振","鶯丸","大般若長光","小竜景光","江雪左文字","髭切","膝丸","鶴丸国永","小豆長光","日光一文字","姫鶴一文字"]],
+      ["03:50:00",["一文字則宗"]],
+      ["04:00:00",["三日月宗近","小狐丸","大典太光世","数珠丸恒次","鬼丸国綱","大包平","小烏丸","山鳥毛"]]
+    ]},
+    {cat:"大太刀", rows:[
+      ["02:30:00",["石切丸","太郎太刀","次郎太刀","祢々切丸"]],
+      ["03:00:00",["蛍丸"]]
+    ]},
+    {cat:"槍", rows:[
+      ["03:00:00",["蜻蛉切","日本号","御手杵","大千鳥十文字槍"]]
+    ]},
+    {cat:"薙刀", rows:[
+      ["05:00:00",["岩融","巴形薙刀","静形薙刀"]]
+    ]}
+  ];
+
+  let state = load();
+  function baseState(){ return {keys:0, tegata:0, resets:0, opened:{}, got:{}, drops:{}, customDrops:[]}; }
+  function load(){
+    const base = baseState();
+    try{
+      const raw = JSON.parse(localStorage.getItem(STORAGE_KEY) || "null");
+      if(!raw) return base;
+      const merged = Object.assign({}, base, raw);
+      merged.keys = Math.min(KEY_CAP, Math.max(0, parseInt(merged.keys,10)||0));
+      merged.tegata = Math.min(TEGATA_CAP, Math.max(0, parseInt(merged.tegata,10)||0));
+      merged.resets = Math.min(4, Math.max(0, parseInt(merged.resets,10)||0));
+      merged.opened = Object.assign({}, raw.opened || {});
+      merged.got = Object.assign({}, raw.got || {});
+      merged.drops = Object.assign({}, raw.drops || {});
+      merged.customDrops = Array.isArray(raw.customDrops) ? raw.customDrops.filter(x=>typeof x === "string" && x.trim()) : [];
+      VAULTS.forEach(v=>{ merged.opened[v.id] = Math.min(v.boxes, Math.max(0, parseInt(merged.opened[v.id],10)||0)); });
+      return merged;
+    }catch(e){ return base; }
+  }
+  function save(){ try{ localStorage.setItem(STORAGE_KEY, JSON.stringify(state)); }catch(e){} }
+
+  function costOf(v){ return v.resettable ? BASE_COST - state.resets : BASE_COST; }
+
+  function setKeys(v){ state.keys = Math.min(KEY_CAP, Math.max(0, v)); save(); renderAll(); }
+  function setTegata(v){ state.tegata = Math.min(TEGATA_CAP, Math.max(0, v)); save(); renderAll(); }
+
+  function openBoxes(v, delta){
+    const cur = state.opened[v.id] || 0;
+    let next = Math.min(v.boxes, Math.max(0, cur + delta));
+    if(next > cur){
+      // 開箱時扣鍵（最少扣到0，持有鍵記錄不準時也能照實記錄開箱數）
+      state.keys = Math.max(0, state.keys - (next - cur) * costOf(v));
+    }else if(next < cur){
+      // 按錯退回時把鍵加回去
+      state.keys = Math.min(KEY_CAP, state.keys + (cur - next) * costOf(v));
+    }
+    state.opened[v.id] = next;
+    save(); renderAll();
+  }
+
+  function renderSummary(){
+    const main = VAULTS.filter(v=>v.resettable);
+    const remainMain = main.reduce((s,v)=>s + (v.boxes - (state.opened[v.id]||0)), 0);
+    const cost = BASE_COST - state.resets;
+    const needMain = remainMain * cost;
+    const sp = VAULTS.find(v=>!v.resettable);
+    const needSp = (sp.boxes - (state.opened[sp.id]||0)) * BASE_COST;
+    document.getElementById("keySummary").innerHTML =
+      `目前開1個寶箱需要 <strong>${cost}</strong> 個鍵（寶物庫・特固定5個）。<br>` +
+      `手上的鍵可再開約 <strong>${Math.floor(state.keys / cost).toLocaleString()}</strong> 個寶箱。<br>` +
+      `寶物庫一～五全部開完還需 <strong>${needMain.toLocaleString()}</strong> 個鍵（剩 ${remainMain} 箱）` +
+      (needMain > state.keys ? `，還差 <strong>${(needMain - state.keys).toLocaleString()}</strong> 個。` : "，手上的鍵已足夠。") +
+      `<br>寶物庫・特全部開完需 <strong>${needSp.toLocaleString()}</strong> 個鍵。`;
+  }
+
+  function renderVaults(){
+    const mainEl = document.getElementById("vaultGrid");
+    const spEl = document.getElementById("spGrid");
+    mainEl.innerHTML = "";
+    spEl.innerHTML = "";
+    VAULTS.forEach(v=>{
+      const el = v.resettable ? mainEl : spEl;
+      const opened = state.opened[v.id] || 0;
+      const done = opened >= v.boxes;
+      const box = document.createElement("div");
+      box.className = "vault" + (done ? " done" : "");
+      const charHtml = v.chars.map(c=>`<label class="got"><input type="checkbox" data-char="${c}" ${state.got[c] ? "checked" : ""}>已開到「${c}」</label>`).join("");
+      box.innerHTML = `<div class="vname"><span>${v.name}</span><span>${opened} ／ ${v.boxes}</span></div>
+        <div class="vchar">開1箱需 ${costOf(v)} 個鍵，剩下 ${v.boxes - opened} 箱需 ${((v.boxes - opened) * costOf(v)).toLocaleString()} 個鍵</div>
+        <div class="vbar"><span style="width:${opened / v.boxes * 100}%"></span></div>
+        <div class="ctrl"><button type="button" data-d="-1">-1</button><input type="number" min="0" max="${v.boxes}" value="${opened}"><button type="button" data-d="1">+1</button><button type="button" data-d="5">+5</button></div>
+        ${charHtml}`;
+      box.querySelectorAll("[data-d]").forEach(b=> b.addEventListener("click", ()=> openBoxes(v, parseInt(b.dataset.d,10))));
+      const input = box.querySelector("input[type=number]");
+      input.addEventListener("change", ()=>{
+        const n = parseInt(input.value,10);
+        if(!isNaN(n)) openBoxes(v, n - opened);
+      });
+      box.querySelectorAll("[data-char]").forEach(c=> c.addEventListener("change", ()=>{
+        state.got[c.dataset.char] = c.checked; save(); renderAll();
+      }));
+      el.appendChild(box);
+    });
+  }
+
+  function escapeHtml(t){
+    return String(t).replace(/[&<>"']/g, c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+  }
+
+  function renderDrops(){
+    const el = document.getElementById("dropGrid");
+    el.innerHTML = "";
+    let total = 0;
+    // 稀有4振＋玩家自行新增的角色＋不分角色的其他掉落
+    const rows = DROPS.map(n=>({name:n, label:n, custom:false}))
+      .concat(state.customDrops.map(n=>({name:n, label:n, custom:true})))
+      .concat([{name:OTHER_KEY, label:"其他刀劍男士（不分角色）", custom:false}]);
+    rows.forEach(({name, label, custom})=>{
+      const n = Math.max(0, parseInt(state.drops[name],10) || 0);
+      total += n;
+      const item = document.createElement("div");
+      item.className = "drop-item" + (n > 0 ? " got" : "");
+      item.innerHTML = `<span class="name">${escapeHtml(label)}</span>${custom ? '<button type="button" class="del" title="移除">×</button>' : ""}<button type="button" data-dir="-1">-1</button><input type="number" min="0" value="${n}"><button type="button" data-dir="1">+1</button>`;
+      item.querySelectorAll("[data-dir]").forEach(b=> b.addEventListener("click", ()=>{
+        state.drops[name] = Math.max(0, n + parseInt(b.dataset.dir,10)); save(); renderAll();
+      }));
+      const input = item.querySelector("input");
+      input.addEventListener("change", ()=>{
+        const v = parseInt(input.value,10);
+        state.drops[name] = isNaN(v) ? 0 : Math.max(0, v); save(); renderAll();
+      });
+      const del = item.querySelector(".del");
+      if(del) del.addEventListener("click", ()=>{
+        if(n > 0 && !confirm(`移除「${label}」會一併刪除它的 ${n} 振掉落記錄，確定嗎？`)) return;
+        state.customDrops = state.customDrops.filter(x=>x !== name);
+        delete state.drops[name];
+        save(); renderAll();
+      });
+      el.appendChild(item);
+    });
+    document.getElementById("dropTotal").textContent = "（合計 " + total + " 振）";
+  }
+
+  // 依刀種分組的下拉選單，已在記錄中的角色不重複列出
+  function renderDropSelect(){
+    const sel = document.getElementById("customDropName");
+    const used = new Set(DROPS.concat(state.customDrops));
+    let html = '<option value="">選擇刀劍男士…</option>';
+    CHAR_TABLE.forEach(({cat, rows})=>{
+      const names = [...new Set(rows.flatMap(r=>r[1]))].filter(n=>!used.has(n));
+      if(names.length) html += `<optgroup label="${cat}">` + names.map(n=>`<option value="${escapeHtml(n)}">${escapeHtml(n)}</option>`).join("") + "</optgroup>";
+    });
+    sel.innerHTML = html;
+  }
+
+  function addCustomDrop(){
+    const sel = document.getElementById("customDropName");
+    const name = sel.value;
+    if(!name || DROPS.includes(name) || state.customDrops.includes(name)) return;
+    state.customDrops.push(name);
+    save(); renderAll();
+  }
+
+  function renderCountdown(){
+    const now = new Date();
+    const fmt = d=> d.toLocaleString("zh-TW",{timeZone:"Asia/Tokyo"});
+    const parts = [];
+    parts.push(now <= KEY_END ? `距離取得鍵截止還有 ${fmtDiff(KEY_END-now)}（${fmt(KEY_END)} JST）` : `取得鍵期間已結束（${fmt(KEY_END)} JST）`);
+    parts.push(now <= OPEN_END ? `距離開寶箱截止還有 ${fmtDiff(OPEN_END-now)}（${fmt(OPEN_END)} JST）` : `開寶箱期間已結束（${fmt(OPEN_END)} JST）`);
+    document.getElementById("countdownBar").innerHTML = parts.join("<br>");
+  }
+  function fmtDiff(ms){
+    const totalMin = Math.floor(ms/60000);
+    return `${Math.floor(totalMin/1440)}天 ${Math.floor((totalMin%1440)/60)}時 ${totalMin%60}分`;
+  }
+
+  function renderAll(){
+    document.getElementById("keyValue").textContent = state.keys.toLocaleString();
+    document.getElementById("tegataValue").textContent = state.tegata.toLocaleString();
+    document.getElementById("kobanValue").textContent = (state.tegata * TEGATA_PRICE).toLocaleString();
+    document.querySelectorAll('input[name="resets"]').forEach(r=>{ r.checked = parseInt(r.value,10) === state.resets; });
+    renderSummary();
+    renderVaults();
+    renderDrops();
+    renderDropSelect();
+  }
+
+  document.querySelectorAll("[data-key]").forEach(btn=>{
+    btn.addEventListener("click", ()=> setKeys(state.keys + parseInt(btn.dataset.key,10)));
+  });
+  const keyManual = document.getElementById("keyManual");
+  document.getElementById("addKey").addEventListener("click", ()=>{
+    const v = parseInt(keyManual.value,10);
+    if(!isNaN(v)) setKeys(state.keys + v);
+  });
+  document.getElementById("setKey").addEventListener("click", ()=>{
+    const v = parseInt(keyManual.value,10);
+    if(!isNaN(v)) setKeys(v);
+  });
+  keyManual.addEventListener("keydown", e=>{ if(e.key==="Enter") document.getElementById("addKey").click(); });
+
+  document.querySelectorAll("[data-tegata]").forEach(btn=>{
+    btn.addEventListener("click", ()=> setTegata(state.tegata + parseInt(btn.dataset.tegata,10)));
+  });
+  const tegataManual = document.getElementById("tegataManual");
+  document.getElementById("addTegata").addEventListener("click", ()=>{
+    const v = parseInt(tegataManual.value,10);
+    if(!isNaN(v)) setTegata(state.tegata + v);
+  });
+  document.getElementById("setTegata").addEventListener("click", ()=>{
+    const v = parseInt(tegataManual.value,10);
+    if(!isNaN(v)) setTegata(v);
+  });
+  tegataManual.addEventListener("keydown", e=>{ if(e.key==="Enter") document.getElementById("addTegata").click(); });
+
+  document.getElementById("addCustomDrop").addEventListener("click", addCustomDrop);
+
+  document.querySelectorAll('input[name="resets"]').forEach(r=>{
+    r.addEventListener("change", ()=>{ state.resets = parseInt(r.value,10); save(); renderAll(); });
+  });
+  document.getElementById("resetVaults").addEventListener("click", ()=>{
+    if(confirm("使用寶箱初始化手形後，寶物庫一～五的開封數會歸零（寶物庫・特不變）。確定嗎？")){
+      VAULTS.filter(v=>v.resettable).forEach(v=>{ state.opened[v.id] = 0; });
+      save(); renderAll();
+    }
+  });
+
+  document.getElementById("helpBtn").addEventListener("click", ()=>{
+    document.getElementById("helpPanel").classList.toggle("show");
+  });
+  document.getElementById("settingsBtn").addEventListener("click", ()=>{
+    document.getElementById("settingsPanel").classList.toggle("show");
+  });
+  document.getElementById("resetProgress").addEventListener("click", ()=>{
+    if(confirm("確定要清空本頁的鍵／寶箱／小判記錄嗎？此動作無法復原。")){
+      state = baseState();
+      save(); renderAll();
+    }
+  });
+
+  renderAll();
+  renderCountdown();
+  setInterval(renderCountdown, 30000);
+})();
+</script>
+<script>
+function setupNotice(opts){
+  var el = document.getElementById(opts.elId);
+  if(!el) return;
+  function checkExpiry(){
+    if(new Date() > opts.end){ el.style.display = "none"; return true; }
+    return false;
+  }
+  if(checkExpiry()) return;
+  function setCollapsed(c){
+    el.classList.toggle("collapsed", c);
+    try{ localStorage.setItem(opts.dismissKey, c ? "1" : "0"); }catch(e){}
+  }
+  try{
+    if(localStorage.getItem(opts.dismissKey) === "1"){
+      // 重新整理時直接套用收合狀態，不播放滑出動畫
+      el.style.transition = "none";
+      el.classList.add("collapsed");
+      void el.offsetWidth;
+      el.style.transition = "";
+    }
+  }catch(e){}
+  var closeBtn = document.getElementById(opts.closeBtnId);
+  if(closeBtn){
+    closeBtn.addEventListener("click", function(e){ e.stopPropagation(); setCollapsed(true); });
+  }
+  el.addEventListener("click", function(){
+    if(el.classList.contains("collapsed")) setCollapsed(false);
+  });
+  var timer = setInterval(function(){
+    if(checkExpiry()){ clearInterval(timer); }
+  }, 60000);
+}
+(function(){
+  setupNotice({
+    elId: "vpnNotice",
+    closeBtnId: "vpnNoticeClose",
+    end: new Date("9999-12-31T00:00:00+09:00"),
+    dismissKey: "vpnNoticeCollapsed"
+  });
+  setupNotice({
+    elId: "keishuNotice",
+    closeBtnId: "keishuNoticeClose",
+    end: new Date("2026-12-04T12:59:00+09:00"),
+    dismissKey: "keishuShousetsuNoticeDismissed_20261204"
+  });
+  setupNotice({
+    elId: "jleagueNotice",
+    closeBtnId: "jleagueNoticeClose",
+    end: new Date("2026-12-26T12:59:00+09:00"),
+    dismissKey: "jleagueLoginNoticeDismissed_20261226"
+  });
+})();
+</script>
+</body>
+</html>
