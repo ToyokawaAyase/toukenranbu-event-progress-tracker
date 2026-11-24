@@ -53,6 +53,19 @@ header h1{font-size:1.25rem;margin:0;display:flex;align-items:center;gap:8px;}
 .pt-table{border-collapse:collapse;margin-top:8px;font-size:.8rem;}
 .pt-table th,.pt-table td{border:1px solid #e1e6ea;padding:4px 10px;text-align:center;}
 .pt-table th{background:#f9edf2;}
+details{margin-top:28px;background:#fbfcfd;border:1px solid #e1e6ea;border-radius:8px;padding:0 16px;}
+details[open]{padding-bottom:12px;}
+details summary{cursor:pointer;font-weight:700;color:var(--header);padding:10px 0;}
+details .sum-note{font-weight:400;font-size:.78rem;color:var(--sub);margin-left:4px;}
+.drop-sub{font-size:.8rem;font-weight:700;color:var(--sub);margin:12px 0 0;}
+.drop-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:10px;margin-top:8px;}
+.drop-item{display:flex;align-items:center;gap:8px;background:#fff;border:1px solid #e1e6ea;border-radius:8px;padding:8px 12px;font-size:.84rem;}
+.drop-item.got{background:#f9edf2;border-color:#ecd0dc;}
+.drop-item .name{flex:1;font-weight:600;}
+.drop-item button{border:1px solid var(--header);background:#fff;color:var(--header);border-radius:4px;padding:2px 8px;cursor:pointer;font-size:.75rem;}
+.drop-item .del{border-color:#c7d0d8;color:var(--sub);}
+.drop-item input{width:48px;padding:2px 4px;border:1px solid #cbd6e0;border-radius:4px;text-align:center;}
+.drop-select{padding:4px 8px;border:1px solid #cbd6e0;border-radius:6px;min-width:180px;max-width:100%;}
 footer{font-size:.72rem;color:var(--sub);margin-top:20px;text-align:center;line-height:1.8;}
 .settings-panel{display:none;background:#fbfcfd;border:1px dashed #c7d0d8;border-radius:8px;padding:16px;margin-top:12px;font-size:.82rem;line-height:1.7;}
 .settings-panel.show{display:block;}
@@ -207,6 +220,19 @@ footer{font-size:.72rem;color:var(--sub);margin-top:20px;text-align:center;line-
       <div class="reward-list" id="rewardList"></div>
     </div>
     <div class="notes" id="rewardPending" style="display:none;">玉累計報酬一覽整理中。</div>
+    <details id="dropDetails">
+      <summary>首領擊破掉落記錄<span class="sum-note" id="dropTotal"></span></summary>
+      <div class="notes" style="margin-top:0;">擊破首領時偶爾會掉落樂器，也可能掉落刀劍男士。可先記錄首領擊破次數，方便對照掉落機率。刀劍男士可合併記在「其他刀劍男士」，或從下方選單依刀種挑選後新增個別記錄（選單內沒有的角色請記在「其他刀劍男士」）。</div>
+      <div class="drop-grid" id="bossGrid"></div>
+      <div class="drop-sub">樂器</div>
+      <div class="drop-grid" id="instGrid"></div>
+      <div class="drop-sub">刀劍男士</div>
+      <div class="drop-grid" id="dropGrid"></div>
+      <div class="counter-manual">
+        <select id="customDropName" class="drop-select"></select>
+        <button id="addCustomDrop">新增記錄</button>
+      </div>
+    </details>
     <footer>
       非官方個人記錄工具，資料來源整理自官方公告與公開資訊，正式數值請以遊戲內公告為準，使用請自行確認。<br>
       如網頁有任何問題，請<a href="https://forms.gle/gMPXA4EYkXCvemnf6" target="_blank" rel="noopener">點此</a>填寫表單回報，謝謝。
@@ -247,9 +273,88 @@ footer{font-size:.72rem;color:var(--sub);margin-top:20px;text-align:center;line-
   ];
   const KEY_PATTERN = /篭手切江|豊前江|桑名江|松井江|五月雨江|村雲江|稲葉江|富田江|倶利伽羅江/;
 
+  // 首領擊破掉落記錄：擊破次數、樂器（偶爾掉落）、刀劍男士
+  const BOSS_KEY = "__boss__";
+  const INSTRUMENTS = ["笛","三味線","鈴","太鼓","琴"];
+  const OTHER_KEY = "__other__";
+  // 掉落選單用的刀劍男士清單（與鍛刀試算頁的鍛刀時間對照表相同，依刀種分組）
+  const CHAR_TABLE = [
+    {cat:"短刀", names:["今剣","後藤藤四郎","信濃藤四郎","前田藤四郎","秋田藤四郎","博多藤四郎","乱藤四郎","五虎退","薬研藤四郎","包丁藤四郎","愛染国俊","太鼓鐘貞宗","小夜左文字","不動行光","毛利藤四郎","太閤左文字","平野藤四郎","厚藤四郎","謙信景光","日向正宗","北谷菜切","朝倉藤四郎"]},
+    {cat:"脇差", names:["肥前忠広","篭手切江","にっかり青江","鯰尾藤四郎","骨喰藤四郎","物吉貞宗","堀川国広","浦島虎徹","治金丸","泛塵"]},
+    {cat:"打刀", names:["豊前江","桑名江","松井江","五月雨江","村雲江","鳴狐","亀甲貞宗","宗三左文字","加州清光","大和守安定","歌仙兼定","陸奥守吉行","山姥切国広","蜂須賀虎徹","南泉一文字","山姥切長義","南海太郎朝尊","水心子正秀","源清麿","地蔵行平","へし切長谷部","千子村正","和泉守兼定","長曾祢虎徹","大俱利伽羅","同田貫正国"]},
+    {cat:"太刀", names:["ソハヤノツルキ","明石国行","燭台切光忠","山伏国広","獅子王","千代金丸","古今伝授の太刀","一期一振","鶯丸","大般若長光","小竜景光","江雪左文字","髭切","膝丸","鶴丸国永","小豆長光","日光一文字","姫鶴一文字","一文字則宗","三日月宗近","小狐丸","大典太光世","数珠丸恒次","鬼丸国綱","大包平","小烏丸","山鳥毛"]},
+    {cat:"大太刀", names:["石切丸","太郎太刀","次郎太刀","祢々切丸","蛍丸"]},
+    {cat:"槍", names:["蜻蛉切","日本号","御手杵","大千鳥十文字槍"]},
+    {cat:"薙刀", names:["岩融","巴形薙刀","静形薙刀"]}
+  ];
+
+  function escapeHtml(t){
+    return String(t).replace(/[&<>"']/g, c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+  }
+  function dropCount(name){ return Math.max(0, parseInt(state.drops[name],10) || 0); }
+
+  // 一列記錄：名稱、（自訂角色才有的）移除鈕、-1、數量、+1
+  function dropItem({name, label, custom}){
+    const n = dropCount(name);
+    const item = document.createElement("div");
+    item.className = "drop-item" + (n > 0 ? " got" : "");
+    item.innerHTML = `<span class="name">${escapeHtml(label)}</span>${custom ? '<button type="button" class="del" title="移除">×</button>' : ""}<button type="button" data-dir="-1">-1</button><input type="number" min="0" value="${n}"><button type="button" data-dir="1">+1</button>`;
+    item.querySelectorAll("[data-dir]").forEach(b=> b.addEventListener("click", ()=>{
+      state.drops[name] = Math.max(0, n + parseInt(b.dataset.dir,10)); save(); renderAll();
+    }));
+    const input = item.querySelector("input");
+    input.addEventListener("change", ()=>{
+      const v = parseInt(input.value,10);
+      state.drops[name] = isNaN(v) ? 0 : Math.max(0, v); save(); renderAll();
+    });
+    const del = item.querySelector(".del");
+    if(del) del.addEventListener("click", ()=>{
+      if(n > 0 && !confirm(`移除「${label}」會一併刪除它的 ${n} 振掉落記錄，確定嗎？`)) return;
+      state.customDrops = state.customDrops.filter(x=>x !== name);
+      delete state.drops[name];
+      save(); renderAll();
+    });
+    return item;
+  }
+
+  function renderDrops(){
+    const fill = (id, rows)=>{
+      const el = document.getElementById(id);
+      el.innerHTML = "";
+      rows.forEach(r=> el.appendChild(dropItem(r)));
+    };
+    fill("bossGrid", [{name:BOSS_KEY, label:"首領擊破次數", custom:false}]);
+    fill("instGrid", INSTRUMENTS.map(n=>({name:n, label:n, custom:false})));
+    const swordRows = state.customDrops.map(n=>({name:n, label:n, custom:true}))
+      .concat([{name:OTHER_KEY, label:"其他刀劍男士（不分角色）", custom:false}]);
+    fill("dropGrid", swordRows);
+    const inst = INSTRUMENTS.reduce((a,n)=>a+dropCount(n), 0);
+    const swords = swordRows.reduce((a,r)=>a+dropCount(r.name), 0);
+    document.getElementById("dropTotal").textContent = `（擊破 ${dropCount(BOSS_KEY)} 次・樂器 ${inst} 個・刀劍男士 ${swords} 振）`;
+  }
+
+  // 依刀種分組的下拉選單，已在記錄中的角色不重複列出
+  function renderDropSelect(){
+    const sel = document.getElementById("customDropName");
+    const used = new Set(state.customDrops);
+    let html = '<option value="">選擇刀劍男士…</option>';
+    CHAR_TABLE.forEach(({cat, names})=>{
+      const list = names.filter(n=>!used.has(n));
+      if(list.length) html += `<optgroup label="${cat}">` + list.map(n=>`<option value="${escapeHtml(n)}">${escapeHtml(n)}</option>`).join("") + "</optgroup>";
+    });
+    sel.innerHTML = html;
+  }
+
+  function addCustomDrop(){
+    const name = document.getElementById("customDropName").value;
+    if(!name || state.customDrops.includes(name)) return;
+    state.customDrops.push(name);
+    save(); renderAll();
+  }
+
   let state = load();
   function load(){
-    const base = {gyoku:0, tegata:0, end:DEFAULT_END, targetOverride:null};
+    const base = {gyoku:0, tegata:0, end:DEFAULT_END, targetOverride:null, drops:{}, customDrops:[]};
     try{
       const raw = JSON.parse(localStorage.getItem(STORAGE_KEY) || "null");
       if(!raw) return base;
@@ -257,6 +362,8 @@ footer{font-size:.72rem;color:var(--sub);margin-top:20px;text-align:center;line-
       merged.gyoku = Math.min(CAP, Math.max(0, parseInt(merged.gyoku,10)||0));
       merged.tegata = Math.min(TEGATA_CAP, Math.max(0, parseInt(merged.tegata,10)||0));
       if(merged.end && new Date(merged.end).getFullYear() < 2026){ merged.end = DEFAULT_END; }
+      merged.drops = (raw.drops && typeof raw.drops === "object") ? raw.drops : {};
+      merged.customDrops = Array.isArray(raw.customDrops) ? raw.customDrops.filter(x=>typeof x === "string" && x.trim()) : [];
       return merged;
     }catch(e){ return base; }
   }
@@ -366,6 +473,8 @@ footer{font-size:.72rem;color:var(--sub);margin-top:20px;text-align:center;line-
     document.getElementById("rewardArea").style.display = hasRewards ? "" : "none";
     document.getElementById("rewardPending").style.display = hasRewards ? "none" : "";
     if(hasRewards){ renderProgress(); renderRewardList(); }
+    renderDrops();
+    renderDropSelect();
   }
 
   document.querySelectorAll("[data-delta]").forEach(btn=>{
@@ -407,11 +516,13 @@ footer{font-size:.72rem;color:var(--sub);margin-top:20px;text-align:center;line-
     if(v){ state.end = new Date(v).toISOString(); save(); renderCountdown(); renderAll(); }
   });
   document.getElementById("resetProgress").addEventListener("click", ()=>{
-    if(confirm("確定要清空本頁的玉記錄嗎？此動作無法復原。")){
-      state = {gyoku:0, tegata:0, end:state.end, targetOverride:null};
+    if(confirm("確定要清空本頁全部記錄（玉、小判、掉落記錄）嗎？此動作無法復原。")){
+      state = {gyoku:0, tegata:0, end:state.end, targetOverride:null, drops:{}, customDrops:[]};
       save(); renderAll();
     }
   });
+
+  document.getElementById("addCustomDrop").addEventListener("click", addCustomDrop);
 
   renderAll();
   renderCountdown();
