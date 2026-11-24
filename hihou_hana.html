@@ -1,0 +1,482 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>秘寶之里 ～集花之段～ 活動紀錄</title>
+<style>
+:root{--header:#7a2e4a;--accent:#d98aa6;--accent-text:#5a1f36;--track:#e6ecf1;--bar-track:#a9b4c0;--warn:#e0703c;--card:#ffffff;--bg:#f5f7fa;--text:#2b2b2b;--sub:#6b7785;}
+*{box-sizing:border-box;}
+body{font-family:"Noto Sans TC","Hiragino Sans","Yu Gothic",sans-serif;background:var(--bg);color:var(--text);margin:0;padding:20px;}
+.wrap{max-width:1200px;margin:0 auto;}
+header{display:flex;align-items:center;justify-content:space-between;background:var(--header);color:#fff;padding:16px 20px;border-radius:10px 10px 0 0;flex-wrap:wrap;gap:8px;}
+header h1{font-size:1.25rem;margin:0;display:flex;align-items:center;gap:8px;}
+.icon-btn{background:rgba(255,255,255,.15);border:none;color:#fff;border-radius:50%;width:30px;height:30px;cursor:pointer;font-size:.9rem;flex-shrink:0;}
+.icon-btn:hover{background:rgba(255,255,255,.3);}
+.panel{background:var(--card);padding:16px 20px;border:1px solid #e1e6ea;border-top:none;}
+.countdown-bar{background:#f9edf2;padding:12px 20px;font-size:.92rem;border-left:4px solid var(--header);}
+.status-bar{background:#fcf6f8;padding:8px 20px;font-size:.76rem;color:var(--sub);border-left:4px solid #ecd0dc;}
+.nav-links{background:#fff;padding:8px 20px;font-size:.8rem;border-bottom:1px solid #e1e6ea;}
+.nav-links a{color:var(--header);text-decoration:none;margin-right:16px;}
+.nav-links a.current{font-weight:700;text-decoration:underline;}
+.nav-links a:hover{text-decoration:underline;}
+.counters{display:flex;gap:16px;flex-wrap:wrap;}
+.counter-card{flex:1;min-width:260px;background:#f9edf2;border-radius:10px;padding:16px 16px;display:flex;flex-direction:column;}
+.counter-card h3{margin:0 0 8px;font-size:.85rem;color:var(--sub);}
+.counter-card .sub{font-size:.72rem;color:var(--sub);margin-bottom:8px;}
+.counter-value{font-size:2.2rem;font-weight:700;color:var(--header);word-break:break-all;overflow-wrap:anywhere;}
+.counter-controls{display:flex;gap:8px;flex-wrap:wrap;margin-top:8px;}
+.counter-controls button{border:1px solid #cbd6e0;background:#fff;border-radius:6px;padding:4px 8px;cursor:pointer;font-size:.8rem;}
+.counter-controls button:hover{background:#e6edf3;}
+.counter-manual{margin-top:8px;display:flex;gap:8px;flex-wrap:wrap;}
+.counter-manual input{width:110px;min-width:0;padding:4px 8px;border:1px solid #cbd6e0;border-radius:6px;}
+.counter-manual button{border:none;background:var(--header);color:#fff;border-radius:6px;padding:4px 12px;cursor:pointer;}
+.progress-track{position:relative;height:26px;background:var(--bar-track);border-radius:6px;overflow:hidden;margin-top:12px;}
+.progress-fill{position:relative;overflow:hidden;background:var(--accent);height:100%;transition:width .3s;}
+.progress-label{position:absolute;top:0;left:0;bottom:0;width:100%;display:flex;align-items:center;padding-left:12px;font-size:.8rem;color:#fff;font-weight:700;white-space:nowrap;}
+.progress-fill .progress-label{color:#fff;}
+.target-note{margin-top:8px;font-size:.88rem;}
+.target-note .name{font-weight:700;color:var(--header);}
+.daily-target{background:#f9edf2;border-left:4px solid var(--accent);padding:12px 16px;border-radius:6px;margin-top:12px;font-size:1rem;color:#5a1f36;}
+.reward-list{margin-top:12px;max-height:420px;overflow-y:auto;padding-right:4px;}
+.reward-row{display:flex;align-items:center;gap:12px;padding:4px 4px;border-bottom:1px solid #eef1f4;font-size:.82rem;cursor:pointer;}
+.reward-row .t{width:80px;color:var(--sub);flex-shrink:0;}
+.reward-row .bar{flex:1;height:22px;border-radius:5px;background:var(--bar-track);position:relative;overflow:hidden;}
+.reward-row .bar-fill{position:relative;overflow:hidden;height:100%;background:var(--accent);}
+.reward-row .bar .txt{position:absolute;top:0;left:0;bottom:0;width:100%;display:flex;align-items:center;padding-left:8px;font-size:.78rem;color:#fff;font-weight:600;white-space:nowrap;}
+.reward-row .bar-fill .txt{color:#fff;}
+.reward-row.done .bar-fill{background:#4a5568;}
+.reward-row.selected{background:#f9edf2;}
+.reward-row.key .t{color:var(--header);font-weight:700;}
+.section-title{margin-top:28px;font-size:.98rem;font-weight:700;border-bottom:2px solid var(--header);padding-bottom:4px;}
+.notes{font-size:.78rem;color:var(--sub);margin-top:12px;line-height:1.7;}
+.pt-table{border-collapse:collapse;margin-top:8px;font-size:.8rem;}
+.pt-table th,.pt-table td{border:1px solid #e1e6ea;padding:4px 10px;text-align:center;}
+.pt-table th{background:#f9edf2;}
+footer{font-size:.72rem;color:var(--sub);margin-top:20px;text-align:center;line-height:1.8;}
+.settings-panel{display:none;background:#fbfcfd;border:1px dashed #c7d0d8;border-radius:8px;padding:16px;margin-top:12px;font-size:.82rem;line-height:1.7;}
+.settings-panel.show{display:block;}
+.settings-panel label{display:block;margin-top:8px;}
+.settings-panel input{padding:4px 8px;border:1px solid #cbd6e0;border-radius:6px;}
+.settings-panel button{margin-top:12px;border:none;background:var(--header);color:#fff;padding:8px 12px;border-radius:6px;cursor:pointer;margin-right:8px;}
+.danger-btn{background:#c0392b!important;}
+.notice-stack{position:fixed;left:16px;top:50%;transform:translateY(-50%);display:flex;flex-direction:column;gap:10px;z-index:999;pointer-events:none;}
+.exp-notice{position:relative;max-width:200px;background:#fff4e0;border:1px solid #e0a83c;border-left:4px solid #e0703c;border-radius:8px;padding:12px 14px;font-size:.78rem;line-height:1.6;color:#6b4a12;box-shadow:0 2px 8px rgba(0,0,0,.16);}
+.exp-notice strong{display:block;margin-bottom:4px;color:#b85c1a;}
+.exp-notice .exp-close{position:absolute;top:4px;right:6px;background:none;border:none;color:#6b4a12;cursor:pointer;font-size:.85rem;line-height:1;padding:2px;}
+.exp-notice{transition:transform .25s;pointer-events:auto;}
+.exp-notice.collapsed{transform:translateX(calc(-100% - 4px));border-right:8px solid #e0703c;cursor:pointer;}
+.exp-notice.collapsed .exp-close{display:none;}
+.exp-notice.important{border-left-color:#c0392b;background:#fdecea;border-color:#e8a39b;color:#5c1f18;}
+.exp-notice.important strong{color:#c0392b;}
+.exp-notice.important.collapsed{border-right-color:#c0392b;}
+@media (max-width:600px){
+  .notice-stack{left:8px;right:8px;top:auto;bottom:8px;transform:none;}
+  .exp-notice{max-width:none;}
+  .exp-notice.collapsed{transform:translateX(calc(-100% + 4px));}
+}
+@media (max-width:600px){
+  body{padding:12px;}
+  header{padding:12px 16px;}
+  header h1{font-size:1.05rem;}
+  .panel{padding:12px 16px;}
+  .nav-links{padding:8px 16px;}
+  .nav-links a{margin-right:12px;display:inline-block;margin-bottom:4px;}
+  .countdown-bar{padding:12px 16px;font-size:.82rem;}
+  .status-bar{padding:8px 16px;font-size:.72rem;}
+  .counters{gap:12px;}
+  .counter-card{min-width:100%;}
+  .counter-value{font-size:1.8rem;}
+  .counter-controls button{padding:8px 12px;font-size:.82rem;}
+  .counter-manual input{width:auto;flex:1;min-width:0;}
+  .reward-row .t{width:64px;}
+  .settings-panel{padding:12px;}
+}
+</style>
+<script data-goatcounter="https://ayase.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
+</head>
+<body>
+<div class="notice-stack" id="noticeStack">
+  <div class="exp-notice important" id="vpnNotice">
+    <button class="exp-close" id="vpnNoticeClose" title="收合">‹</button>
+    <strong>提醒：網頁版登入需使用VPN</strong>
+    網頁版登入進入遊戲時需使用VPN（可使用筑波大學VPN），進入遊戲後中斷VPN經實測不影響遊玩。手機App版（Android／iOS）據玩家回報目前不需VPN。實際以遊戲內狀況為準。
+  </div>
+  <div class="exp-notice" id="edoNotice">
+    <button class="exp-close" id="edoNoticeClose" title="收合">‹</button>
+    <strong>江戶城潛入調查 開寶箱期限</strong>
+    取得鍵已結束，開寶箱至12/2（三）04:59（JST），之後未使用的鍵會被刪除。
+  </div>
+  <div class="exp-notice" id="keishuNotice">
+    <button class="exp-close" id="keishuNoticeClose" title="收合">‹</button>
+    <strong>景趣「小雪・寒椿」再登場</strong>
+    未入手者可用小判8,000兌換，至12/4（五）12:59（JST）。
+  </div>
+  <div class="exp-notice" id="jleagueNotice">
+    <button class="exp-close" id="jleagueNoticeClose" title="收合">‹</button>
+    <strong>聯名 登入禮物</strong>
+    景趣×2領取至12/26（六）12:59（JST）。
+  </div>
+</div>
+<div class="wrap">
+  <header>
+    <h1>秘寶之里 ～集花之段～ <button class="icon-btn" id="helpBtn" title="說明">?</button></h1>
+    <button class="icon-btn" id="settingsBtn" title="設定">⚙</button>
+  </header>
+  <div class="nav-links">
+    <a href="index.html">首頁</a>
+    <a href="hihou_hana.html" class="current">秘寶之里</a>
+    <a href="edojou_sennyuu.html">江戶城潛入調查</a>
+    <a href="kantou_campaign.html">鍛刀試算與入手記錄</a>
+    <a href="shugyou_priority.html">修行優先順序</a>
+    <a href="koujisen_kenzou.html">航時船建造</a>
+  </div>
+  <div class="panel">
+    <div id="helpPanel" class="settings-panel">
+      <strong>使用說明</strong>
+      <p>本頁面僅供個人記錄用，非官方工具，資料以你自行輸入為準。數值會儲存在「這台瀏覽器」的 localStorage，換裝置或清除瀏覽資料會遺失，請自行留意備份（例如定期截圖）。</p>
+      <p>玩法：每走一格選擇一張花札並與上面的敵人戰鬥，勝利後取得選擇的花札、勝利報酬的花札與玉。湊齊花札組成「役」可額外取得玉，並可選擇「こいこい」（敵人變強、勝利報酬的花札+1，最多加強3次）或「あがり」（下一戰直接打首領後歸城）。行動次數歸0時進入首領戰，擊破首領也會取得花札。玉需擊破首領歸城或中途歸城才會帶回。</p>
+      <p>役的玉：五光250、四光120、三光／花見酒／月見酒／赤短／青短／豬鹿蝶各75、短冊／種／粕各15（短冊、種、粕完成後每多1張對應花札再+15）。五光、四光、三光只算其中最多的一個（例：先完成三光得75，之後完成五光再補差額175，合計250）。</p>
+      <p>通行手形：每次出陣消耗1張。活動開始時有6張，每天05:00與17:00各補充3張（自動補充上限6張）；也可用300小判購買1張，購買上限99張，最多同時持有105張，優先消耗自動補充的手形。活動結束時，用小判購買而未使用的手形每張換回300小判。</p>
+      <p>「調查道具（秘寶・花）」／「特別調查道具（秘寶・花）」：不消耗通行手形即可出陣、出陣時必定取得1張短冊札，帶回的玉變為3倍／10倍，活動結束後未使用的會消失。</p>
+      <p>「樂器兵」：活動限定刀裝，裝備後在本活動戰鬥中經驗值增加（並5%、上7%、特上10%，可疊加），用樂器1個＋各資源50製作；活動結束後解體並換成少量資源。首領擊破時偶爾取得樂器，可用來交換近侍曲（本次新增一文字則宗、村雲江）。</p>
+      <p>特德報酬：於萬屋購買「特德引換手形（秘寶・花）」後解放，取得的「特德引換貼紙（秘寶・花）」可在期間限定的「引換所（特德）」以12枚兌換抜丸、大慶直胤或道誉一文字（各限2振），或兌換便利道具；引換所至12/8（二）12:59，未使用的貼紙每枚換成根兵糖・上1個。</p>
+      <p>活動結束後玉會消失，樂器會保留。本活動戰鬥中刀劍男士不會破壞。</p>
+    </div>
+    <div id="settingsPanel" class="settings-panel">
+      <strong>設定</strong>
+      <label>活動結束時間（官方公告：2026-12-08 12:59，JST日本標準時間；如有異動請於此調整）
+        <input type="datetime-local" id="endInput">
+      </label>
+      <div>
+        <button id="applyEnd">套用結束時間</button>
+        <button id="resetProgress" class="danger-btn">重設本頁全部記錄</button>
+      </div>
+    </div>
+
+    <div class="status-bar" id="statusBar">限時活動：2026年11月24日（週二）維護結束後 ～ 2026年12月8日（週二）12:59（JST，日本標準時間，比台灣快1小時）。</div>
+    <div class="countdown-bar" id="countdownBar">載入中…</div>
+
+    <div class="section-title">玉累計數</div>
+    <div class="counters">
+      <div class="counter-card">
+        <h3>本活動累計玉</h3>
+        <div class="sub">對照遊戲內玉的累計數記錄；調查道具的3倍／10倍在歸城時已算進遊戲內的累計數</div>
+        <div class="counter-value" id="gyokuValue">0</div>
+        <div class="counter-controls">
+          <button data-delta="-10000">-10,000</button>
+          <button data-delta="-1000">-1,000</button>
+          <button data-delta="-100">-100</button>
+          <button data-delta="100">+100</button>
+          <button data-delta="1000">+1,000</button>
+          <button data-delta="10000">+10,000</button>
+        </div>
+        <div class="counter-manual">
+          <input type="number" id="gyokuManual" placeholder="輸入數值">
+          <button id="addManual">累加</button>
+          <button id="setManual">直接設定</button>
+        </div>
+      </div>
+      <div class="counter-card">
+        <h3>累計花費小判（購買通行手形）</h3>
+        <div class="sub">通行手形每張300小判；活動結束時，購買後未使用的手形每張換回300小判</div>
+        <div class="counter-value" id="kobanValue">0</div>
+        <div class="sub" style="margin-top:4px;">已購買通行手形 <strong id="tegataValue">0</strong> 張</div>
+        <div class="counter-controls">
+          <button data-tegata="-10">-10張</button>
+          <button data-tegata="-5">-5張</button>
+          <button data-tegata="-1">-1張</button>
+          <button data-tegata="1">+1張</button>
+          <button data-tegata="5">+5張</button>
+          <button data-tegata="10">+10張</button>
+        </div>
+        <div class="counter-manual">
+          <input type="number" id="tegataManual" placeholder="輸入張數">
+          <button id="addTegata">累加</button>
+          <button id="setTegata">直接設定</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="section-title">報酬進度</div>
+    <div id="rewardArea">
+      <div class="progress-track"><div class="progress-label" id="progressLabel"></div><div class="progress-fill" id="progressFill" style="width:0%"><div class="progress-label" id="progressLabelLight"></div></div></div>
+      <div class="target-note" id="targetNote"></div>
+      <div class="daily-target" id="dailyTarget"></div>
+      <div class="notes">點選下方報酬列可設為「目前目標」，再點一次取消。</div>
+      <div class="reward-list" id="rewardList"></div>
+    </div>
+    <div class="notes" id="rewardPending" style="display:none;">玉累計報酬一覽整理中。</div>
+    <footer>
+      非官方個人記錄工具，資料來源整理自官方公告與公開資訊，正式數值請以遊戲內公告為準，使用請自行確認。<br>
+      如網頁有任何問題，請<a href="https://forms.gle/gMPXA4EYkXCvemnf6" target="_blank" rel="noopener">點此</a>填寫表單回報，謝謝。
+    </footer>
+  </div>
+</div>
+
+<script>
+(function(){
+  const STORAGE_KEY = "hihouHanaProgress_v1";
+  const DEFAULT_END = "2026-12-08T12:59:00+09:00";
+  const START = "2026-11-24T17:00:00+09:00";
+  const CAP = 99999999;
+  const TEGATA_PRICE = 300;
+  const TEGATA_CAP = 99999;
+
+  // 玉累計報酬：[門檻, 報酬]，依官方公告「報酬一覽」
+  const REWARDS = [
+    [100,"調查道具（秘寶・花）×1"],[300,"樂器兵・特上×1"],[500,"木炭×2,500"],[750,"輕騎兵・特上×1"],
+    [1000,"依賴札×2"],[2000,"玉鋼×2,500"],[3000,"重步兵・特上×1"],[4000,"手傳札×2"],
+    [5000,"冷却材×2,500"],[6000,"重騎兵・特上×1"],[7000,"遠征召回鴿×1"],[8000,"砥石×2,500"],
+    [9000,"精銳兵・特上×1"],[10000,"氣力+30棒×1"],[12000,"笛×5"],[14000,"槍兵・特上×1"],
+    [16000,"琴×5"],[18000,"盾兵・特上×1"],[20000,"篭手切江"],[22500,"仙人糰子×1"],
+    [25000,"三味線×5"],[27500,"投石兵・特上×1"],[30000,"豊前江"],[32500,"氣力+30棒×1"],
+    [35000,"鈴×5"],[37500,"弓兵・特上×1"],[40000,"桑名江"],[42500,"御札・梅×1"],
+    [45000,"太鼓×5"],[47500,"銃兵・特上×1"],[50000,"松井江"],[52500,"蘇言機×2"],
+    [55000,"御札・竹×1"],[57500,"氣力+30棒×1"],[60000,"五月雨江"],[65000,"御札・松×1"],
+    [70000,"村雲江"],[75000,"旅行道具×1"],[80000,"稲葉江"],[85000,"旅行裝束×1"],
+    [90000,"富田江"],[95000,"書信一式×1"],[100000,"倶利伽羅江"],[105000,"調查道具（秘寶・花）×1"],
+    [110000,"斷片結合劑×1"],[115000,"依賴札×2"],[120000,"篭手切江"],[125000,"手傳札×2"],
+    [130000,"豊前江"],[135000,"木炭×3,000"],[140000,"桑名江"],[145000,"玉鋼×3,000"],
+    [150000,"松井江"],[155000,"冷却材×3,000"],[160000,"五月雨江"],[165000,"砥石×3,000"],
+    [170000,"村雲江"],[175000,"旅行道具×1"],[180000,"稲葉江"],[185000,"旅行裝束×1"],
+    [190000,"富田江"],[195000,"書信一式×1"],[200000,"倶利伽羅江"],[205000,"調查道具（秘寶・花）×1"],
+    [220000,"篭手切江"],[230000,"豊前江"],[240000,"桑名江"],[250000,"松井江"],
+    [260000,"五月雨江"],[270000,"村雲江"],[280000,"稲葉江"],[290000,"富田江"],
+    [300000,"倶利伽羅江"]
+  ];
+  const KEY_PATTERN = /篭手切江|豊前江|桑名江|松井江|五月雨江|村雲江|稲葉江|富田江|倶利伽羅江/;
+
+  let state = load();
+  function load(){
+    const base = {gyoku:0, tegata:0, end:DEFAULT_END, targetOverride:null};
+    try{
+      const raw = JSON.parse(localStorage.getItem(STORAGE_KEY) || "null");
+      if(!raw) return base;
+      const merged = Object.assign({}, base, raw);
+      merged.gyoku = Math.min(CAP, Math.max(0, parseInt(merged.gyoku,10)||0));
+      merged.tegata = Math.min(TEGATA_CAP, Math.max(0, parseInt(merged.tegata,10)||0));
+      if(merged.end && new Date(merged.end).getFullYear() < 2026){ merged.end = DEFAULT_END; }
+      return merged;
+    }catch(e){ return base; }
+  }
+  function save(){ try{ localStorage.setItem(STORAGE_KEY, JSON.stringify(state)); }catch(e){} }
+
+  function setGyoku(v){
+    state.gyoku = Math.min(CAP, Math.max(0, v));
+    save(); renderAll();
+  }
+
+  // 配合本頁紅色調：離目標越遠越偏深酒紅，越接近完成越偏亮玫瑰紅（深淺方向與過往活動頁一致）
+  function rowHueColor(pct){
+    const p = Math.min(1, Math.max(0, pct));
+    return `hsl(${328 + p*27}, ${55 + p*25}%, ${31 + p*25}%)`;
+  }
+  function nextReward(){
+    if(state.targetOverride !== null){
+      const found = REWARDS.find(r=>r[0]===state.targetOverride);
+      if(found) return found;
+    }
+    for(const r of REWARDS){ if(state.gyoku < r[0]) return r; }
+    return REWARDS[REWARDS.length-1];
+  }
+
+  function renderRewardList(){
+    const el = document.getElementById("rewardList");
+    el.innerHTML = "";
+    const v = state.gyoku;
+    const sorted = [...REWARDS].sort((a,b)=>{
+      const doneA = v >= a[0], doneB = v >= b[0];
+      if(doneA === doneB) return a[0]-b[0];
+      return doneA ? 1 : -1;
+    });
+    sorted.forEach(([t, label])=>{
+      const done = v >= t;
+      const row = document.createElement("div");
+      row.className = "reward-row" + (state.targetOverride===t ? " selected" : "") + (done ? " done" : "") + (KEY_PATTERN.test(label) ? " key" : "");
+      const widthPct = done ? 100 : Math.min(100, v/t*100);
+      const fill = done ? "" : `;background:${rowHueColor(v/t)}`;
+      const text = done ? "已達成　"+label : label+"（還差 "+(t-v).toLocaleString()+"）";
+      row.innerHTML = `<div class="t">${t.toLocaleString()}</div>
+        <div class="bar"><span class="txt">${text}</span><div class="bar-fill" style="width:${widthPct}%${fill}">${widthPct > 0 ? `<span class="txt" style="width:${10000/widthPct}%">${text}</span>` : ""}</div></div>`;
+      row.addEventListener("click", ()=>{
+        state.targetOverride = (state.targetOverride===t) ? null : t;
+        save(); renderAll();
+      });
+      el.appendChild(row);
+    });
+  }
+
+  function renderProgress(){
+    const [t, label] = nextReward();
+    const v = state.gyoku;
+    const remain = Math.max(0, t - v);
+    const pct = Math.min(100, v/t*100);
+    const fill = document.getElementById("progressFill");
+    fill.style.width = pct.toFixed(1)+"%";
+    fill.style.background = rowHueColor(v/t);
+    const text = pct.toFixed(1)+"%（還差 "+remain.toLocaleString()+"）";
+    document.getElementById("progressLabel").textContent = text;
+    const light = document.getElementById("progressLabelLight");
+    light.textContent = text;
+    light.style.width = pct > 0 ? (10000/pct)+"%" : "0";
+    document.getElementById("targetNote").innerHTML = `目前目標：<span class="name">${label}</span>（門檻 ${t.toLocaleString()} 玉，還差 ${remain.toLocaleString()}）`;
+
+    const daily = document.getElementById("dailyTarget");
+    const msLeft = new Date(state.end || DEFAULT_END) - new Date();
+    if(remain <= 0){
+      daily.textContent = "已達成目前目標，可以點下方報酬列換一個目標繼續看進度。";
+    }else if(msLeft <= 0){
+      daily.textContent = "活動已結束，可對照最終玉累計數確認達成的報酬。";
+    }else{
+      const daysLeft = Math.max(1, Math.ceil(msLeft/86400000));
+      daily.innerHTML = `距離結束還有約 <strong>${daysLeft} 天</strong>，平均每天需要 <strong>${Math.ceil(remain/daysLeft).toLocaleString()}</strong> 玉才能在期限內達成上述目標。`;
+    }
+  }
+
+  function renderCountdown(){
+    const now = new Date();
+    const start = new Date(START);
+    const end = new Date(state.end || DEFAULT_END);
+    const el = document.getElementById("countdownBar");
+    const endStr = end.toLocaleString("zh-TW",{timeZone:"Asia/Tokyo"});
+    if(now < start){
+      el.textContent = "距離活動開始還有 "+fmtDiff(start-now)+"（實際開始時間以遊戲內「維護結束時」為準）";
+    }else if(now <= end){
+      el.textContent = "距離活動結束還有 "+fmtDiff(end-now)+"（結束時間：" + endStr + " JST，日本標準時間）";
+    }else{
+      el.textContent = "活動已結束（結束時間：" + endStr + " JST，日本標準時間）";
+    }
+  }
+  function fmtDiff(ms){
+    const totalMin = Math.floor(ms/60000);
+    return `${Math.floor(totalMin/1440)}天 ${Math.floor((totalMin%1440)/60)}時 ${totalMin%60}分`;
+  }
+
+  function setTegata(v){
+    state.tegata = Math.min(TEGATA_CAP, Math.max(0, v));
+    save(); renderAll();
+  }
+
+  function renderAll(){
+    document.getElementById("gyokuValue").textContent = state.gyoku.toLocaleString();
+    document.getElementById("tegataValue").textContent = state.tegata.toLocaleString();
+    document.getElementById("kobanValue").textContent = (state.tegata * TEGATA_PRICE).toLocaleString();
+    const hasRewards = REWARDS.length > 0;
+    document.getElementById("rewardArea").style.display = hasRewards ? "" : "none";
+    document.getElementById("rewardPending").style.display = hasRewards ? "none" : "";
+    if(hasRewards){ renderProgress(); renderRewardList(); }
+  }
+
+  document.querySelectorAll("[data-delta]").forEach(btn=>{
+    btn.addEventListener("click", ()=> setGyoku(state.gyoku + parseInt(btn.dataset.delta,10)));
+  });
+  const manual = document.getElementById("gyokuManual");
+  document.getElementById("addManual").addEventListener("click", ()=>{
+    const v = parseInt(manual.value,10);
+    if(!isNaN(v)) setGyoku(state.gyoku + v);
+  });
+  document.getElementById("setManual").addEventListener("click", ()=>{
+    const v = parseInt(manual.value,10);
+    if(!isNaN(v)) setGyoku(v);
+  });
+  manual.addEventListener("keydown", e=>{ if(e.key==="Enter") document.getElementById("addManual").click(); });
+
+  document.querySelectorAll("[data-tegata]").forEach(btn=>{
+    btn.addEventListener("click", ()=> setTegata(state.tegata + parseInt(btn.dataset.tegata,10)));
+  });
+  const tegataManual = document.getElementById("tegataManual");
+  document.getElementById("addTegata").addEventListener("click", ()=>{
+    const v = parseInt(tegataManual.value,10);
+    if(!isNaN(v)) setTegata(state.tegata + v);
+  });
+  document.getElementById("setTegata").addEventListener("click", ()=>{
+    const v = parseInt(tegataManual.value,10);
+    if(!isNaN(v)) setTegata(v);
+  });
+  tegataManual.addEventListener("keydown", e=>{ if(e.key==="Enter") document.getElementById("addTegata").click(); });
+
+  document.getElementById("helpBtn").addEventListener("click", ()=>{
+    document.getElementById("helpPanel").classList.toggle("show");
+  });
+  document.getElementById("settingsBtn").addEventListener("click", ()=>{
+    document.getElementById("settingsPanel").classList.toggle("show");
+  });
+  document.getElementById("applyEnd").addEventListener("click", ()=>{
+    const v = document.getElementById("endInput").value;
+    if(v){ state.end = new Date(v).toISOString(); save(); renderCountdown(); renderAll(); }
+  });
+  document.getElementById("resetProgress").addEventListener("click", ()=>{
+    if(confirm("確定要清空本頁的玉記錄嗎？此動作無法復原。")){
+      state = {gyoku:0, tegata:0, end:state.end, targetOverride:null};
+      save(); renderAll();
+    }
+  });
+
+  renderAll();
+  renderCountdown();
+  setInterval(renderCountdown, 30000);
+})();
+</script>
+<script>
+function setupNotice(opts){
+  var el = document.getElementById(opts.elId);
+  if(!el) return;
+  function checkExpiry(){
+    if(new Date() > opts.end){ el.style.display = "none"; return true; }
+    return false;
+  }
+  if(checkExpiry()) return;
+  function setCollapsed(c){
+    el.classList.toggle("collapsed", c);
+    try{ localStorage.setItem(opts.dismissKey, c ? "1" : "0"); }catch(e){}
+  }
+  try{
+    if(localStorage.getItem(opts.dismissKey) === "1"){
+      // 重新整理時直接套用收合狀態，不播放滑出動畫
+      el.style.transition = "none";
+      el.classList.add("collapsed");
+      void el.offsetWidth;
+      el.style.transition = "";
+    }
+  }catch(e){}
+  var closeBtn = document.getElementById(opts.closeBtnId);
+  if(closeBtn){
+    closeBtn.addEventListener("click", function(e){ e.stopPropagation(); setCollapsed(true); });
+  }
+  el.addEventListener("click", function(){
+    if(el.classList.contains("collapsed")) setCollapsed(false);
+  });
+  var timer = setInterval(function(){
+    if(checkExpiry()){ clearInterval(timer); }
+  }, 60000);
+}
+(function(){
+  setupNotice({
+    elId: "vpnNotice",
+    closeBtnId: "vpnNoticeClose",
+    end: new Date("9999-12-31T00:00:00+09:00"),
+    dismissKey: "vpnNoticeCollapsed"
+  });
+  setupNotice({
+    elId: "edoNotice",
+    closeBtnId: "edoNoticeClose",
+    end: new Date("2026-12-02T04:59:00+09:00"),
+    dismissKey: "edoBoxNoticeDismissed_20261202"
+  });
+  setupNotice({
+    elId: "keishuNotice",
+    closeBtnId: "keishuNoticeClose",
+    end: new Date("2026-12-04T12:59:00+09:00"),
+    dismissKey: "keishuShousetsuNoticeDismissed_20261204"
+  });
+  setupNotice({
+    elId: "jleagueNotice",
+    closeBtnId: "jleagueNoticeClose",
+    end: new Date("2026-12-26T12:59:00+09:00"),
+    dismissKey: "jleagueLoginNoticeDismissed_20261226"
+  });
+})();
+</script>
+</body>
+</html>

@@ -95,8 +95,13 @@ details[open] summary{border-bottom:1px solid #eef1f4;margin-bottom:12px;}
 <div class="notice-stack" id="noticeStack">
   <div class="exp-notice important" id="vpnNotice">
     <button class="exp-close" id="vpnNoticeClose" title="收合">‹</button>
-    <strong>重要提醒：遊玩需全程使用VPN</strong>
-    網頁版、平板、Android、iOS皆需使用VPN並全程保持連線，不可漫遊、不可中途斷線。Android手機、平板與網頁版可使用筑波大學VPN。
+    <strong>提醒：網頁版登入需使用VPN</strong>
+    網頁版登入進入遊戲時需使用VPN（可使用筑波大學VPN），進入遊戲後中斷VPN經實測不影響遊玩。手機App版（Android／iOS）據玩家回報目前不需VPN。實際以遊戲內狀況為準。
+  </div>
+  <div class="exp-notice" id="edoNotice">
+    <button class="exp-close" id="edoNoticeClose" title="收合">‹</button>
+    <strong>江戶城潛入調查 開寶箱期限</strong>
+    取得鍵已結束，開寶箱至12/2（三）04:59（JST），之後未使用的鍵會被刪除。
   </div>
   <div class="exp-notice" id="keishuNotice">
     <button class="exp-close" id="keishuNoticeClose" title="收合">‹</button>
@@ -116,6 +121,7 @@ details[open] summary{border-bottom:1px solid #eef1f4;margin-bottom:12px;}
   </header>
   <div class="nav-links">
     <a href="index.html">首頁</a>
+    <a href="hihou_hana.html">秘寶之里</a>
     <a href="edojou_sennyuu.html">江戶城潛入調查</a>
     <a href="kantou_campaign.html" class="current">鍛刀試算與入手記錄</a>
     <a href="shugyou_priority.html">修行優先順序</a>
@@ -550,6 +556,12 @@ function setupNotice(opts){
     closeBtnId: "vpnNoticeClose",
     end: new Date("9999-12-31T00:00:00+09:00"),
     dismissKey: "vpnNoticeCollapsed"
+  });
+  setupNotice({
+    elId: "edoNotice",
+    closeBtnId: "edoNoticeClose",
+    end: new Date("2026-12-02T04:59:00+09:00"),
+    dismissKey: "edoBoxNoticeDismissed_20261202"
   });
   setupNotice({
     elId: "keishuNotice",

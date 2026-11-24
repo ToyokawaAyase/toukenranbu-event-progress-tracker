@@ -103,8 +103,13 @@ footer{font-size:.72rem;color:var(--sub);margin-top:20px;text-align:center;line-
 <div class="notice-stack" id="noticeStack">
   <div class="exp-notice important" id="vpnNotice">
     <button class="exp-close" id="vpnNoticeClose" title="收合">‹</button>
-    <strong>重要提醒：遊玩需全程使用VPN</strong>
-    網頁版、平板、Android、iOS皆需使用VPN並全程保持連線，不可漫遊、不可中途斷線。Android手機、平板與網頁版可使用筑波大學VPN。
+    <strong>提醒：網頁版登入需使用VPN</strong>
+    網頁版登入進入遊戲時需使用VPN（可使用筑波大學VPN），進入遊戲後中斷VPN經實測不影響遊玩。手機App版（Android／iOS）據玩家回報目前不需VPN。實際以遊戲內狀況為準。
+  </div>
+  <div class="exp-notice" id="edoNotice">
+    <button class="exp-close" id="edoNoticeClose" title="收合">‹</button>
+    <strong>江戶城潛入調查 開寶箱期限</strong>
+    取得鍵已結束，開寶箱至12/2（三）04:59（JST），之後未使用的鍵會被刪除。
   </div>
   <div class="exp-notice" id="keishuNotice">
     <button class="exp-close" id="keishuNoticeClose" title="收合">‹</button>
@@ -123,6 +128,7 @@ footer{font-size:.72rem;color:var(--sub);margin-top:20px;text-align:center;line-
   </header>
   <div class="nav-links">
     <a href="index.html">首頁</a>
+    <a href="hihou_hana.html">秘寶之里</a>
     <a href="edojou_sennyuu.html">江戶城潛入調查</a>
     <a href="kantou_campaign.html">鍛刀試算與入手記錄</a>
     <a href="shugyou_priority.html" class="current">修行優先順序</a>
@@ -142,7 +148,7 @@ footer{font-size:.72rem;color:var(--sub);margin-top:20px;text-align:center;line-
       <div class="help-detail" id="ruleHelpDetail">
         <div class="notes">修行等級門檻（固定順序，不可拖曳）：短刀60／脇差65／槍65／薙刀65／打刀70／太刀75／大太刀80。未達標的角色不會出現在推薦名單。</div>
         <div class="notes">極化完成後等級會依經驗值曲線折算，不是超過門檻幾等就直接回歸幾等（例：短刀特Lv99送出，極化回來實測Lv35，非Lv39）。推薦清單會標示「目前等級比門檻高出幾等」供參考。</div>
-        <div class="notes">缺總合值角色：治金丸、太閤左文字、古今伝授の太刀、地蔵行平，比較時排在同層級較後面，不影響其他判準。劍種目前僅白山吉光可極化，七星劍、丙子椒林剣目前只有一般刀形態，極化尚未實裝（非預告角色），未列入清單。總合值資料來源：wikiwiki.jp/toulove「極 最大値一覧」公開數據（8項基礎數值加總）。</div>
+        <div class="notes">缺總合值角色：治金丸、太閤左文字、古今伝授の太刀、地蔵行平、五月雨江，比較時排在同層級較後面，不影響其他判準。劍種目前僅白山吉光可極化，七星劍、丙子椒林剣目前只有一般刀形態，極化尚未實裝（非預告角色），未列入清單。總合值資料來源：wikiwiki.jp/toulove「極 最大値一覧」公開數據（8項基礎數值加總）。</div>
         <div class="notes">資料來源：wikiwiki.jp/toulove「刀剣男士 極」頁面＋實測回報的稀有度轉換資料。2026年10月21日官方調整後，極化後稀有度3的打刀刀裝可裝備數由2個增為3個，所有極化後稀有度3的打刀皆已標示為刀裝升級（其中加州清光、亀甲貞宗、宗三左文字、大和守安定、歌仙兼定、陸奥守吉行、山姥切国広、蜂須賀虎徹、長曽祢虎徹、へし切長谷部已實際確認，其餘依官方公告與其他玩家回報）；如與實際不符，可點擊標籤手動修改。</div>
       </div>
     </div>
@@ -210,7 +216,7 @@ footer{font-size:.72rem;color:var(--sub);margin-top:20px;text-align:center;line-
 
     ["白山吉光","劍",698],
 
-    ["太閤左文字","短刀",null],["古今伝授の太刀","太刀",null],["地蔵行平","打刀",null]
+    ["太閤左文字","短刀",null],["古今伝授の太刀","太刀",null],["地蔵行平","打刀",null],["五月雨江","打刀",null]
   ];
   const TYPE_ORDER = ["短刀","脇差","打刀","太刀","大太刀","槍","薙刀","劍"];
   const LEVEL_REQ = {"短刀":60,"脇差":65,"槍":65,"薙刀":65,"打刀":70,"太刀":75,"大太刀":80,"劍":80};
@@ -221,12 +227,14 @@ footer{font-size:.72rem;color:var(--sub);margin-top:20px;text-align:center;line-
     "乱藤四郎","五虎退","薬研藤四郎","包丁藤四郎","愛染国俊","太鼓鐘貞宗","小夜左文字","不動行光",
     // 短刀：太閤左文字 1→2，格數變化（Ayase實測回報）
     "太閤左文字",
-    // 打刀：レア度4confirmed（3→4，2格變3格）
-    "鳴狐","千子村正","和泉守兼定","大倶利伽羅","同田貫正国",
+    // 打刀：極化後レア度4（2格變3格）
+    "千子村正","和泉守兼定","大倶利伽羅","同田貫正国",
     // 打刀：極化後レア度3，2026/10/21官方調整後刀裝可裝3個（官方示範為加州清光，以下9隻為Ayase實測回報）
-    "加州清光","亀甲貞宗","宗三左文字","大和守安定","歌仙兼定","陸奥守吉行","山姥切国広","蜂須賀虎徹","長曽祢虎徹","へし切長谷部",
+    "鳴狐","加州清光","亀甲貞宗","宗三左文字","大和守安定","歌仙兼定","陸奥守吉行","山姥切国広","蜂須賀虎徹","長曽祢虎徹","へし切長谷部",
     // 打刀：同為極化後レア度3，依官方公告與其他玩家回報確認
     "南泉一文字","山姥切長義","豊前江","南海太郎朝尊","桑名江","水心子正秀","源清麿","松井江","地蔵行平",
+    // 打刀：五月雨江 2026/11/24 實裝極，極化後打刀皆可裝3個刀裝
+    "五月雨江",
     // 大太刀：3→4，2格變3格
     "太郎太刀","次郎太刀","石切丸","祢々切丸",
     // 槍：3→4，2格變3格
@@ -605,6 +613,12 @@ function setupNotice(opts){
     closeBtnId: "vpnNoticeClose",
     end: new Date("9999-12-31T00:00:00+09:00"),
     dismissKey: "vpnNoticeCollapsed"
+  });
+  setupNotice({
+    elId: "edoNotice",
+    closeBtnId: "edoNoticeClose",
+    end: new Date("2026-12-02T04:59:00+09:00"),
+    dismissKey: "edoBoxNoticeDismissed_20261202"
   });
   setupNotice({
     elId: "keishuNotice",

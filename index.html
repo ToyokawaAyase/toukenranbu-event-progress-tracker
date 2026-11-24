@@ -18,6 +18,8 @@ h1{font-size:1.4rem;text-align:center;margin-bottom:32px;}
 .card.koujisen h2{color:#2b5f80;}
 .card.edo{border-left-color:#4a3f6b;}
 .card.edo h2{color:#4a3f6b;}
+.card.hihou{border-left-color:#7a2e4a;}
+.card.hihou h2{color:#7a2e4a;}
 .card p{margin:0;font-size:.85rem;color:#6b7785;}
 footer{text-align:center;font-size:.75rem;color:#6b7785;margin-top:32px;}
 @media (max-width:600px){
@@ -48,8 +50,13 @@ footer{text-align:center;font-size:.75rem;color:#6b7785;margin-top:32px;}
 <div class="notice-stack" id="noticeStack">
   <div class="exp-notice important" id="vpnNotice">
     <button class="exp-close" id="vpnNoticeClose" title="收合">‹</button>
-    <strong>重要提醒：遊玩需全程使用VPN</strong>
-    網頁版、平板、Android、iOS皆需使用VPN並全程保持連線，不可漫遊、不可中途斷線。Android手機、平板與網頁版可使用筑波大學VPN。
+    <strong>提醒：網頁版登入需使用VPN</strong>
+    網頁版登入進入遊戲時需使用VPN（可使用筑波大學VPN），進入遊戲後中斷VPN經實測不影響遊玩。手機App版（Android／iOS）據玩家回報目前不需VPN。實際以遊戲內狀況為準。
+  </div>
+  <div class="exp-notice" id="edoNotice">
+    <button class="exp-close" id="edoNoticeClose" title="收合">‹</button>
+    <strong>江戶城潛入調查 開寶箱期限</strong>
+    取得鍵已結束，開寶箱至12/2（三）04:59（JST），之後未使用的鍵會被刪除。
   </div>
   <div class="exp-notice" id="keishuNotice">
     <button class="exp-close" id="keishuNoticeClose" title="收合">‹</button>
@@ -64,9 +71,13 @@ footer{text-align:center;font-size:.75rem;color:#6b7785;margin-top:32px;}
 </div>
 <div class="wrap">
   <h1>刀劍亂舞 活動紀錄總覽</h1>
+  <a class="card hihou" href="hihou_hana.html">
+    <h2>秘寶之里 ～集花之段～</h2>
+    <p>限時活動｜2026年11月24日～12月8日｜玉累計記錄、報酬進度與每日目標試算、通行手形小判花費記錄</p>
+  </a>
   <a class="card edo" href="edojou_sennyuu.html">
     <h2>江戶城潛入調查</h2>
-    <p>限時活動｜2026年11月10日～11月24日（開寶箱至12月2日）｜持有鍵記錄、寶物庫開封進度與所需鍵數試算、通行手形小判花費記錄</p>
+    <p>限時活動｜取得鍵已於11月24日結束，開寶箱至12月2日｜持有鍵記錄、寶物庫開封進度與所需鍵數試算、通行手形小判花費記錄</p>
   </a>
   <a class="card kantou" href="kantou_campaign.html">
     <h2>鍛刀試算與入手記錄</h2>
@@ -121,6 +132,12 @@ function setupNotice(opts){
     closeBtnId: "vpnNoticeClose",
     end: new Date("9999-12-31T00:00:00+09:00"),
     dismissKey: "vpnNoticeCollapsed"
+  });
+  setupNotice({
+    elId: "edoNotice",
+    closeBtnId: "edoNoticeClose",
+    end: new Date("2026-12-02T04:59:00+09:00"),
+    dismissKey: "edoBoxNoticeDismissed_20261202"
   });
   setupNotice({
     elId: "keishuNotice",
